@@ -7,17 +7,28 @@ import authRoutes from '../server/routes/authRoutes'
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
 const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/bellybun';
+const port = 3000;
+
 
 const connectToMongoDB = async () => {
   try {
     await mongoose.connect(MONGO_URL);
     console.log('Connected to MongoDB Atlas');
+
+    // Select the database
+    mongoose.connection.useDb('bellybun');
+
+    // Check existing collections
+    // const collections = await mongoose.connection.db.collections();
+    // console.log('Collections:', collections.map((collection) => collection.collectionName));
   } catch (error) {
     console.error('Failed to connect to MongoDB Atlas:', error);
   }
 };
+
+
+app.set('trust proxy', 1)
 
 // Connect to MongoDB
 connectToMongoDB();
