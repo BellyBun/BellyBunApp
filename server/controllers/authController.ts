@@ -11,6 +11,11 @@ const registerSchema = Yup.object({
   password: Yup.string().required(),
 })
 
+const loginSchema = Yup.object({
+  email: Yup.string().email().required(),
+  password: Yup.string().required(),
+})
+
 const authController = {
   register: async (req: Request, res: Response) => {
     try {
@@ -47,7 +52,7 @@ const authController = {
 
   login: async (req: Request, res: Response) => {
     try {
-      const { email, password } = req.body;
+      const { email, password } = await loginSchema.validate(req.body);
 
       // Find the user by email
       const user = await User.findOne({ email });
