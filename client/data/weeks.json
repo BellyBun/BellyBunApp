@@ -1,9 +1,12 @@
 [
   {
     "week": 1,
-    "Bebis": "Info",
-    "Mamma": "Info",
-    "Partner": "Info"
+    "RubrikBebis": "Ingen graviditet än",
+    "Bebis": "Det kan vara svårt att veta exakt när en graviditet har börjat. Det går nämligen inte alltid att säga precis när befruktningen skedde så därför räknas graviditetens början från den senaste mensens första dag. Så ska vi vara petiga så har det inte börjat någon graviditet än. Ännu finns det inget som ligger och gror inne i livmodern. Vid IVF däremot så beräknas graviditetens första vecka annorlunda, från två veckor innan det att ägget sätts in i livmodern. Anledningen är att ägget, som har fått spermier i sig utanför kroppen, har fått bo i ett värmeskåp i 2-5 dagar innan man sätter tillbaka det in i livmodern.",
+    "RubrikMamma": "Äggets resa till livmodern",
+    "Mamma": "De flesta utvecklar ett befruktningsdugligt ägg varje månad. Ägget mognar i en av äggstockens äggblåsor och när den brister kastas ägget ut och fångas upp av äggledartratten - det är det som kallas ägglossning. Ett tecken att hålla utkik efter, om man vill ha koll på ägglossningen, är att flytningen blir rikligare och får en nästan trådig konsistens. Det är för att ge eventuella spermier en smooth sailing på väg till ägget. Ägget fortsätter till äggledaren där det lägger sig redo i väntan på att bli befruktat. I den näringsrika miljön kan det leva i ungefär ett dygn. Blir det ingen befruktning fortsätter ägget ner i livmodern för att försvinna ut genom livmoderhalsen och slidan tillsammans med livmoderslemhinna som din mens.",
+    "RubrikPartner": "Tips och råd",
+    "Partner": "Planerar ni att skaffa barn är det bra om din partner redan nu börjar äta folsyra. Folsyra minskar nämligen risken för ryggmärgsbråck hos fostret. Är det så att du eller din partner röker så har ni aldrig haft en bättre anledning att sluta. Rökning - även passiv - kan nämligen påverka både fertilitet och graviditeten negativt."
   },
   {
     "week": 2,
@@ -13,9 +16,9 @@
   },
   {
     "week": 3,
-    "Bebis": "Info",
-    "Mamma": "Info",
-    "Partner": "Info"
+    "Bebis": "Nu har det börjat, på riktigt! En sädescell har nått fram till ägget och trängt in. Det befruktade ägget färdas mot livmodern, på vägen dit börjar det sin utveckling genom att cellerna i ägget delar på sig om och om igen. På graviditetens fjärde dag liknar det befruktade ägget ett björnbär och kallas ”morula”. Det är stort som ett knappnålshuvud och består av 32 celler som har bildats.",
+    "Mamma": "Nu skickas kemiska signaler till hypofysen som berättar att du är gravid och att den kan ställa in ägglossningen tills vidare, ingen mer mens på ett tag alltså! Är det så att du ändå får en liten blödning så är det inte mens, utan en så kallad nidblödning. Den kommer av att ägget fastnar i livmodern, och påminner lite om en blodblandad flytning. Nu har också början till din moderkaka, ett helt nytt organ bildats och rötterna gräver sig allt djupare ner i livmodern. Härifrån börjar sen hormonet progesteron att produceras, vars uppgift är att hålla kvar graviditeten i livmodern, och koncentrationen stiger snabbt i blodet. En annan sak som stiger lite är faktiskt kroppstemperaturen som blir en aning högre.",
+    "Partner": "Om din partner blivit gravid kommer mensen från och med nu att sluta komma. Däremot så kan en annan blödning dyka upp. När ägget fastnar i livmodern är det nämligen ganska vanligt med så kallad nidblödning som är helt ofarlig. Den kan komma sju till 14 dagar efter ägglossning, och kan se ut som en blodblandad flytning ungefär. Snart kan ni göra ett graviditetstest för att se om ni väntar barn. Vid konstgjord befruktning som IVF kan man tänka att de första två veckorna har ägget bott utanför livmodern, det betyder att ägget nu har varit en vecka i magen. Det kan vara bra att veta att kroppstemperaturen hos någon som är gravid ibland kan höjas en aning och många blir trötta. Att känna sig lite hängig och tro man är på väg att bli sjuk är ganska vanligt, så försöker ni bli med barn kan detta vara ett litet tecken."
   },
   {
     "week": 4,
@@ -49,6 +52,36 @@
   },
   {
     "week": 9,
+    "Bebis": "Info",
+    "Mamma": "Info",
+    "Partner": "Info"
+  },
+  {
+    "week": 10,
+    "Bebis": "Info",
+    "Mamma": "Info",
+    "Partner": "Info"
+  },
+  {
+    "week": 11,
+    "Bebis": "Info",
+    "Mamma": "Info",
+    "Partner": "Info"
+  },
+  {
+    "week": 12,
+    "Bebis": "Info",
+    "Mamma": "Info",
+    "Partner": "Info"
+  },
+  {
+    "week": 13,
+    "Bebis": "Info",
+    "Mamma": "Info",
+    "Partner": "Info"
+  },
+  {
+    "week": 14,
     "Bebis": "Info",
     "Mamma": "Info",
     "Partner": "Info"
