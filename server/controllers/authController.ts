@@ -1,12 +1,20 @@
 import { Request, Response } from 'express';
 import User, { IUser } from '../models/user';
 import argon2 from 'argon2';
-import mongoose from 'mongoose';
+import * as Yup from 'yup';
+
+
+
+const registerSchema = Yup.object({
+  userName: Yup.string().required(),
+  email: Yup.string().email().required(),
+  password: Yup.string().required(),
+})
 
 const authController = {
   register: async (req: Request, res: Response) => {
     try {
-      const { userName, email, password } = req.body;
+      const { userName, email, password } = await registerSchema.validate(req.body);
 
       // Check if the username (email) already exists
       const existingUser = await User.findOne({ email });
