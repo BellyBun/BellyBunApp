@@ -2,6 +2,9 @@ import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import authRoutes from '../server/routes/authRoutes'
+import session from 'express-session';
+
+
 
 
 dotenv.config();
@@ -33,16 +36,18 @@ app.set('trust proxy', 1)
 // Connect to MongoDB
 connectToMongoDB();
 
-// Set up cookie session middleware
-// app.use(
-//   cookieSession({
-//     name: 'session',
-//     secret: 'YourSecretHere',
-//     maxAge: 24 * 60 * 60 * 1000, // 24 hours
-//     secure: false, // Set to true in production with HTTPS
-//     httpOnly: true,
-//   })
-// );
+// Set up express-session middleware
+app.use(
+  session({
+    name: 'session',
+    secret: 'YourSecretHere',
+    cookie: {
+      maxAge: 14 * 24 * 60 * 60 * 1000, // 2 weeks in milliseconds
+      secure: false, // Set to true in production with HTTPS
+      httpOnly: true,
+    },
+  })
+);
 
 // Parse incoming JSON payloads
 app.use(express.json());

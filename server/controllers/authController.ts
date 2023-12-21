@@ -2,8 +2,13 @@ import { Request, Response } from 'express';
 import User, { IUser } from '../models/user';
 import argon2 from 'argon2';
 import * as Yup from 'yup';
+import { Session } from 'express-session';
 
-
+interface CustomSession extends Session {
+  userId?: string | null;
+  // isAdmin?: boolean;
+  // isSignedIn?: boolean;
+}
 
 const registerSchema = Yup.object({
   userName: Yup.string().required(),
@@ -69,6 +74,11 @@ const authController = {
         return res.status(401).json({ error: 'Invalid email or password' });
       }
 
+     // Password is valid, set up the session
+     const customSession = req.session as CustomSession;
+     customSession.userId = user._id.toString(); // Store user ID in the session
+
+
       // Password is valid, user is authenticated
       res.status(200).json({ message: 'Login successful' });
     } catch (error) {
@@ -108,14 +118,27 @@ const authController = {
     }
   },
 
-  logOut: async (req: Request, res: Response) => {
+  signOut: async (req: Request, res: Response) => {
     try {
-      // Implement adding user information logic
+      // Find the userId in the session
+      const customSession = req.session as CustomSession;
+      const userId = customSession.userId;
+  
+      // If userId is not found, handle it accordingly
+      if (!userId) {
+        return res.status(401).json({ error: 'User not logged in' });
+      }
+  
+      // Clear the user ID in the session
+      customSession.userId = null;
+  
+      res.status(200).json({ message: 'Logout successful' });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   },
+  
 
   createBaby: async (req: Request, res: Response) => {
     try {
