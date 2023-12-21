@@ -8,7 +8,7 @@ router.post('/register', authController.register);
 router.post('/login', authController.login);
 router.post('/add-info', authController.addUserInfo);
 router.post('/create-baby', authController.createBaby);
-router.post('/logout', authController.logOut);
+router.post('/signout', authController.signOut);
 router.get('/users', authController.getAllUsers); // Add this line
 
 
