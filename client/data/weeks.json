@@ -55,44 +55,65 @@
   },
   {
     "week": 7,
-    "Bebis": "Info",
-    "Mamma": "Info",
-    "Partner": "Info"
+    "RubrikBebis": "Ögon, händer och svans",
+    "Bebis": "Hjärtat, som är ett av de första organ att utvecklas, pumpar nu runt blod ut i vävnaderna till den lilla kroppen. Huvudet går nu också att urskilja och strukturerna i barnets ansikte börjar bli tydliga. Nu ser du också att ögonen utvecklas, som en liten grop på var sida huvudet – men än saknas ögonlocken. Det bildas också brosk nu, brosk som ska bli till skelett och fortsätta utvecklas och växa fram till barnet är ungefär 20 år. Händerna börjar synas och ser ut som små, små paddlar. Eftersom barnet är nästan genomskinligt så kan man se hjärtat, ryggraden och svansen. Svansen??! Ja du hörde rätt, såhär tidigt har embryot något som ser ut som en liten svans, men oroa dig inte, den kommer att återbildas och försvinna runt veckan nio och kvar blir bara svanskotan. Underhuden har inte bildats än men bindväven som är början till hud är på väg. I det som ska bli hjärnan händer det fullt av grejer redan nu med olika delar som börjar få sina egna specifika funktioner, och kopplingar mellan nervcellerna som utvecklas hela tiden. I slutet av den här veckan är ditt blivande barn stort som en ärta.",
+    "RubrikMamma": "Hormoner all over the place",
+    "Mamma": "Ännu är det säkert ingen som kan se på dig att du väntar barn, men chansen är stor att du känner förändringar i kroppen. Ganska många, 7 av 10, mår illa såhär i början av sin graviditet. Den främsta orsaken till det här, minst sagt jobbiga, tillståndet är de stora hormonella förändringarna kroppen sysslar med. Men håll ut, det brukar lugna sig om några veckor. Har du tränat före graviditeten så är det smart att fortsätta med samma träning så länge det känns bra – att röra på sig är bra och kan lindra en del av de tidiga graviditetsbesvären, framförallt frisk luft är ofta toppen mot illamående. För dig som inte tränat innan graviditeten är det ändå bra att börja med enklare form av träning. Speciellt viktigt är det att komma igång med dagliga knipövningar redan nu, eftersom det är a och o att ha en stark bäckenbotten som kan hjälpa till att bära upp magen som kommer. Att göra dem är enkelt, men svårare att komma ihåg. Ett tips är att skapa en enkel minnesregel som gör att du får en daglig påminnelse: varje morgon du borstar tänderna eller på kvällen när du lagt dig. Är det så att du blivit gravid med hjälp av provrörsbefruktning kommer du nu att få göra ett vaginalt ultraljud på fertilitetskliniken för att se så att allt utvecklas som det ska.",
+    "RubrikPartner": "Starkare luktsinne",
+    "Partner": "Mår din partner illa? Det är inte ovanligt, hela 7 av 10 mår illa i början av sin graviditet. Den främsta anledningen till illamåendet är faktiskt att kroppen gör massiva förändringar när det kommer till hormonerna. Det är såklart också hormonerna som gör många extra känsliga för dofter under graviditeten. Det kan vara dofter hon älskat innan som plötsligt känns som rutten fisk när de når näsan och tyvärr är det inte helt ovanligt att det är just dina dofter som hon reagerar på. Kanske får du lägga favoritparfymen på hyllan ett tag för att slippa dålig stämning. Någon gång under vecka 6-8 är det för de flesta dags att ha ett inskrivningssamtal på mödravårdscentral (MVC) eller barnmorskemottagning. Alla blivande föräldrar, inte bara den som bär barnet, får vara delaktiga i samtal med barnmorskan. Att som partner vara med kommer göra att graviditeten känns mer som en gemensam upplevelse. Ett tips är att skriva ner allt du undrar så blir det lättare att komma ihåg när ni väl är hos barnmorskan. Och även om det kanske kan kännas som att en graviditet är det mest naturliga som finns så är det inte säkert att varje grej är helt självklar – kom helt enkelt ihåg att det inte finns några dumma frågor och att det är bättre att fråga en gång för mycket än en gång för lite. Har ni blivit gravida med hjälp av provrörsbefruktning kommer ni att få göra ett tidigt ultraljud på fertilitetskliniken för att se så att allt utvecklas som det ska. Då kommer ni tillsammans att kunna se bebisens hjärta slå."
   },
   {
     "week": 8,
+    "RubrikBebis": "",
     "Bebis": "Info",
+    "RubrikMamma": "",
     "Mamma": "Info",
+    "RubrikPartner": "",
     "Partner": "Info"
   },
   {
     "week": 9,
-    "Bebis": "Info",
+    "RubrikBebis": "",
+    "Bebis": "Info", 
+    "RubrikMamma": "",
     "Mamma": "Info",
+    "RubrikPartner": "",
     "Partner": "Info"
   },
   {
     "week": 10,
+    "RubrikBebis": "",
     "Bebis": "Info",
+    "RubrikMamma": "",
     "Mamma": "Info",
+    "RubrikPartner": "",
     "Partner": "Info"
   },
   {
     "week": 11,
+    "RubrikBebis": "",
     "Bebis": "Info",
+    "RubrikMamma": "",
     "Mamma": "Info",
+    "RubrikPartner": "",
     "Partner": "Info"
   },
   {
     "week": 12,
+    "RubrikBebis": "",
     "Bebis": "Info",
+    "RubrikMamma": "",
     "Mamma": "Info",
+    "RubrikPartner": "",
     "Partner": "Info"
   },
   {
     "week": 13,
+    "RubrikBebis": "",
     "Bebis": "Info",
+    "RubrikMamma": "",
     "Mamma": "Info",
+    "RubrikPartner": "",
     "Partner": "Info"
   },
   {
