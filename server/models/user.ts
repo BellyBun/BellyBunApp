@@ -1,6 +1,12 @@
 // server/src/models/user.ts
 import mongoose, { Document, Schema } from 'mongoose';
 
+export interface IBaby {
+  _id: string;
+  babyName?: string;
+  dueDate: Date;
+}
+
 export interface IUser extends Document {
   userId: string;
   userName: string;
@@ -8,8 +14,14 @@ export interface IUser extends Document {
   password: string;
   name?: string;
   gender?: string;
-  babies?: { name: string; dueDate: Date }[];
+  babies?: IBaby[];
 }
+
+const BabySchema = new Schema<IBaby>({
+  _id: { type: String, required: false },
+  babyName: { type: String, required: false },
+  dueDate: { type: Date, required: true },
+});
 
 const UserSchema = new Schema<IUser>({
   userId: {type: String, required: false},
@@ -18,12 +30,7 @@ const UserSchema = new Schema<IUser>({
   password: { type: String, required: true },
   name: String,
   gender: String,
-  babies: [
-    {
-      name: String,
-      dueDate: Date,
-    },
-  ],
+  babies: [BabySchema],
 });
 
 const UserModel = mongoose.model<IUser>('User', UserSchema);
