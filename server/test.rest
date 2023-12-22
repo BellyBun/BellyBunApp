@@ -3,8 +3,8 @@ POST http://localhost:3000/api/register
 Content-Type: application/json
 
 {
-  "userName": "test",
-  "email": "test1@example.com",
+  "userName": "addInfotest",
+  "email": "test21@example.com",
   "password": "yourpassword"
 }
 
@@ -14,9 +14,34 @@ POST http://localhost:3000/api/login
 Content-Type: application/json
 
 {
-  "email": "test5@example.com",
+  "email": "test21@example.com",
   "password": "yourpassword"
 }
+
+### Create Baby
+POST http://localhost:3000/api/create-baby/${userId}
+Content-Type: application/json
+
+{
+  "babyName": "Baby2",
+  "dueDate": "2023-12-31"
+}
+
+### Update User Information
+POST http://localhost:3000/api/add-info/${userId}
+Content-Type: application/json
+
+{
+  "name": "UpdatedName",
+  "gender": "UpdatedGender"
+}
+
+### Get Due Date
+GET http://localhost:3000/api/get-due-date/{userId}
+
+### Logout User
+POST http://localhost:3000/api/signout
+
 
 ### Get All Users
 GET http://localhost:3000/api/users
