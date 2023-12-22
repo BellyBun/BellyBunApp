@@ -89,34 +89,43 @@ const authController = {
 
   addUserInfo: async (req: Request, res: Response) => {
     try {
-      const { userId } = req.params; // Assuming you pass userId as a parameter in the URL
+      // Retrieve userId from the session
+      const customSession = req.session as CustomSession;
+      const userId = customSession.userId;
+  
+      // Check if the user is logged in
+      if (!userId) {
+        return res.status(401).json({ error: 'User not logged in' });
+      }
+  
       const { name, gender } = req.body;
-
+  
       // Check if the user exists
       const user = await User.findById(userId);
-
+  
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
-
+  
       // Update user information
       if (name) {
         user.name = name;
       }
-
+  
       if (gender) {
         user.gender = gender;
       }
-
+  
       // Save the updated user to the database
       await user.save();
-
+  
       res.status(200).json({ message: 'User information updated successfully' });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   },
+  
 
   signOut: async (req: Request, res: Response) => {
     try {
@@ -142,12 +151,71 @@ const authController = {
 
   createBaby: async (req: Request, res: Response) => {
     try {
-      // Implement adding user information logic
+      // Retrieve userId from the session
+      const customSession = req.session as CustomSession;
+      const userId = customSession.userId;
+  
+      // Check if the user is logged in
+      if (!userId) {
+        return res.status(401).json({ error: 'User not logged in' });
+      }
+  
+      const { _id, babyName, dueDate } = req.body;
+  
+      // Check if the user exists
+      const user = await User.findById(userId);
+  
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Create a new baby with MongoDB generating the _id
+      const newBaby = { _id, babyName, dueDate };
+  
+      // Add the baby to the user's babies array
+      user.babies?.push(newBaby);
+  
+      // Save the updated user to the database
+      await user.save();
+  
+      res.status(201).json({ message: 'Baby created successfully', babyId: newBaby._id });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   },
+
+  getDueDate: async (req: Request, res: Response) => {
+    try {
+      const customSession = req.session as CustomSession;
+
+      // Check if the user is authenticated
+      if (!customSession.userId) {
+        return res.status(401).json({ error: 'User not authenticated' });
+      }
+
+      const userId = customSession.userId;
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      // Assuming dueDate is stored in the first baby of the user (adjust as needed)
+      const dueDate = user.babies?.[0]?.dueDate;
+
+      if (!dueDate) {
+        return res.status(404).json({ error: 'Due date not found for the user' });
+      }
+
+      res.status(200).json({ dueDate });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  },
+  
+  
   getAllUsers: async (req: Request, res: Response) => {
     try {
       const users = await User.find();
