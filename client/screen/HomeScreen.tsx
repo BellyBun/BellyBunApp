@@ -1,10 +1,11 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { StyleSheet, View } from "react-native";
-import { Button, Text, useTheme } from "react-native-paper";
-import { RootStackParamList } from "../RootNavigator";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
+import { StyleSheet, View } from "react-native";
+import { Button, Text, useTheme } from "react-native-paper";
+import { RootStackParamList } from "../RootNavigator";
+import InfoCard from "../components/InfoCard";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,6 +42,7 @@ export default function HomeScreen({ navigation }: Props) {
       <Button mode="contained" onPress={() => navigation.navigate("Login")}>
         Go to Detail
       </Button>
+      <InfoCard />
     </View>
   );
 }
