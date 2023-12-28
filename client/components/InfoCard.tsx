@@ -19,24 +19,34 @@ const InfoCard = () => {
       case "Bebis":
         return (
           <>
-            <Text style={styles.title} variant="titleLarge">
+            <Text variant="titleLarge" style={styles.title}>
               {selectedData.RubrikBebis}
             </Text>
-            <Text variant="bodyMedium">{selectedData.Bebis}</Text>
+            <Text variant="bodyMedium" style={styles.text}>
+              {selectedData.Bebis}
+            </Text>
           </>
         );
       case "Mamma":
         return (
           <>
-            <Text variant="titleLarge">{selectedData.RubrikMamma}</Text>
-            <Text variant="bodyMedium">{selectedData.Mamma}</Text>
+            <Text variant="titleLarge" style={styles.title}>
+              {selectedData.RubrikMamma}
+            </Text>
+            <Text variant="bodyMedium" style={styles.text}>
+              {selectedData.Mamma}
+            </Text>
           </>
         );
       case "Partner":
         return (
           <>
-            <Text variant="titleLarge">{selectedData.RubrikPartner}</Text>
-            <Text variant="bodyMedium">{selectedData.Partner}</Text>
+            <Text variant="titleLarge" style={styles.title}>
+              {selectedData.RubrikPartner}
+            </Text>
+            <Text variant="bodyMedium" style={styles.text}>
+              {selectedData.Partner}
+            </Text>
           </>
         );
       default:
