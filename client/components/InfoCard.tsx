@@ -79,9 +79,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "Oswald",
+    marginTop: 15,
+    marginBottom: 15,
   },
   text: {
     fontFamily: "Overpass",
+    marginBottom: 10,
   },
 });
 
