@@ -4,20 +4,20 @@ import weekData from "../data/weeks.json";
 
 const InfoCard = () => {
   return (
-    <Card style={{ width: "95%" }}>
+    <Card style={{ width: "95%", backgroundColor: "#FAF8F4" }}>
       <Card.Content>
-        <Text variant="titleLarge">{`Week ${weekData.week}: ${weekData.RubrikBebis}`}</Text>
-        <Text variant="bodyMedium">{weekData.Bebis}</Text>
+        <Text variant="titleLarge">{`Week ${weekData[0].week}: ${weekData[0].RubrikBebis}`}</Text>
+        <Text variant="bodyMedium">{weekData[0].Bebis}</Text>
       </Card.Content>
 
       <Card.Content>
-        <Text variant="titleLarge">{weekData.RubrikMamma}</Text>
-        <Text variant="bodyMedium">{weekData.Mamma}</Text>
+        <Text variant="titleLarge">{weekData[0].RubrikMamma}</Text>
+        <Text variant="bodyMedium">{weekData[0].Mamma}</Text>
       </Card.Content>
 
       <Card.Content>
-        <Text variant="titleLarge">{weekData.RubrikPartner}</Text>
-        <Text variant="bodyMedium">{weekData.Partner}</Text>
+        <Text variant="titleLarge">{weekData[0].RubrikPartner}</Text>
+        <Text variant="bodyMedium">{weekData[0].Partner}</Text>
       </Card.Content>
 
       <Card.Actions>
