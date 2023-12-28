@@ -1,25 +1,31 @@
 import * as React from "react";
-import { Avatar, Button, Card, Text } from "react-native-paper";
+import { Button, Card, Text } from "react-native-paper";
+import weekData from "../data/weeks.json";
 
-const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
+const InfoCard = () => {
+  return (
+    <Card style={{ width: "95%" }}>
+      <Card.Content>
+        <Text variant="titleLarge">{`Week ${weekData.week}: ${weekData.RubrikBebis}`}</Text>
+        <Text variant="bodyMedium">{weekData.Bebis}</Text>
+      </Card.Content>
 
-const InfoCard = () => (
-  <Card style={{ width: "95%" }}>
-    <Card.Title
-      title="Card Title"
-      subtitle="Card Subtitle"
-      left={LeftContent}
-    />
-    <Card.Content>
-      <Text variant="titleLarge">Card title</Text>
-      <Text variant="bodyMedium">Card content</Text>
-    </Card.Content>
+      <Card.Content>
+        <Text variant="titleLarge">{weekData.RubrikMamma}</Text>
+        <Text variant="bodyMedium">{weekData.Mamma}</Text>
+      </Card.Content>
 
-    <Card.Actions>
-      <Button>Cancel</Button>
-      <Button>Ok</Button>
-    </Card.Actions>
-  </Card>
-);
+      <Card.Content>
+        <Text variant="titleLarge">{weekData.RubrikPartner}</Text>
+        <Text variant="bodyMedium">{weekData.Partner}</Text>
+      </Card.Content>
+
+      <Card.Actions>
+        <Button>Föregående</Button>
+        <Button>Nästa</Button>
+      </Card.Actions>
+    </Card>
+  );
+};
 
 export default InfoCard;

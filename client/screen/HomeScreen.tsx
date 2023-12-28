@@ -36,9 +36,7 @@ export default function HomeScreen({ navigation }: Props) {
       <Text variant="displayLarge" style={styles.title}>
         Home
       </Text>
-      <Text variant="displayMedium" style={styles.text}>
-        Another text
-      </Text>
+
       <Button mode="contained" onPress={() => navigation.navigate("Login")}>
         Go to Detail
       </Button>
