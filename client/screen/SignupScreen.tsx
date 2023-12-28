@@ -104,6 +104,6 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "60%",
-    borderRadius: 10,
+    borderRadius: 100,
   },
 });
