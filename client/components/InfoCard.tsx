@@ -1,10 +1,16 @@
+import { useFonts } from "expo-font";
 import * as React from "react";
+import { StyleSheet } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
 import weekData from "../data/weeks.json";
 
 const InfoCard = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
   const theme = useTheme();
+  const [isLoaded] = useFonts({
+    Oswald: require("../assets/fonts/Oswald-Bold.ttf"),
+    Overpass: require("../assets/fonts/Overpass-Light.ttf"),
+  });
 
   const renderContent = () => {
     const selectedData = weekData[0];
@@ -13,7 +19,9 @@ const InfoCard = () => {
       case "Bebis":
         return (
           <>
-            <Text variant="titleLarge">{`Week ${selectedData.week}: ${selectedData.RubrikBebis}`}</Text>
+            <Text style={styles.title} variant="titleLarge">
+              {selectedData.RubrikBebis}
+            </Text>
             <Text variant="bodyMedium">{selectedData.Bebis}</Text>
           </>
         );
@@ -52,5 +60,19 @@ const InfoCard = () => {
     </Card>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  title: {
+    fontFamily: "Oswald",
+  },
+  text: {
+    fontFamily: "Overpass",
+  },
+});
 
 export default InfoCard;
