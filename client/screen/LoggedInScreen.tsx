@@ -12,43 +12,60 @@ SplashScreen.preventAutoHideAsync();
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 export default function HomeScreen({ navigation }: Props) {
-  const theme = useTheme();
-  const { user } = useAuth(); // Access user information from context
-
-  const [isLoaded] = useFonts({
-    Oswald: require("../assets/fonts/Oswald-Bold.ttf"),
-    Overpass: require("../assets/fonts/Overpass-Light.ttf"),
-  });
-
-  const handleOnLayout = useCallback(async () => {
-    if (isLoaded) {
-      await SplashScreen.hideAsync();
+    const theme = useTheme();
+    const { user } = useAuth(); // Access user information from context
+    const [isLoaded] = useFonts({
+      Oswald: require("../assets/fonts/Oswald-Bold.ttf"),
+      Overpass: require("../assets/fonts/Overpass-Light.ttf"),
+    });
+  
+    const handleOnLayout = useCallback(async () => {
+      if (isLoaded) {
+        await SplashScreen.hideAsync();
+      }
+    }, [isLoaded]);
+  
+    if (!isLoaded) {
+      return (
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+          <Text>Loading...</Text>
+        </View>
+      );
     }
-  }, [isLoaded]);
+  
+    // Render loading state while user data is being fetched
+    if (user === null) {
+      return (
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+          <Text>Loading...</Text>
+        </View>
+      );
+    }
 
-  if (!isLoaded) {
-    return null;
+    console.log('User object:', user);
+
+  
+    // Render home screen with user data
+    return (
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+        onLayout={handleOnLayout}
+      >
+        {user && (
+          <>
+            <Text variant="displayLarge" style={styles.title}>
+              Welcome, {user.email || 'Guest'}!
+            </Text>
+            <Text style={styles.text}>User ID: {user.id}</Text>
+          </>
+        )}
+        <Button mode="elevated" onPress={() => navigation.navigate("Home")}>
+          Go to Home
+        </Button>
+      </View>
+    );
   }
-
-  return (
-    <View
-      style={[styles.container, { backgroundColor: theme.colors.background }]}
-      onLayout={handleOnLayout}
-    >
-      {user && (
-        <>
-          <Text variant="displayLarge" style={styles.title}>
-            Welcome, {user.email}!
-          </Text>
-          <Text style={styles.text}>User ID: {user.id}</Text>
-        </>
-      )}
-      <Button mode="elevated" onPress={() => navigation.navigate("Home")}>
-        Go to Home
-      </Button>
-    </View>
-  );
-}
+    
 
 const styles = StyleSheet.create({
   container: {

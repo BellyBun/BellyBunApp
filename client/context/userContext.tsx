@@ -59,41 +59,43 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   // Signin function
-  const signIn = async (values: { email: string; password: string }) => {
-    try {
-      const response = await fetch('http://localhost:3000/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
+  // Signin function
+const signIn = async (values: { email: string; password: string }) => {
+  try {
+    const response = await fetch('http://localhost:3000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
 
-      if (!response.ok) {
-        const data = await response.json();
-        if (response.status === 401) {
-          // Unauthorized: Check if it's due to invalid username or password
-          if (data.error === 'Invalid username') {
-            throw new Error('Username not found');
-          } else if (data.error === 'Invalid password') {
-            throw new Error('Incorrect password');
-          } else {
-            throw new Error('Invalid username or password');
-          }
+    if (!response.ok) {
+      const data = await response.json();
+      if (response.status === 401) {
+        // Unauthorized: Check if it's due to invalid username or password
+        if (data.error === 'Invalid username') {
+          throw new Error('Username not found');
+        } else if (data.error === 'Invalid password') {
+          throw new Error('Incorrect password');
         } else {
-          throw new Error(data.error);
+          throw new Error('Invalid username or password');
         }
+      } else {
+        throw new Error(data.error);
       }
-
-      // Perform any additional logic upon successful sign-in
-      console.log('Sign-in successful');
-      const userData = await response.json();
-      setUser(userData);
-    } catch (error) {
-      console.error('Error during sign-in:', error.message);
-      throw error;
     }
-  };
+
+    // Perform any additional logic upon successful sign-in
+    const userData = await response.json();
+    console.log('Sign-in successful',  userData);
+    setUser(userData.user); // Set the user object here
+  } catch (error) {
+    console.error('Error during sign-in:', error.message);
+    throw error;
+  }
+};
+
 
   const addUserInfo = async (userInfo: any) => {
     try {
@@ -129,90 +131,95 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   // Add pregnancy function
-  const addPregnancy = async (
-    userId: string,
-    babyName: string,
-    dueDate: Date
-  ) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/create-baby/${userId}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ babyName, dueDate }),
-        }
-      );
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error);
+const addPregnancy = async (
+  userId: string,
+  babyName: string,
+  dueDate: Date
+) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/create-baby/${userId}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ babyName, dueDate }),
       }
+    );
 
-      // Perform any additional logic upon successful add pregnancy
-      console.log('Pregnancy added successfully');
-      // You may handle additional logic or update state if needed
-    } catch (error) {
-      console.error('Error during add pregnancy:', error.message);
-      throw error;
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.error);
     }
-  };
 
-  // Get due date function
-  const getDueDate = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/api/get-due-date', {
-        method: 'GET',
-        credentials: 'include',
-      });
+    // Perform any additional logic upon successful add pregnancy
+    console.log('Pregnancy added successfully');
+    // You may handle additional logic or update state if needed
+  } catch (error) {
+    console.error('Error during add pregnancy:', error.message);
+    throw error;
+  }
+};
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error);
-      }
-
-      const { dueDate } = await response.json();
-      return new Date(dueDate);
-    } catch (error) {
-      console.error('Error during get due date:', error.message);
-      throw error;
-    }
-  };
-
-  // Sign out function
-  const signOut = async () => {
-    // Implement your logic for signing out here
-    // ...
-
-    const response = await fetch('http://localhost:3000/api/logout', {
-      method: 'POST',
+// Get due date function
+const getDueDate = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/get-due-date', {
+      method: 'GET',
       credentials: 'include',
     });
 
-    // Handle response and perform necessary logic
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.error);
+    }
 
-    setUser(null); // Clear user state after signing out
-  };
+    const { dueDate } = await response.json();
+    return new Date(dueDate);
+  } catch (error) {
+    console.error('Error during get due date:', error.message);
+    throw error;
+  }
+};
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        signUp,
-        signIn,
-        addUserInfo,
-        addPregnancy,
-        getDueDate,
-        signOut,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+// Sign out function
+const signOut = async () => {
+  // Implement your logic for signing out here
+  // ...
+
+  const response = await fetch('http://localhost:3000/api/logout', {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  // Handle response and perform necessary logic
+
+  setUser(null); // Clear user state after signing out
+};
+
+return (
+  <AuthContext.Provider
+    value={{
+      user,
+      signUp,
+      signIn,
+      addUserInfo,
+      addPregnancy,
+      getDueDate,
+      signOut,
+    }}
+  >
+    {children}
+  </AuthContext.Provider>
+);
 };
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+const authContext = useContext(AuthContext);
+if (!authContext) {
+  throw new Error('useAuth must be used within an AuthProvider');
+}
+return authContext;
 };
+
