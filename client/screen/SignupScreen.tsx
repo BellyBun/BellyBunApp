@@ -3,33 +3,18 @@ import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import { RootStackParamList } from "../RootNavigator";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useAuth } from "../context/userContext";
 
 type FormData = {
   email: string;
   password: string;
-  //termsAccepted: boolean;
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, "Signup">;
 
-const registerUser = async (data: FormData) => {
-  const response = await fetch("/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    throw new Error("Registration failed");
-  }
-
-  return response.json();
-};
-
 export default function SignupScreen({ navigation }: Props) {
   const theme = useTheme();
+  const { signUp } = useAuth();
 
   const {
     control,
@@ -39,21 +24,14 @@ export default function SignupScreen({ navigation }: Props) {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const response = await registerUser(data);
-      console.log("Registration response:", response);
-
-      // Show an alert with the response message
-      alert(response.message);
-
-      // Optionally, you can navigate to another screen on successful registration
-      if (response.success) {
-        navigation.navigate("Home");
-      }
+      await signUp(data.email, data.password);
+      alert("Registration successfull.");
     } catch (error) {
       console.error("Registration error:", error);
       alert("Registration failed. Please try again.");
     }
   };
+
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.primary }]}>
       <Text variant="displaySmall" style={{ color: theme.colors.background }}>
@@ -102,14 +80,6 @@ export default function SignupScreen({ navigation }: Props) {
         )}
       />
 
-      {/* <Checkbox.Item
-        status={checked ? "checked" : "unchecked"}
-        onPress={() => {
-          setChecked(!checked);
-        }}
-        color={theme.colors.background}
-        label="Acceptera användarvillkor"
-      /> */}
       <Button
         mode="elevated"
         buttonColor={theme.colors.background}
