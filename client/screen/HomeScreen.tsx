@@ -39,7 +39,10 @@ export default function HomeScreen({ navigation }: Props) {
         Another text
       </Text>
       <Button mode="contained" onPress={() => navigation.navigate("Login")}>
-        Go to Detail
+        Login
+      </Button>
+      <Button mode="contained" onPress={() => navigation.navigate("Signup")}>
+        Signup
       </Button>
     </View>
   );
