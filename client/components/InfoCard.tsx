@@ -3,6 +3,7 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
 import weekData from "../data/weeks.json";
+import theme from "../theme";
 
 const InfoCard = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
@@ -57,9 +58,27 @@ const InfoCard = () => {
   return (
     <Card style={{ width: "95%", backgroundColor: "#FAF8F4" }}>
       <Card.Actions style={{ display: "flex", justifyContent: "center" }}>
-        <Button onPress={() => setSelectedCategory("Bebis")}>Bebis</Button>
-        <Button onPress={() => setSelectedCategory("Mamma")}>Mamma</Button>
-        <Button onPress={() => setSelectedCategory("Partner")}>Partner</Button>
+        <Button
+          mode="text"
+          onPress={() => setSelectedCategory("Bebis")}
+          labelStyle={styles.buttonText}
+        >
+          BEBIS
+        </Button>
+        <Button
+          mode="text"
+          onPress={() => setSelectedCategory("Mamma")}
+          labelStyle={styles.buttonText}
+        >
+          MAMMA
+        </Button>
+        <Button
+          mode="text"
+          onPress={() => setSelectedCategory("Partner")}
+          labelStyle={styles.buttonText}
+        >
+          PARTNER
+        </Button>
       </Card.Actions>
       <Card.Content>{renderContent()}</Card.Content>
 
@@ -79,12 +98,18 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "Oswald",
+    color: theme.colors.accent,
     marginTop: 15,
     marginBottom: 15,
   },
   text: {
     fontFamily: "Overpass",
     marginBottom: 10,
+  },
+  buttonText: {
+    fontFamily: "Oswald",
+    color: theme.colors.accent,
+    fontSize: 17,
   },
 });
 
