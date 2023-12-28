@@ -1,5 +1,5 @@
 // server/src/models/user.ts
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from "mongoose";
 
 export interface IBaby {
   _id: string;
@@ -24,8 +24,8 @@ const BabySchema = new Schema<IBaby>({
 });
 
 const UserSchema = new Schema<IUser>({
-  userId: {type: String, required: false},
-  userName: { type: String, required: true },
+  userId: { type: String, required: false },
+  userName: { type: String, required: false },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   name: String,
@@ -33,6 +33,6 @@ const UserSchema = new Schema<IUser>({
   babies: [BabySchema],
 });
 
-const UserModel = mongoose.model<IUser>('User', UserSchema);
+const UserModel = mongoose.model<IUser>("User", UserSchema);
 
 export default UserModel;
