@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Button, Card, Text } from "react-native-paper";
+import { Button, Card, Text, useTheme } from "react-native-paper";
 import weekData from "../data/weeks.json";
 
 const InfoCard = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
+  const theme = useTheme();
 
   const renderContent = () => {
     const selectedData = weekData[0];
@@ -37,13 +38,12 @@ const InfoCard = () => {
 
   return (
     <Card style={{ width: "95%", backgroundColor: "#FAF8F4" }}>
-      <Card.Content>{renderContent()}</Card.Content>
-
-      <Card.Actions>
+      <Card.Actions style={{ display: "flex", justifyContent: "center" }}>
         <Button onPress={() => setSelectedCategory("Bebis")}>Bebis</Button>
         <Button onPress={() => setSelectedCategory("Mamma")}>Mamma</Button>
         <Button onPress={() => setSelectedCategory("Partner")}>Partner</Button>
       </Card.Actions>
+      <Card.Content>{renderContent()}</Card.Content>
 
       <Card.Actions>
         <Button>Föregående</Button>
