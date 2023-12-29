@@ -59,6 +59,10 @@ export default function HomeScreen({ navigation }: Props) {
             <Text style={styles.text}>User ID: {user.id}</Text>
           </>
         )}
+        <Button mode="elevated" onPress={() => navigation.navigate("UserInfo")}>
+          AddUserInfo
+        </Button>
+       
         <Button mode="elevated" onPress={() => navigation.navigate("Home")}>
           Go to Home
         </Button>

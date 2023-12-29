@@ -4,6 +4,8 @@ import React, { createContext, useContext, ReactNode, useState } from 'react';
 interface User {
   id: string;
   email: string;
+  userName?: string;
+  dueDate?: Date;
   // Add more user-related fields as needed
 }
 
@@ -15,6 +17,7 @@ interface AuthContextProps {
   addPregnancy: (
     userId: string,
     babyName: string,
+    gender: string,
     dueDate: Date
   ) => Promise<void>;
   getDueDate: () => Promise<Date | null>;
@@ -134,6 +137,7 @@ const signIn = async (values: { email: string; password: string }) => {
 const addPregnancy = async (
   userId: string,
   babyName: string,
+  gender: string,
   dueDate: Date
 ) => {
   try {
