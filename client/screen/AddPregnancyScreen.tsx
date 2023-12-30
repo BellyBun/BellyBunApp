@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Platform } from 'react-native';
 import { Button, Text, TextInput, useTheme } from 'react-native-paper';
-import DatePicker from 'react-native-date-picker';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useAuth } from '../context/userContext';
 
 const validationSchema = Yup.object().shape({
@@ -17,6 +17,21 @@ const validationSchema = Yup.object().shape({
 export default function AddPregnancyScreen({ navigation }: any) {
   const theme = useTheme();
   const { user, addPregnancy } = useAuth();
+  const [dueDate, setDueDate] = useState(new Date());
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date: Date) => {
+    setDueDate(date);
+    hideDatePicker();
+  };
 
   const onSubmit = async (values: {
     babyName: string;
@@ -31,6 +46,7 @@ export default function AddPregnancyScreen({ navigation }: any) {
         values.dueDate
       );
       console.log('Pregnancy added successfully');
+      navigation.navigate('UserInfo')
       // You can navigate or perform additional actions after adding pregnancy
     } catch (error) {
       console.error('Add pregnancy error:', error);
@@ -77,19 +93,21 @@ export default function AddPregnancyScreen({ navigation }: any) {
 
             <TextInput
               label='Due Date (YYYY-MM-DD)'
-              value={values.dueDate.toISOString().split('T')[0]}
-              onBlur={handleBlur('dueDate')}
-              onChangeText={(date) => setFieldValue('dueDate', new Date(date))}
+              value={dueDate.toISOString().split('T')[0]}
+              onTouchStart={() => showDatePicker()}
               mode='outlined'
               style={styles.input}
+              editable={true}
             />
             {errors.dueDate && (
               <Text style={{ color: 'red' }}>{String(errors.dueDate)}</Text>
             )}
 
-            <DatePicker
-              date={values.dueDate}
-              onDateChange={(newDate) => setFieldValue('dueDate', newDate)}
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
             />
 
             <Button
