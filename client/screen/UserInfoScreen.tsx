@@ -10,12 +10,9 @@ import { RootStackParamList } from "../RootNavigator";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 
-
 SplashScreen.preventAutoHideAsync();
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
-
-
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string().required('Username is required'),

@@ -17,7 +17,6 @@ interface AuthContextProps {
   addPregnancy: (
     userId: string,
     babyName: string,
-    gender: string,
     dueDate: Date
   ) => Promise<void>;
   getDueDate: () => Promise<Date | null>;
@@ -137,7 +136,6 @@ const signIn = async (values: { email: string; password: string }) => {
 const addPregnancy = async (
   userId: string,
   babyName: string,
-  gender: string,
   dueDate: Date
 ) => {
   try {

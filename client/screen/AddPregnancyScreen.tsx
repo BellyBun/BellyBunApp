@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Button, Text, TextInput, useTheme } from 'react-native-paper';
-import { Formik } from 'formik';
+import { Formik, useFormikContext } from 'formik'; // Import useFormikContext
 import * as Yup from 'yup';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useAuth } from '../context/userContext';
 
 const validationSchema = Yup.object().shape({
   babyName: Yup.string(),
-  gender: Yup.string(),
   dueDate: Yup.date()
     .typeError('Invalid date format')
     .required('Due date is required'),
 });
 
-export default function AddPregnancyScreen({ navigation }: any) {
+const AddPregnancyScreen = ({ navigation }: any) => {
   const theme = useTheme();
   const { user, addPregnancy } = useAuth();
-  const [dueDate, setDueDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const showDatePicker = () => {
@@ -28,25 +26,23 @@ export default function AddPregnancyScreen({ navigation }: any) {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = (date: Date) => {
-    setDueDate(date);
-    hideDatePicker();
-  };
+//   const handleConfirm = (date: Date) => {
+//     setDueDate(date);
+//     hideDatePicker();
+//   };
 
   const onSubmit = async (values: {
     babyName: string;
-    gender: string;
     dueDate: Date;
   }) => {
     try {
       await addPregnancy(
         user?.id || '',
         values.babyName,
-        values.gender,
         values.dueDate
       );
       console.log('Pregnancy added successfully');
-      navigation.navigate('UserInfo')
+      navigation.navigate('UserInfo');
       // You can navigate or perform additional actions after adding pregnancy
     } catch (error) {
       console.error('Add pregnancy error:', error);
@@ -60,7 +56,7 @@ export default function AddPregnancyScreen({ navigation }: any) {
         Add Pregnancy
       </Text>
       <Formik
-        initialValues={{ babyName: '', gender: '', dueDate: new Date() }}
+        initialValues={{ babyName: '', dueDate: new Date() }}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
@@ -81,32 +77,28 @@ export default function AddPregnancyScreen({ navigation }: any) {
               mode='outlined'
               style={styles.input}
             />
-
-            <TextInput
-              label='Gender'
-              value={values.gender}
-              onBlur={handleBlur('gender')}
-              onChangeText={handleChange('gender')}
-              mode='outlined'
-              style={styles.input}
-            />
-
             <TextInput
               label='Due Date (YYYY-MM-DD)'
-              value={dueDate.toISOString().split('T')[0]}
-              onTouchStart={() => showDatePicker()}
+              value={values.dueDate.toISOString().split('T')[0]}
+              onTouchStart={() => {
+                showDatePicker();
+              }}
               mode='outlined'
               style={styles.input}
-              editable={true}
+              editable={false}
             />
+
             {errors.dueDate && (
               <Text style={{ color: 'red' }}>{String(errors.dueDate)}</Text>
             )}
 
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleConfirm}
+              mode='date'
+              onConfirm={(date: Date) => {
+                setFieldValue('dueDate', date);
+                hideDatePicker();
+              }}
               onCancel={hideDatePicker}
             />
 
@@ -126,7 +118,7 @@ export default function AddPregnancyScreen({ navigation }: any) {
       </Button>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -141,3 +133,5 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
 });
+
+export default AddPregnancyScreen;

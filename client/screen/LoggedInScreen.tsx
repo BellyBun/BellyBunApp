@@ -57,6 +57,8 @@ export default function HomeScreen({ navigation }: Props) {
               Welcome, {user.email || 'Guest'}!
             </Text>
             <Text style={styles.text}>User ID: {user.id}</Text>
+            <Text style={styles.text}>User Name: {user.userName}</Text>
+            <Text style={styles.text}>Due Date: {user.dueDate?.toLocaleDateString() || 'Not available'}</Text>
           </>
         )}
         <Button mode="elevated" onPress={() => navigation.navigate("UserInfo")}>
