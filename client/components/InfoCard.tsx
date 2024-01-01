@@ -1,6 +1,6 @@
 import { useFonts } from "expo-font";
 import * as React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
 import weekData from "../data/weeks.json";
 import theme from "../theme";
@@ -69,29 +69,40 @@ const InfoCard = () => {
 
   return (
     <Card style={{ width: "95%", backgroundColor: "#FAF8F4" }}>
-      <Card.Actions style={{ display: "flex", justifyContent: "center" }}>
-        <Button
-          mode="text"
-          onPress={() => setSelectedCategory("Bebis")}
-          labelStyle={styles.buttonText}
-        >
-          BEBIS
-        </Button>
-        <Button
-          mode="text"
-          onPress={() => setSelectedCategory("Mamma")}
-          labelStyle={styles.buttonText}
-        >
-          MAMMA
-        </Button>
-        <Button
-          mode="text"
-          onPress={() => setSelectedCategory("Partner")}
-          labelStyle={styles.buttonText}
-        >
-          PARTNER
-        </Button>
-      </Card.Actions>
+      <View style={styles.centeredButtonsContainer}>
+        <Card.Actions>
+          <Button
+            mode="text"
+            onPress={() => setSelectedCategory("Bebis")}
+            labelStyle={[
+              styles.buttonText,
+              selectedCategory === "Bebis" && { color: theme.colors.primary },
+            ]}
+          >
+            BEBIS
+          </Button>
+          <Button
+            mode="text"
+            onPress={() => setSelectedCategory("Mamma")}
+            labelStyle={[
+              styles.buttonText,
+              selectedCategory === "Mamma" && { color: theme.colors.primary }, // Set color for selected category
+            ]}
+          >
+            MAMMA
+          </Button>
+          <Button
+            mode="text"
+            onPress={() => setSelectedCategory("Partner")}
+            labelStyle={[
+              styles.buttonText,
+              selectedCategory === "Partner" && { color: theme.colors.primary }, // Set color for selected category
+            ]}
+          >
+            PARTNER
+          </Button>
+        </Card.Actions>
+      </View>
       <Card.Content>{renderContent()}</Card.Content>
 
       <Card.Actions>
@@ -107,6 +118,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  centeredButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
   },
   title: {
     fontFamily: "Oswald",
