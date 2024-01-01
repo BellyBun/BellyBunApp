@@ -7,14 +7,26 @@ import theme from "../theme";
 
 const InfoCard = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
+  const [currentWeekIndex, setCurrentWeekIndex] = React.useState(0);
   const theme = useTheme();
   const [isLoaded] = useFonts({
     Oswald: require("../assets/fonts/Oswald-Bold.ttf"),
     Overpass: require("../assets/fonts/Overpass-Light.ttf"),
   });
+  const handlePreviousWeek = () => {
+    if (currentWeekIndex > 0) {
+      setCurrentWeekIndex(currentWeekIndex - 1);
+    }
+  };
+
+  const handleNextWeek = () => {
+    if (currentWeekIndex < weekData.length - 1) {
+      setCurrentWeekIndex(currentWeekIndex + 1);
+    }
+  };
 
   const renderContent = () => {
-    const selectedData = weekData[0];
+    const selectedData = weekData[currentWeekIndex];
 
     switch (selectedCategory) {
       case "Bebis":
@@ -83,8 +95,8 @@ const InfoCard = () => {
       <Card.Content>{renderContent()}</Card.Content>
 
       <Card.Actions>
-        <Button>Föregående</Button>
-        <Button>Nästa</Button>
+        <Button onPress={handlePreviousWeek}>Föregående</Button>
+        <Button onPress={handleNextWeek}>Nästa</Button>
       </Card.Actions>
     </Card>
   );
