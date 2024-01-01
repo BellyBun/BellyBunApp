@@ -106,8 +106,10 @@ const InfoCard = () => {
       <Card.Content>{renderContent()}</Card.Content>
 
       <Card.Actions>
-        <Button onPress={handlePreviousWeek}>Föregående</Button>
-        <Button onPress={handleNextWeek}>Nästa</Button>
+        <View style={styles.bottomButtonsContainer}>
+          <Button onPress={handlePreviousWeek}>Föregående</Button>
+          <Button onPress={handleNextWeek}>Nästa</Button>
+        </View>
       </Card.Actions>
     </Card>
   );
@@ -138,6 +140,11 @@ const styles = StyleSheet.create({
     fontFamily: "Oswald",
     color: theme.colors.accent,
     fontSize: 17,
+  },
+  bottomButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
 });
 
