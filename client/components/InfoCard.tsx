@@ -1,4 +1,3 @@
-import { useFonts } from "expo-font";
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
@@ -9,10 +8,7 @@ const InfoCard = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
   const [currentWeekIndex, setCurrentWeekIndex] = React.useState(0);
   const theme = useTheme();
-  const [isLoaded] = useFonts({
-    Oswald: require("../assets/fonts/Oswald-Bold.ttf"),
-    Overpass: require("../assets/fonts/Overpass-Light.ttf"),
-  });
+
   const handlePreviousWeek = () => {
     if (currentWeekIndex > 0) {
       setCurrentWeekIndex(currentWeekIndex - 1);
