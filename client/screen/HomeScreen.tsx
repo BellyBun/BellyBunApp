@@ -1,61 +1,48 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import { useCallback } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, SafeAreaView } from "react-native";
 import { Button, Text, useTheme } from "react-native-paper";
 import { RootStackParamList } from "../RootNavigator";
 import InfoCard from "../components/InfoCard";
-
-SplashScreen.preventAutoHideAsync();
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 export default function HomeScreen({ navigation }: Props) {
   const theme = useTheme();
-  const [isLoaded] = useFonts({
-    Oswald: require("../assets/fonts/Oswald-Bold.ttf"),
-    Overpass: require("../assets/fonts/Overpass-Light.ttf"),
-  });
-
-  const handleOnLayout = useCallback(async () => {
-    if (isLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [isLoaded]);
-
-  if (!isLoaded) {
-    return null;
-  }
 
   return (
-    <View
-      style={[styles.container, { backgroundColor: theme.colors.background }]}
-      onLayout={handleOnLayout}
+    <SafeAreaView
+      style={[
+        styles.safeContainer,
+        { backgroundColor: theme.colors.background },
+      ]}
     >
-      <Text variant="displayLarge" style={styles.title}>
-        Home
-      </Text>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text variant="displayLarge" style={styles.title}>
+          Home
+        </Text>
 
-      <Button mode="contained" onPress={() => navigation.navigate("Login")}>
-        Login
-      </Button>
-      <Button mode="contained" onPress={() => navigation.navigate("Signup")}>
-        Signup
-      </Button>
-      <Button mode="contained" onPress={() => navigation.navigate("Settings")}>
-        Settings
-      </Button>
-      <InfoCard />
-    </View>
+        <Button mode="contained" onPress={() => navigation.navigate("Login")}>
+          Login
+        </Button>
+        <Button mode="contained" onPress={() => navigation.navigate("Signup")}>
+          Signup
+        </Button>
+        <InfoCard />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeContainer: {
     flex: 1,
+  },
+  container: {
+    flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
+    gap: 10,
+    paddingBottom: 10,
   },
   title: {
     fontFamily: "Oswald",

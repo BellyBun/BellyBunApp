@@ -1,4 +1,3 @@
-import { useFonts } from "expo-font";
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
@@ -9,10 +8,7 @@ const InfoCard = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
   const [currentWeekIndex, setCurrentWeekIndex] = React.useState(0);
   const theme = useTheme();
-  const [isLoaded] = useFonts({
-    Oswald: require("../assets/fonts/Oswald-Bold.ttf"),
-    Overpass: require("../assets/fonts/Overpass-Light.ttf"),
-  });
+
   const handlePreviousWeek = () => {
     if (currentWeekIndex > 0) {
       setCurrentWeekIndex(currentWeekIndex - 1);
@@ -68,56 +64,64 @@ const InfoCard = () => {
   };
 
   return (
-    <Card style={{ width: "95%", backgroundColor: "#FAF8F4" }}>
-      <View style={styles.centeredButtonsContainer}>
-        <Card.Actions>
-          <Button
-            mode="text"
-            onPress={() => setSelectedCategory("Bebis")}
-            labelStyle={[
-              styles.buttonText,
-              selectedCategory === "Bebis" && { color: theme.colors.primary },
-            ]}
-          >
-            BEBIS
-          </Button>
-          <Button
-            mode="text"
-            onPress={() => setSelectedCategory("Mamma")}
-            labelStyle={[
-              styles.buttonText,
-              selectedCategory === "Mamma" && { color: theme.colors.primary }, // Set color for selected category
-            ]}
-          >
-            MAMMA
-          </Button>
-          <Button
-            mode="text"
-            onPress={() => setSelectedCategory("Partner")}
-            labelStyle={[
-              styles.buttonText,
-              selectedCategory === "Partner" && { color: theme.colors.primary }, // Set color for selected category
-            ]}
-          >
-            PARTNER
-          </Button>
-        </Card.Actions>
-      </View>
-      <Card.Content>{renderContent()}</Card.Content>
-
-      <Card.Actions>
-        <View style={styles.bottomButtonsContainer}>
-          <Button onPress={handlePreviousWeek}>Föregående</Button>
-          <Button onPress={handleNextWeek}>Nästa</Button>
+    <View style={styles.container}>
+      <Card style={{ width: "95%", backgroundColor: "#FAF8F4" }}>
+        <View style={styles.centeredButtonsContainer}>
+          <Card.Actions>
+            <Button
+              mode="text"
+              onPress={() => setSelectedCategory("Bebis")}
+              labelStyle={[
+                styles.buttonText,
+                selectedCategory === "Bebis" && {
+                  color: theme.colors.primary,
+                },
+              ]}
+            >
+              BEBIS
+            </Button>
+            <Button
+              mode="text"
+              onPress={() => setSelectedCategory("Mamma")}
+              labelStyle={[
+                styles.buttonText,
+                selectedCategory === "Mamma" && {
+                  color: theme.colors.primary,
+                }, // Set color for selected category
+              ]}
+            >
+              MAMMA
+            </Button>
+            <Button
+              mode="text"
+              onPress={() => setSelectedCategory("Partner")}
+              labelStyle={[
+                styles.buttonText,
+                selectedCategory === "Partner" && {
+                  color: theme.colors.primary,
+                }, // Set color for selected category
+              ]}
+            >
+              PARTNER
+            </Button>
+          </Card.Actions>
         </View>
-      </Card.Actions>
-    </Card>
+        <Card.Content>{renderContent()}</Card.Content>
+
+        <Card.Actions>
+          <View style={styles.bottomButtonsContainer}>
+            <Button onPress={handlePreviousWeek}>Föregående</Button>
+            <Button onPress={handleNextWeek}>Nästa</Button>
+          </View>
+        </Card.Actions>
+      </Card>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: "flex",
     alignItems: "center",
     justifyContent: "center",
   },
