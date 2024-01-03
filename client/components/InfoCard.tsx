@@ -1,7 +1,6 @@
 import * as React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
 import weekData from "../data/weeks.json";
 import theme from "../theme";
 
@@ -65,66 +64,64 @@ const InfoCard = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Card style={{ width: "95%", backgroundColor: "#FAF8F4" }}>
-          <View style={styles.centeredButtonsContainer}>
-            <Card.Actions>
-              <Button
-                mode="text"
-                onPress={() => setSelectedCategory("Bebis")}
-                labelStyle={[
-                  styles.buttonText,
-                  selectedCategory === "Bebis" && {
-                    color: theme.colors.primary,
-                  },
-                ]}
-              >
-                BEBIS
-              </Button>
-              <Button
-                mode="text"
-                onPress={() => setSelectedCategory("Mamma")}
-                labelStyle={[
-                  styles.buttonText,
-                  selectedCategory === "Mamma" && {
-                    color: theme.colors.primary,
-                  }, // Set color for selected category
-                ]}
-              >
-                MAMMA
-              </Button>
-              <Button
-                mode="text"
-                onPress={() => setSelectedCategory("Partner")}
-                labelStyle={[
-                  styles.buttonText,
-                  selectedCategory === "Partner" && {
-                    color: theme.colors.primary,
-                  }, // Set color for selected category
-                ]}
-              >
-                PARTNER
-              </Button>
-            </Card.Actions>
-          </View>
-          <Card.Content>{renderContent()}</Card.Content>
-
+    <View style={styles.container}>
+      <Card style={{ width: "95%", backgroundColor: "#FAF8F4" }}>
+        <View style={styles.centeredButtonsContainer}>
           <Card.Actions>
-            <View style={styles.bottomButtonsContainer}>
-              <Button onPress={handlePreviousWeek}>Föregående</Button>
-              <Button onPress={handleNextWeek}>Nästa</Button>
-            </View>
+            <Button
+              mode="text"
+              onPress={() => setSelectedCategory("Bebis")}
+              labelStyle={[
+                styles.buttonText,
+                selectedCategory === "Bebis" && {
+                  color: theme.colors.primary,
+                },
+              ]}
+            >
+              BEBIS
+            </Button>
+            <Button
+              mode="text"
+              onPress={() => setSelectedCategory("Mamma")}
+              labelStyle={[
+                styles.buttonText,
+                selectedCategory === "Mamma" && {
+                  color: theme.colors.primary,
+                }, // Set color for selected category
+              ]}
+            >
+              MAMMA
+            </Button>
+            <Button
+              mode="text"
+              onPress={() => setSelectedCategory("Partner")}
+              labelStyle={[
+                styles.buttonText,
+                selectedCategory === "Partner" && {
+                  color: theme.colors.primary,
+                }, // Set color for selected category
+              ]}
+            >
+              PARTNER
+            </Button>
           </Card.Actions>
-        </Card>
-      </ScrollView>
-    </SafeAreaView>
+        </View>
+        <Card.Content>{renderContent()}</Card.Content>
+
+        <Card.Actions>
+          <View style={styles.bottomButtonsContainer}>
+            <Button onPress={handlePreviousWeek}>Föregående</Button>
+            <Button onPress={handleNextWeek}>Nästa</Button>
+          </View>
+        </Card.Actions>
+      </Card>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    display: "flex",
     alignItems: "center",
     justifyContent: "center",
   },
