@@ -87,7 +87,7 @@ const InfoCard = () => {
                 styles.buttonText,
                 selectedCategory === "Mamma" && {
                   color: theme.colors.primary,
-                }, // Set color for selected category
+                },
               ]}
             >
               MAMMA
@@ -99,7 +99,7 @@ const InfoCard = () => {
                 styles.buttonText,
                 selectedCategory === "Partner" && {
                   color: theme.colors.primary,
-                }, // Set color for selected category
+                },
               ]}
             >
               PARTNER
