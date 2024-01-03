@@ -73,7 +73,7 @@ const InfoCard = () => {
               style={{ color: theme.colors.primary }}
               onPress={handleToggleReadMore}
             >
-              {" Läs mindre"}
+              {" Visa mindre"}
             </Text>
           )}
         </Text>
