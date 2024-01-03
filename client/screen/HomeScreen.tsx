@@ -43,6 +43,9 @@ export default function HomeScreen({ navigation }: Props) {
       <Button mode="contained" onPress={() => navigation.navigate("Signup")}>
         Signup
       </Button>
+      <Button mode="contained" onPress={() => navigation.navigate("Settings")}>
+        Settings
+      </Button>
       <InfoCard />
     </View>
   );
