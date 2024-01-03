@@ -1,9 +1,8 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, SafeAreaView } from "react-native";
 import { Button, Text, useTheme } from "react-native-paper";
 import { RootStackParamList } from "../RootNavigator";
 import InfoCard from "../components/InfoCard";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -12,7 +11,10 @@ export default function HomeScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      style={[
+        styles.safeContainer,
+        { backgroundColor: theme.colors.background },
+      ]}
     >
       <ScrollView contentContainerStyle={styles.container}>
         <Text variant="displayLarge" style={styles.title}>
@@ -32,11 +34,15 @@ export default function HomeScreen({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeContainer: {
     flex: 1,
+  },
+  container: {
+    flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
     gap: 10,
+    paddingBottom: 10,
   },
   title: {
     fontFamily: "Oswald",
