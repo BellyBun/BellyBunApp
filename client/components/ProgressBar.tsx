@@ -10,8 +10,10 @@ const PregnancyProgress = () => {
 
   useEffect(() => {
     const gestationalAgeInWeeks = Math.floor(
-      (currentDate.getTime() - estimatedDueDate.getTime()) /
-        (7 * 24 * 60 * 60 * 1000)
+      Math.abs(
+        (estimatedDueDate.getTime() - currentDate.getTime()) /
+          (7 * 24 * 60 * 60 * 1000)
+      )
     );
 
     const totalWeeksOfPregnancy = 40;
