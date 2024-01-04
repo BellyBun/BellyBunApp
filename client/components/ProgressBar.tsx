@@ -1,34 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Circle, G, Svg } from "react-native-svg";
-
-const CircularProgressBar = ({ radius, progress, progressBarStyles }) => {
-  const circumference = 2 * Math.PI * radius;
-  const [offset, setOffset] = useState(circumference);
-
-  useEffect(() => {
-    const progressOffset = circumference - (progress / 100) * circumference;
-    setOffset(progressOffset);
-  }, [progress, circumference]);
-
-  return (
-    <Svg height={radius * 2} width={radius * 2}>
-      <G rotation="-90" origin={`${radius},${radius}`}>
-        <Circle
-          cx={radius}
-          cy={radius}
-          r={radius - 5} // Adjust the radius and stroke width as needed
-          stroke={progressBarStyles.stroke.color}
-          strokeWidth={progressBarStyles.stroke.width}
-          strokeDasharray={`${circumference} ${circumference}`}
-          strokeDashoffset={offset}
-          strokeLinecap={progressBarStyles.stroke.lineCap}
-          fill="transparent"
-        />
-      </G>
-    </Svg>
-  );
-};
+import { ProgressBar } from "react-native-paper";
 
 const PregnancyProgress = () => {
   const [progress, setProgress] = useState(0);
@@ -46,29 +18,24 @@ const PregnancyProgress = () => {
 
     const calculatedProgress =
       (gestationalAgeInWeeks / totalWeeksOfPregnancy) * 100;
+    console.log("Gestational Age (weeks):", gestationalAgeInWeeks);
+    console.log("Calculated Progress:", calculatedProgress);
 
     const clampedProgress = Math.min(100, Math.max(0, calculatedProgress));
+    console.log("Clamped Progress:", clampedProgress);
 
     setProgress(clampedProgress);
   }, []);
-
-  const progressBarStyles = StyleSheet.create({
-    stroke: {
-      color: "#735751",
-      width: 10,
-      lineCap: "round",
-    },
-  });
 
   return (
     <View style={styles.container}>
       <Text style={styles.progressText}>
         Pregnancy Progress: {progress.toFixed(2)}%
       </Text>
-      <CircularProgressBar
-        radius={50}
-        progress={progress}
-        progressBarStyles={progressBarStyles}
+      <ProgressBar
+        progress={progress / 100}
+        color="#735751"
+        style={{ height: 10 }}
       />
     </View>
   );
