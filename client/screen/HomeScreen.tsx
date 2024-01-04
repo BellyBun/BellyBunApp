@@ -1,8 +1,9 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { ScrollView, StyleSheet, SafeAreaView } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import { Button, Text, useTheme } from "react-native-paper";
 import { RootStackParamList } from "../RootNavigator";
 import InfoCard from "../components/InfoCard";
+import PregnancyProgress from "../components/ProgressBar";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -20,6 +21,7 @@ export default function HomeScreen({ navigation }: Props) {
         <Text variant="displayLarge" style={styles.title}>
           Home
         </Text>
+        <PregnancyProgress />
 
         <Button mode="contained" onPress={() => navigation.navigate("Login")}>
           Login
