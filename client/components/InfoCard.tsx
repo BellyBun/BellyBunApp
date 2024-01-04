@@ -83,47 +83,46 @@ const InfoCard = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.centeredButtonsContainer}>
+        <Button
+          mode="text"
+          onPress={() => setSelectedCategory("Bebis")}
+          labelStyle={[
+            styles.buttonText,
+            selectedCategory === "Bebis" && {
+              color: theme.colors.primary,
+            },
+          ]}
+        >
+          BEBIS
+        </Button>
+        <Button
+          mode="text"
+          onPress={() => setSelectedCategory("Mamma")}
+          labelStyle={[
+            styles.buttonText,
+            selectedCategory === "Mamma" && {
+              color: theme.colors.primary,
+            },
+          ]}
+        >
+          MAMMA
+        </Button>
+        <Button
+          mode="text"
+          onPress={() => setSelectedCategory("Partner")}
+          labelStyle={[
+            styles.buttonText,
+            selectedCategory === "Partner" && {
+              color: theme.colors.primary,
+            },
+          ]}
+        >
+          PARTNER
+        </Button>
+      </View>
+
       <Card style={{ width: "95%", backgroundColor: "#FAF8F4" }}>
-        <View style={styles.centeredButtonsContainer}>
-          <Card.Actions>
-            <Button
-              mode="text"
-              onPress={() => setSelectedCategory("Bebis")}
-              labelStyle={[
-                styles.buttonText,
-                selectedCategory === "Bebis" && {
-                  color: theme.colors.primary,
-                },
-              ]}
-            >
-              BEBIS
-            </Button>
-            <Button
-              mode="text"
-              onPress={() => setSelectedCategory("Mamma")}
-              labelStyle={[
-                styles.buttonText,
-                selectedCategory === "Mamma" && {
-                  color: theme.colors.primary,
-                },
-              ]}
-            >
-              MAMMA
-            </Button>
-            <Button
-              mode="text"
-              onPress={() => setSelectedCategory("Partner")}
-              labelStyle={[
-                styles.buttonText,
-                selectedCategory === "Partner" && {
-                  color: theme.colors.primary,
-                },
-              ]}
-            >
-              PARTNER
-            </Button>
-          </Card.Actions>
-        </View>
         <Card.Content>{renderContent()}</Card.Content>
 
         <Card.Actions>
