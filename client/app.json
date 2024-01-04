@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
 
     "splash": {
-      "image": "./assets/bellyBunIcon.png",
+      "image": "./assets/iconwithtitle.png",
       "resizeMode": "contain",
       "backgroundColor": "#A36361"
     },
