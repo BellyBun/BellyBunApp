@@ -26,12 +26,10 @@ const PregnancyProgress = () => {
     setProgress(clampedProgress);
   }, []);
 
-  const radius = 90; // set the radius of the circle
+  const radius = 90;
 
-  // Calculate the circumference of the circle
   const circumference = 2 * Math.PI * radius;
 
-  // Calculate the stroke-dashoffset based on the progress
   const strokeDashoffset = (progress / 100) * circumference;
 
   return (
