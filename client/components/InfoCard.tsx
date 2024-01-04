@@ -83,7 +83,7 @@ const InfoCard = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.centeredButtonsContainer}>
+      <View style={styles.topButtonsContainer}>
         <Button
           mode="text"
           onPress={() => setSelectedCategory("Bebis")}
@@ -141,11 +141,14 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
   },
-  centeredButtonsContainer: {
+  topButtonsContainer: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignContent: "center",
+    width: "90%",
+    marginBottom: 10,
   },
   title: {
     fontFamily: "Oswald",
