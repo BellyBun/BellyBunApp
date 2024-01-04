@@ -17,7 +17,6 @@ const PregnancyProgress = () => {
     );
 
     const totalWeeksOfPregnancy = 40;
-
     const calculatedProgress =
       (gestationalAgeInWeeks / totalWeeksOfPregnancy) * 100;
 
@@ -27,16 +26,11 @@ const PregnancyProgress = () => {
   }, []);
 
   const radius = 90;
-
   const circumference = 2 * Math.PI * radius;
-
   const strokeDashoffset = (progress / 100) * circumference;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.progressText}>
-        {progress.toFixed(2)}% av graviditeten är avklarad!
-      </Text>
       <Svg height={2 * radius} width={2 * radius}>
         <Circle
           cx={radius}
@@ -50,6 +44,9 @@ const PregnancyProgress = () => {
           transform="rotate(-90, 80, 80)"
         />
       </Svg>
+      <Text style={styles.progressText}>
+        {progress.toFixed(2)}% av graviditeten är avklarad!
+      </Text>
     </View>
   );
 };
