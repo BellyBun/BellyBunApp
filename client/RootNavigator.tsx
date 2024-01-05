@@ -10,6 +10,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useAuth } from "./context/userContext";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+
 import WelcomeScreen from "./screen/WelcomeScreen";
 import ShareScreen from "./screen/ShareScreen";
 
@@ -83,15 +84,15 @@ export default function RootNavigator() {
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "white",
         tabBarStyle: styles.tabBar,
+        tabBarShowLabel: false,
       }}
     >
       <Tab.Screen
         name="Share"
         component={ShareScreen}
         options={{
-          tabBarLabel: "Share",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="share" color={color} size={size} />
+            <Ionicons name="share-outline" color={color} size={size} />
           ),
         }}
       />
@@ -99,7 +100,6 @@ export default function RootNavigator() {
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
           ),
@@ -110,7 +110,6 @@ export default function RootNavigator() {
         name="Settings"
         component={SettingsScreen}
         options={{
-          tabBarLabel: "Settings",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings" color={color} size={size} />
           ),
