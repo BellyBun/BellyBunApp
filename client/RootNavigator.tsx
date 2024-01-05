@@ -8,14 +8,14 @@ import UserInfoScreen from "./screen/UserInfoScreen";
 import AddPregnancyScreen from "./screen/AddPregnancyScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useAuth } from "./context/userContext";
-import theme from "./theme";
 import { StyleSheet } from "react-native";
-
 import { Ionicons } from "@expo/vector-icons";
+import WelcomeScreen from "./screen/WelcomeScreen";
 
 export type NotLoggedInStackParamList = {
   Login: undefined;
   Signup: undefined;
+  Welcome: undefined;
 };
 
 const NotLoggedInStack =
@@ -30,6 +30,7 @@ function NotLoggedInStackScreen() {
     >
       <NotLoggedInStack.Screen name="Login" component={LoginScreen} />
       <NotLoggedInStack.Screen name="Signup" component={SignupScreen} />
+      <NotLoggedInStack.Screen name="Welcome" component={WelcomeScreen} />
     </NotLoggedInStack.Navigator>
   );
 }
@@ -70,7 +71,6 @@ export default function RootNavigator() {
   const { user } = useAuth();
 
   if (!user) {
-    // User not logged in, render login/signup stack
     return <NotLoggedInStackScreen />;
   }
 
