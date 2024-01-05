@@ -90,6 +90,7 @@ const InfoCard = () => {
               styles.buttonText,
               selectedCategory === "Bebis" && {
                 color: theme.colors.primary,
+                textDecorationLine: "underline",
               },
             ]}
           >
@@ -103,6 +104,7 @@ const InfoCard = () => {
               styles.buttonText,
               selectedCategory === "Mamma" && {
                 color: theme.colors.primary,
+                textDecorationLine: "underline",
               },
             ]}
           >
@@ -118,6 +120,7 @@ const InfoCard = () => {
               styles.buttonText,
               selectedCategory === "Partner" && {
                 color: theme.colors.primary,
+                textDecorationLine: "underline",
               },
             ]}
           >
