@@ -11,6 +11,8 @@ import { useAuth } from "./context/userContext";
 import theme from "./theme";
 import { StyleSheet } from "react-native";
 
+import { Ionicons } from "@expo/vector-icons";
+
 export type NotLoggedInStackParamList = {
   Login: undefined;
   Signup: undefined;
@@ -81,8 +83,27 @@ export default function RootNavigator() {
         tabBarStyle: styles.tabBar,
       }}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          tabBarLabel: "Settings",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="settings" color={color} size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
