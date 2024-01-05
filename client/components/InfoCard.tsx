@@ -7,6 +7,7 @@ import theme from "../theme";
 const InfoCard = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
   const [currentWeekIndex, setCurrentWeekIndex] = React.useState(0);
+  const [showFullText, setShowFullText] = React.useState(false);
   const theme = useTheme();
 
   const handlePreviousWeek = () => {
@@ -21,91 +22,107 @@ const InfoCard = () => {
     }
   };
 
+  const handleToggleReadMore = () => {
+    setShowFullText(!showFullText);
+  };
+
   const renderContent = () => {
     const selectedData = weekData[currentWeekIndex];
 
-    switch (selectedCategory) {
-      case "Bebis":
-        return (
-          <>
-            <Text variant="titleLarge" style={styles.title}>
-              {selectedData.RubrikBebis}
-            </Text>
-            <Text variant="bodyMedium" style={styles.text}>
-              {selectedData.Bebis}
-            </Text>
-          </>
-        );
-      case "Mamma":
-        return (
-          <>
-            <Text variant="titleLarge" style={styles.title}>
-              {selectedData.RubrikMamma}
-            </Text>
-            <Text variant="bodyMedium" style={styles.text}>
-              {selectedData.Mamma}
-            </Text>
-          </>
-        );
-      case "Partner":
-        return (
-          <>
-            <Text variant="titleLarge" style={styles.title}>
-              {selectedData.RubrikPartner}
-            </Text>
-            <Text variant="bodyMedium" style={styles.text}>
-              {selectedData.Partner}
-            </Text>
-          </>
-        );
-      default:
-        return null;
+    const getText = (category) => {
+      switch (category) {
+        case "Bebis":
+          return selectedData.Bebis;
+        case "Mamma":
+          return selectedData.Mamma;
+        case "Partner":
+          return selectedData.Partner;
+        default:
+          return null;
+      }
+    };
+
+    const text = getText(selectedCategory);
+
+    if (!text) {
+      return null;
     }
+
+    const maxWords = 40; // Antal ord som visas innan "Läs mer"
+
+    const words = text.split(" ");
+    const truncatedText = words.slice(0, maxWords).join(" ");
+
+    return (
+      <>
+        <Text variant="titleLarge" style={styles.title}>
+          {selectedData[`Rubrik${selectedCategory}`]}
+        </Text>
+        <Text variant="bodyMedium" style={styles.text}>
+          {showFullText ? text : truncatedText}
+          {!showFullText && words.length > maxWords && (
+            <Text
+              style={{ color: theme.colors.primary }}
+              onPress={handleToggleReadMore}
+            >
+              {" Läs mer"}
+            </Text>
+          )}
+          {showFullText && (
+            <Text
+              style={{ color: theme.colors.primary }}
+              onPress={handleToggleReadMore}
+            >
+              {" Visa mindre"}
+            </Text>
+          )}
+        </Text>
+      </>
+    );
   };
 
   return (
     <View style={styles.container}>
+      <View style={styles.topButtonsContainer}>
+        <Button
+          mode="text"
+          onPress={() => setSelectedCategory("Bebis")}
+          labelStyle={[
+            styles.buttonText,
+            selectedCategory === "Bebis" && {
+              color: theme.colors.primary,
+            },
+          ]}
+        >
+          BEBIS
+        </Button>
+        <Button
+          mode="text"
+          onPress={() => setSelectedCategory("Mamma")}
+          labelStyle={[
+            styles.buttonText,
+            selectedCategory === "Mamma" && {
+              color: theme.colors.primary,
+            },
+          ]}
+        >
+          MAMMA
+        </Button>
+        <Button
+          mode="text"
+          onPress={() => setSelectedCategory("Partner")}
+          labelStyle={[
+            styles.buttonText,
+            selectedCategory === "Partner" && {
+              color: theme.colors.primary,
+            },
+          ]}
+        >
+          PARTNER
+        </Button>
+      </View>
+
       <Card style={{ width: "95%", backgroundColor: "#FAF8F4" }}>
-        <View style={styles.centeredButtonsContainer}>
-          <Card.Actions>
-            <Button
-              mode="text"
-              onPress={() => setSelectedCategory("Bebis")}
-              labelStyle={[
-                styles.buttonText,
-                selectedCategory === "Bebis" && {
-                  color: theme.colors.primary,
-                },
-              ]}
-            >
-              BEBIS
-            </Button>
-            <Button
-              mode="text"
-              onPress={() => setSelectedCategory("Mamma")}
-              labelStyle={[
-                styles.buttonText,
-                selectedCategory === "Mamma" && {
-                  color: theme.colors.primary,
-                }, // Set color for selected category
-              ]}
-            >
-              MAMMA
-            </Button>
-            <Button
-              mode="text"
-              onPress={() => setSelectedCategory("Partner")}
-              labelStyle={[
-                styles.buttonText,
-                selectedCategory === "Partner" && {
-                  color: theme.colors.primary,
-                }, // Set color for selected category
-              ]}
-            >
-              PARTNER
-            </Button>
-          </Card.Actions>
-        </View>
         <Card.Content>{renderContent()}</Card.Content>
 
         <Card.Actions>
@@ -124,11 +141,14 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
   },
-  centeredButtonsContainer: {
+  topButtonsContainer: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignContent: "center",
+    width: "90%",
+    marginBottom: 10,
   },
   title: {
     fontFamily: "Oswald",
