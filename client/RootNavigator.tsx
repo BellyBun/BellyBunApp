@@ -11,6 +11,7 @@ import { useAuth } from "./context/userContext";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import WelcomeScreen from "./screen/WelcomeScreen";
+import ShareScreen from "./screen/ShareScreen";
 
 export type NotLoggedInStackParamList = {
   Login: undefined;
@@ -61,6 +62,7 @@ function LoggedInStackScreen() {
 }
 
 export type RootTabParamList = {
+  Share: undefined;
   Home: undefined;
   Settings: undefined;
 };
@@ -83,6 +85,16 @@ export default function RootNavigator() {
         tabBarStyle: styles.tabBar,
       }}
     >
+      <Tab.Screen
+        name="Share"
+        component={ShareScreen}
+        options={{
+          tabBarLabel: "Share",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="share" color={color} size={size} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="Home"
         component={HomeScreen}
