@@ -58,9 +58,9 @@ const styles = StyleSheet.create({
     height: 300,
     alignItems: "center",
     justifyContent: "center",
-    padding: 16,
-
     backgroundColor: theme.colors.primary,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
   },
   progressText: {
     textAlign: "center",
