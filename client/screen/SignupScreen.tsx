@@ -11,6 +11,7 @@ import theme from "../theme";
 type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Login">;
 
 const validationSchema = Yup.object().shape({
+  username: Yup.string().required("Username is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string().required("Password is required"),
 });
@@ -19,11 +20,16 @@ export default function SignupScreen({ navigation }: Props) {
   const theme = useTheme();
   const { signUp } = useAuth();
 
-  const onSubmit = async (values: { email: string; password: string }) => {
+  const onSubmit = async (values: {
+    username: string;
+    email: string;
+    password: string;
+  }) => {
     try {
       const lowercaseEmail = values.email.toLowerCase();
-      await signUp(lowercaseEmail, values.password);
+      await signUp(values.username, lowercaseEmail, values.password);
       alert("Registration successful.");
+      navigation.navigate("Welcome");
     } catch (error) {
       console.error("Registration error:", error);
       alert("Registration failed. Please try again.");
@@ -36,12 +42,24 @@ export default function SignupScreen({ navigation }: Props) {
         Skapa ett nytt konto
       </Text>
       <Formik
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ username: "", email: "", password: "" }}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
           <>
+            <TextInput
+              label="Förnamn"
+              value={values.username}
+              onBlur={handleBlur("username")}
+              onChangeText={handleChange("username")}
+              mode="outlined"
+              style={styles.input}
+            />
+            {errors.username && (
+              <Text style={{ color: "red" }}>{errors.username}</Text>
+            )}
+
             <TextInput
               label="Mejladress"
               value={values.email}
