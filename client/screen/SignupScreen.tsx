@@ -5,9 +5,10 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../context/userContext";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../RootNavigator";
+import { NotLoggedInStackParamList } from "../RootNavigator";
+import theme from "../theme";
 
-type Props = NativeStackScreenProps<RootStackParamList, "Signup">;
+type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Login">;
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -23,7 +24,6 @@ export default function SignupScreen({ navigation }: Props) {
       const lowercaseEmail = values.email.toLowerCase();
       await signUp(lowercaseEmail, values.password);
       alert("Registration successful.");
-      navigation.navigate("Login");
     } catch (error) {
       console.error("Registration error:", error);
       alert("Registration failed. Please try again.");
@@ -67,6 +67,15 @@ export default function SignupScreen({ navigation }: Props) {
             {errors.password && (
               <Text style={{ color: "red" }}>{errors.password}</Text>
             )}
+            <Text style={styles.text}>
+              Har du redan ett konto? Logga in{" "}
+              <Text
+                onPress={() => navigation.navigate("Login")}
+                style={styles.textButton}
+              >
+                här
+              </Text>
+            </Text>
 
             <Button
               mode="elevated"
@@ -78,10 +87,6 @@ export default function SignupScreen({ navigation }: Props) {
           </>
         )}
       </Formik>
-
-      <Button mode="elevated" onPress={() => navigation.navigate("Home")}>
-        Go to Home
-      </Button>
     </View>
   );
 }
@@ -93,6 +98,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     gap: 20,
+  },
+  text: {
+    color: theme.colors.background,
+  },
+  textButton: {
+    color: theme.colors.background,
+    textDecorationLine: "underline",
   },
   input: {
     width: "60%",

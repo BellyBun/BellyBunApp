@@ -1,13 +1,14 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Button, Text, TextInput, useTheme } from "react-native-paper";
+import { Button, Text, TextInput } from "react-native-paper";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../context/userContext";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../RootNavigator";
+import { NotLoggedInStackParamList } from "../RootNavigator";
+import theme from "../theme";
 
-type Props = NativeStackScreenProps<RootStackParamList, "Login">;
+type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Login">;
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("Mejladress är obligatoriskt"),
@@ -15,7 +16,6 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function LoginScreen({ navigation }: Props) {
-  const theme = useTheme();
   const { signIn } = useAuth();
 
   const onSubmit = async (values: { email: string; password: string }) => {
@@ -24,7 +24,6 @@ export default function LoginScreen({ navigation }: Props) {
       const lowerCaseEmail = values.email.toLowerCase();
       await signIn({ email: lowerCaseEmail, password: values.password });
       alert("Login successful.");
-      navigation.navigate("LoggedIn");
     } catch (error) {
       console.error("Login error:", error);
       alert("Login failed. Please try again.");
@@ -69,6 +68,16 @@ export default function LoginScreen({ navigation }: Props) {
               <Text style={{ color: "red" }}>{errors.password}</Text>
             )}
 
+            <Text style={styles.text}>
+              Inget konto än? Skapa ett{" "}
+              <Text
+                onPress={() => navigation.navigate("Signup")}
+                style={styles.textButton}
+              >
+                här
+              </Text>
+            </Text>
+
             <Button
               mode="elevated"
               buttonColor={theme.colors.background}
@@ -79,10 +88,6 @@ export default function LoginScreen({ navigation }: Props) {
           </>
         )}
       </Formik>
-
-      <Button mode="elevated" onPress={() => navigation.navigate("Home")}>
-        Go to Home
-      </Button>
     </View>
   );
 }
@@ -94,6 +99,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     gap: 20,
+  },
+  text: {
+    color: theme.colors.background,
+  },
+  textButton: {
+    color: theme.colors.background,
+    textDecorationLine: "underline",
   },
   input: {
     width: "60%",
