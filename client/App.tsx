@@ -6,6 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthProvider } from "./context/userContext";
 import { useFonts } from "expo-font";
+import { BabyProvider } from "./context/babyContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -22,9 +23,11 @@ export default function App() {
       <StatusBar style="auto" />
       <PaperProvider theme={theme}>
         <AuthProvider>
-          <NavigationContainer>
-            <RootNavigator />
-          </NavigationContainer>
+          <BabyProvider>
+            <NavigationContainer>
+              <RootNavigator />
+            </NavigationContainer>
+          </BabyProvider>
         </AuthProvider>
       </PaperProvider>
     </SafeAreaProvider>
