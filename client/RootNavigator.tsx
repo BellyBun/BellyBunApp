@@ -8,6 +8,8 @@ import UserInfoScreen from "./screen/UserInfoScreen";
 import AddPregnancyScreen from "./screen/AddPregnancyScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useAuth } from "./context/userContext";
+import theme from "./theme";
+import { StyleSheet } from "react-native";
 
 export type NotLoggedInStackParamList = {
   Login: undefined;
@@ -71,9 +73,21 @@ export default function RootNavigator() {
   }
 
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "white",
+        tabBarStyle: styles.tabBar,
+      }}
+    >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
 }
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: "#A36361",
+  },
+});
