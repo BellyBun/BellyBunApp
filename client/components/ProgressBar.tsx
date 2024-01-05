@@ -32,7 +32,7 @@ const PregnancyProgress = () => {
 
   return (
     <View style={styles.container}>
-      <Svg height={2 * radius} width={2 * radius}>
+      <Svg height={2 * radius} width={2 * radius} style={{ marginTop: 50 }}>
         <Circle
           cx={radius}
           cy={radius}
