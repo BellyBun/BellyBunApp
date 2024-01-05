@@ -3,14 +3,11 @@ import HomeScreen from "./screen/HomeScreen";
 import LoginScreen from "./screen/LoginScreen";
 import SignupScreen from "./screen/SignupScreen";
 import SettingsScreen from "./screen/SettingsScreen";
-import LoggedInScreen from "./screen/LoggedInScreen";
-import UserInfoScreen from "./screen/UserInfoScreen";
 import AddPregnancyScreen from "./screen/AddPregnancyScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useAuth } from "./context/userContext";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
 import WelcomeScreen from "./screen/WelcomeScreen";
 import ShareScreen from "./screen/ShareScreen";
 
@@ -37,28 +34,45 @@ function NotLoggedInStackScreen() {
   );
 }
 
-export type LoggedInStackParamList = {
-  LoggedIn: undefined;
-  UserInfo: undefined;
+export type SettingsStackParamList = {
+  Settings: undefined;
   AddPregnancy: undefined;
 };
 
-const LoggedInStack = createNativeStackNavigator<LoggedInStackParamList>();
+const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
 
-function LoggedInStackScreen() {
+function SettingsStackScreen() {
   return (
-    <LoggedInStack.Navigator
+    <SettingsStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <LoggedInStack.Screen name="LoggedIn" component={LoggedInScreen} />
-      <LoggedInStack.Screen name="UserInfo" component={UserInfoScreen} />
-      <LoggedInStack.Screen
+      <SettingsStack.Screen name="Settings" component={SettingsScreen} />
+      <SettingsStack.Screen
         name="AddPregnancy"
         component={AddPregnancyScreen}
+        options={{ headerShown: true }}
       />
-    </LoggedInStack.Navigator>
+    </SettingsStack.Navigator>
+  );
+}
+
+export type HomeStackParamList = {
+  Home: undefined;
+};
+
+const HomeStack = createNativeStackNavigator<HomeStackParamList>();
+
+function HomeStackScreen() {
+  return (
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <HomeStack.Screen name="Home" component={HomeScreen} />
+    </HomeStack.Navigator>
   );
 }
 
@@ -79,6 +93,7 @@ export default function RootNavigator() {
 
   return (
     <Tab.Navigator
+      initialRouteName="Home"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: "white",
@@ -98,7 +113,7 @@ export default function RootNavigator() {
       />
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeStackScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
@@ -108,7 +123,7 @@ export default function RootNavigator() {
 
       <Tab.Screen
         name="Settings"
-        component={SettingsScreen}
+        component={SettingsStackScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings" color={color} size={size} />

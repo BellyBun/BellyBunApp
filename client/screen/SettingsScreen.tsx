@@ -1,11 +1,11 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Button, Text, useTheme } from "react-native-paper";
-import { RootTabParamList } from "../RootNavigator";
+import { SettingsStackParamList } from "../RootNavigator";
 import { useState } from "react";
 import { useAuth } from "../context/userContext";
 
-type Props = NativeStackScreenProps<RootTabParamList, "Settings">;
+type Props = NativeStackScreenProps<SettingsStackParamList, "Settings">;
 
 export default function SettingsScreen({ navigation }: Props) {
   const theme = useTheme();
@@ -95,6 +95,7 @@ export default function SettingsScreen({ navigation }: Props) {
           mode="text"
           textColor={theme.colors.background}
           style={styles.button}
+          onPress={() => navigation.navigate("AddPregnancy")}
           icon="plus"
         >
           Lägg till ny graviditet

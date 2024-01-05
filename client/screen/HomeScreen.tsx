@@ -1,11 +1,11 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ScrollView, StyleSheet, SafeAreaView } from "react-native";
 import { Text } from "react-native-paper";
-import { RootTabParamList } from "../RootNavigator";
+import { HomeStackParamList, RootTabParamList } from "../RootNavigator";
 import InfoCard from "../components/InfoCard";
 import theme from "../theme";
 
-type Props = NativeStackScreenProps<RootTabParamList, "Home">;
+type Props = NativeStackScreenProps<HomeStackParamList, "Home">;
 
 export default function HomeScreen({ navigation }: Props) {
   return (
