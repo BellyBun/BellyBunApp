@@ -48,7 +48,7 @@ const InfoCard = () => {
       return null;
     }
 
-    const maxWords = 40; // Antal ord som visas innan "Läs mer"
+    const maxWords = 40;
 
     const words = text.split(" ");
     const truncatedText = words.slice(0, maxWords).join(" ");
@@ -88,10 +88,7 @@ const InfoCard = () => {
           <Text
             style={[
               styles.buttonText,
-              selectedCategory === "Bebis" && {
-                color: theme.colors.primary,
-                textDecorationLine: "underline",
-              },
+              selectedCategory === "Bebis" && styles.activeButton,
             ]}
           >
             BEBIS
@@ -102,10 +99,7 @@ const InfoCard = () => {
           <Text
             style={[
               styles.buttonText,
-              selectedCategory === "Mamma" && {
-                color: theme.colors.primary,
-                textDecorationLine: "underline",
-              },
+              selectedCategory === "Mamma" && styles.activeButton,
             ]}
           >
             MAMMA
@@ -118,10 +112,7 @@ const InfoCard = () => {
           <Text
             style={[
               styles.buttonText,
-              selectedCategory === "Partner" && {
-                color: theme.colors.primary,
-                textDecorationLine: "underline",
-              },
+              selectedCategory === "Partner" && styles.activeButton,
             ]}
           >
             PARTNER
@@ -171,6 +162,10 @@ const styles = StyleSheet.create({
     fontFamily: "Oswald",
     color: theme.colors.accent,
     fontSize: 17,
+  },
+  activeButton: {
+    color: theme.colors.primary,
+    textDecorationLine: "underline",
   },
   bottomButtonsContainer: {
     flexDirection: "row",
