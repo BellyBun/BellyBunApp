@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
 import weekData from "../data/weeks.json";
 import theme from "../theme";
@@ -84,42 +84,46 @@ const InfoCard = () => {
   return (
     <View style={styles.container}>
       <View style={styles.topButtonsContainer}>
-        <Button
-          mode="text"
-          onPress={() => setSelectedCategory("Bebis")}
-          labelStyle={[
-            styles.buttonText,
-            selectedCategory === "Bebis" && {
-              color: theme.colors.primary,
-            },
-          ]}
-        >
-          BEBIS
-        </Button>
-        <Button
-          mode="text"
-          onPress={() => setSelectedCategory("Mamma")}
-          labelStyle={[
-            styles.buttonText,
-            selectedCategory === "Mamma" && {
-              color: theme.colors.primary,
-            },
-          ]}
-        >
-          MAMMA
-        </Button>
-        <Button
-          mode="text"
+        <TouchableWithoutFeedback onPress={() => setSelectedCategory("Bebis")}>
+          <Text
+            style={[
+              styles.buttonText,
+              selectedCategory === "Bebis" && {
+                color: theme.colors.primary,
+              },
+            ]}
+          >
+            BEBIS
+          </Text>
+        </TouchableWithoutFeedback>
+
+        <TouchableWithoutFeedback onPress={() => setSelectedCategory("Mamma")}>
+          <Text
+            style={[
+              styles.buttonText,
+              selectedCategory === "Mamma" && {
+                color: theme.colors.primary,
+              },
+            ]}
+          >
+            MAMMA
+          </Text>
+        </TouchableWithoutFeedback>
+
+        <TouchableWithoutFeedback
           onPress={() => setSelectedCategory("Partner")}
-          labelStyle={[
-            styles.buttonText,
-            selectedCategory === "Partner" && {
-              color: theme.colors.primary,
-            },
-          ]}
         >
-          PARTNER
-        </Button>
+          <Text
+            style={[
+              styles.buttonText,
+              selectedCategory === "Partner" && {
+                color: theme.colors.primary,
+              },
+            ]}
+          >
+            PARTNER
+          </Text>
+        </TouchableWithoutFeedback>
       </View>
 
       <Card style={{ width: "95%", backgroundColor: "#FAF8F4" }}>
