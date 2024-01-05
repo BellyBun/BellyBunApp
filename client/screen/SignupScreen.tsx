@@ -1,31 +1,29 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { StyleSheet, View } from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
-import { RootStackParamList } from "../RootNavigator";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { Formik } from "formik";
+import * as Yup from "yup";
 import { useAuth } from "../context/userContext";
-
-type FormData = {
-  email: string;
-  password: string;
-};
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../RootNavigator";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Signup">;
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  password: Yup.string().required("Password is required"),
+});
 
 export default function SignupScreen({ navigation }: Props) {
   const theme = useTheme();
   const { signUp } = useAuth();
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
-
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  const onSubmit = async (values: { email: string; password: string }) => {
     try {
-      await signUp(data.email, data.password);
-      alert("Registration successfull.");
+      const lowercaseEmail = values.email.toLowerCase();
+      await signUp(lowercaseEmail, values.password);
+      alert("Registration successful.");
+      navigation.navigate("Login");
     } catch (error) {
       console.error("Registration error:", error);
       alert("Registration failed. Please try again.");
@@ -37,56 +35,50 @@ export default function SignupScreen({ navigation }: Props) {
       <Text variant="displaySmall" style={{ color: theme.colors.background }}>
         Skapa ett nytt konto
       </Text>
-      <Controller
-        control={control}
-        name="email"
-        rules={{ required: "Mejladress är obligatoriskt" }}
-        render={({ field }) => (
+      <Formik
+        initialValues={{ email: "", password: "" }}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
           <>
             <TextInput
               label="Mejladress"
-              value={field.value}
-              onBlur={field.onBlur}
-              onChangeText={(value) => field.onChange(value)}
+              value={values.email}
+              onBlur={handleBlur("email")}
+              onChangeText={handleChange("email")}
               mode="outlined"
               style={styles.input}
             />
             {errors.email && (
-              <Text style={{ color: "red" }}>{errors.email.message}</Text>
+              <Text style={{ color: "red" }}>{errors.email}</Text>
             )}
-          </>
-        )}
-      />
 
-      <Controller
-        control={control}
-        name="password"
-        rules={{ required: "Ange ett lösenord" }}
-        render={({ field }) => (
-          <>
             <TextInput
               label="Lösenord"
-              value={field.value}
-              onChangeText={(value) => field.onChange(value)}
+              value={values.password}
+              onBlur={handleBlur("password")}
+              onChangeText={handleChange("password")}
               mode="outlined"
               secureTextEntry
               textContentType="password"
               style={styles.input}
             />
             {errors.password && (
-              <Text style={{ color: "red" }}>{errors.password.message}</Text>
+              <Text style={{ color: "red" }}>{errors.password}</Text>
             )}
+
+            <Button
+              mode="elevated"
+              buttonColor={theme.colors.background}
+              onPress={() => handleSubmit()}
+            >
+              Skapa konto
+            </Button>
           </>
         )}
-      />
+      </Formik>
 
-      <Button
-        mode="elevated"
-        buttonColor={theme.colors.background}
-        onPress={handleSubmit(onSubmit)}
-      >
-        Skapa konto
-      </Button>
       <Button mode="elevated" onPress={() => navigation.navigate("Home")}>
         Go to Home
       </Button>
