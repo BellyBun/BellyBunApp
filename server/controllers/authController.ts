@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import User, { IUser } from '../models/user';
 import argon2 from 'argon2';
-import * as Yup from 'yup';
+import { Request, Response } from 'express';
 import { Session } from 'express-session';
+import * as Yup from 'yup';
+import User, { IUser } from '../models/user';
 
 interface CustomSession extends Session {
   userId?: string | null;
@@ -11,7 +11,6 @@ interface CustomSession extends Session {
 }
 
 const registerSchema = Yup.object({
-  userName: Yup.string(),
   email: Yup.string().email().required(),
   password: Yup.string().required(),
 });
@@ -19,6 +18,10 @@ const registerSchema = Yup.object({
 const loginSchema = Yup.object({
   email: Yup.string().email().required(),
   password: Yup.string().required(),
+});
+
+const usernameSchema = Yup.object({
+  username: Yup.string().required(),
 });
 
 const authController = {
@@ -31,7 +34,7 @@ const authController = {
       if (existingUser) {
         return res
           .status(400)
-          .json({ error: 'Username (email) already exists' });
+          .json({ error: 'Email already exists' });
       }
 
       // Hash the password
@@ -85,8 +88,7 @@ login: async (req: Request, res: Response) => {
       user: {
         id: user._id.toString(),
         email: user.email,
-        name: user.name,
-        gender: user.gender,
+  
         // Add more user-related fields as needed
         babies: user.babies,
       },
@@ -98,46 +100,45 @@ login: async (req: Request, res: Response) => {
 },
 
 
-  addUserInfo: async (req: Request, res: Response) => {
-    try {
-      // Retrieve userId from the session
-      const customSession = req.session as CustomSession;
-      const userId = customSession.userId;
+addUsername: async (req: Request, res: Response) => {
+  try {
+    // Retrieve userId from the session
+    const customSession = req.session as CustomSession;
+    const userId = customSession.userId;
 
-      // Check if the user is logged in
-      if (!userId) {
-        return res.status(401).json({ error: 'User not logged in' });
-      }
-
-      const { name, gender } = req.body;
-
-      // Check if the user exists
-      const user = await User.findById(userId);
-
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-
-      // Update user information
-      if (name) {
-        user.name = name;
-      }
-
-      if (gender) {
-        user.gender = gender;
-      }
-
-      // Save the updated user to the database
-      await user.save();
-
-      res
-        .status(200)
-        .json({ message: 'User information updated successfully' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+    // Check if the user is logged in
+    if (!userId) {
+      return res.status(401).json({ error: 'User not logged in' });
     }
-  },
+
+    const { username } = await usernameSchema.validate(req.body);
+
+    // Check if the user exists
+    const user = await User.findById(userId);
+
+    if ( user && !user?.userName) {
+      user.userName = ""
+    }
+
+    const updatedUser = await User.findOneAndUpdate(
+      { userId: userId },
+      { $set: { userName: username } },
+      { new: true } // This option returns the modified document, if set to false it returns the original document
+    );
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Save the updated user to the database
+    await user.save();
+
+    res.status(201).json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+},
 
   signOut: async (req: Request, res: Response) => {
     try {

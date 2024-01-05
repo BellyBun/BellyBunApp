@@ -7,66 +7,58 @@ import * as Yup from "yup";
 import { RootStackParamList } from "../RootNavigator";
 import { useAuth } from "../context/userContext";
 
-type Props = NativeStackScreenProps<RootStackParamList, "Login">;
+type Props = NativeStackScreenProps<RootStackParamList, "Username">;
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().required("Mejladress är obligatoriskt"),
-  password: Yup.string().required("Ange ett lösenord"),
+  username: Yup.string().required("Username is required"),
 });
 
-export default function LoginScreen({ navigation }: Props) {
+export default function EnterUserNameScreen({ navigation }: Props) {
   const theme = useTheme();
-  const { signIn } = useAuth();
+  const { addUsername, user } = useAuth();
 
-  const onSubmit = async (values: { email: string; password: string }) => {
+  const onSubmit = async (values: { username: string }) => {
     try {
-      // Convert email to lowercase before calling signIn
-      const lowerCaseEmail = values.email.toLowerCase();
-      await signIn({ email: lowerCaseEmail, password: values.password });
-      alert("Login successful.");
-      navigation.navigate("Username");
+      // Check if the user is logged in
+      if (user) {
+        // Update user information with the entered username
+        await addUsername(values.username);
+        alert("Username successfully added.");
+        navigation.navigate("Role");
+      } else {
+        alert("User not logged in. Please log in first.");
+      }
     } catch (error) {
-      console.error("Login error:", error);
-      alert("Login failed. Please try again.");
+      console.error("Update username error:", error);
+      alert("Failed to update username. Please try again.");
     }
   };
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.primary }]}>
       <Text variant="displaySmall" style={{ color: theme.colors.background }}>
-        Logga in
+        Välkommen!
+      </Text>
+      <Text variant="titleMedium" style={{ color: theme.colors.background }}>
+        Vad heter du?
       </Text>
       <Formik
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ username: "" }}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
           <>
             <TextInput
-              label="Mejladress"
-              value={values.email}
+              label="Namn..."
+              value={values.username}
               onBlur={handleBlur("email")}
-              onChangeText={handleChange("email")}
+              onChangeText={handleChange("username")}
               mode="outlined"
               style={styles.input}
             />
-            {errors.email && (
-              <Text style={{ color: "red" }}>{errors.email}</Text>
-            )}
-
-            <TextInput
-              label="Lösenord"
-              value={values.password}
-              onBlur={handleBlur("password")}
-              onChangeText={handleChange("password")}
-              mode="outlined"
-              secureTextEntry
-              textContentType="password"
-              style={styles.input}
-            />
-            {errors.password && (
-              <Text style={{ color: "red" }}>{errors.password}</Text>
+            {errors.username && (
+              <Text style={{ color: "red" }}>{errors.username}</Text>
             )}
 
             <Button
@@ -74,7 +66,7 @@ export default function LoginScreen({ navigation }: Props) {
               buttonColor={theme.colors.background}
               onPress={() => handleSubmit()}
             >
-              Logga in
+              Fortsätt
             </Button>
           </>
         )}

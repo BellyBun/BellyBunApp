@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
-router.post('/add-info/:userId', authController.addUserInfo);  
+router.put('/add-username', authController.addUsername);  
 router.post('/create-baby/:userId', authController.createBaby); 
 router.post('/signout', authController.signOut);
 router.get('/users', authController.getAllUsers); // Add this line

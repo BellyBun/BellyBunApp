@@ -1,11 +1,13 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./screen/HomeScreen";
-import LoginScreen from "./screen/LoginScreen";
-import SignupScreen from "./screen/SignupScreen";
-import SettingsScreen from "./screen/SettingsScreen";
-import LoggedInScreen from "./screen/LoggedInScreen";
-import UserInfoScreen from "./screen/UserInfoScreen";
 import AddPregnancyScreen from "./screen/AddPregnancyScreen";
+import ChooseRoleScreen from "./screen/ChooseRoleScreen";
+import EnterUserNameScreen from "./screen/EnterUserNameScreen";
+import HomeScreen from "./screen/HomeScreen";
+import LoggedInScreen from "./screen/LoggedInScreen";
+import LoginScreen from "./screen/LoginScreen";
+import SettingsScreen from "./screen/SettingsScreen";
+import SignupScreen from "./screen/SignupScreen";
+import UserInfoScreen from "./screen/UserInfoScreen";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -15,6 +17,8 @@ export type RootStackParamList = {
   UserInfo: undefined;
   AddPregnancy: undefined;
   Settings: undefined;
+  Username: undefined;
+  Role: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -33,6 +37,8 @@ export default function RootNavigator() {
       <RootStack.Screen name="UserInfo" component={UserInfoScreen} />
       <RootStack.Screen name="AddPregnancy" component={AddPregnancyScreen} />
       <RootStack.Screen name="Settings" component={SettingsScreen} />
+      <RootStack.Screen name="Username" component={EnterUserNameScreen} />
+      <RootStack.Screen name="Role" component={ChooseRoleScreen} />
     </RootStack.Navigator>
   );
 }

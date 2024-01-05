@@ -3,7 +3,6 @@ POST http://localhost:3000/api/register
 Content-Type: application/json
 
 {
-  "userName": "addInfotest",
   "email": "test21@example.com",
   "password": "yourpassword"
 }
@@ -28,12 +27,11 @@ Content-Type: application/json
 }
 
 ### Update User Information
-POST http://localhost:3000/api/add-info/${userId}
+PUT http://localhost:3000/api/add-username
 Content-Type: application/json
 
 {
-  "name": "UpdatedName",
-  "gender": "UpdatedGender"
+  "userName": "Jennifer",
 }
 
 ### Get Due Date

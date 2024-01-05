@@ -12,8 +12,6 @@ export interface IUser extends Document {
   userName: string;
   email: string;
   password: string;
-  name?: string;
-  gender?: string;
   babies?: IBaby[];
 }
 
@@ -25,11 +23,9 @@ const BabySchema = new Schema<IBaby>({
 
 const UserSchema = new Schema<IUser>({
   userId: { type: String, required: false },
-  userName: { type: String, required: false },
+  userName: { type: String, required: false, unique: false, default:"" }, // Updated to make userName required and unique
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  name: String,
-  gender: String,
   babies: [BabySchema],
 });
 

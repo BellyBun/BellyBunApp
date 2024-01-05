@@ -1,11 +1,11 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Button, Text, TextInput, useTheme } from "react-native-paper";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { useAuth } from "../context/userContext";
-import { RootStackParamList } from "../RootNavigator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Formik } from "formik";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { Button, Text, TextInput, useTheme } from "react-native-paper";
+import * as Yup from "yup";
+import { RootStackParamList } from "../RootNavigator";
+import { useAuth } from "../context/userContext";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
 
 export default function UserInfoScreen({ navigation }: Props) {
   const theme = useTheme();
-  const { user, addUserInfo } = useAuth();
+  const { user, addUsername } = useAuth();
 
   // Render loading state while user data is being fetched
   if (user === null) {
@@ -48,7 +48,7 @@ export default function UserInfoScreen({ navigation }: Props) {
   const onSubmit = async (values: { userName: string; newEmail: string }) => {
     try {
       const userId = user.id;
-      await addUserInfo(userId, values);
+      // await addUsername(userId, values);
       alert("User information updated successfully.");
       // You can navigate or perform additional actions after updating user info
     } catch (error) {
