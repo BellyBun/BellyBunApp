@@ -4,13 +4,13 @@
     "slug": "BellyBunApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/bellyBunIcon.png",
     "userInterfaceStyle": "light",
 
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/iconwithtitle.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#A36361"
     },
     "assetBundlePatterns": ["assets/fonts/*"],
     "ios": {
@@ -23,7 +23,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/bellyBunIcon.png"
     }
   }
 }
