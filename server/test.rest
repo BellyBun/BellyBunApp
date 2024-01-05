@@ -23,7 +23,7 @@ POST http://localhost:3000/api/create-baby/${userId}
 Content-Type: application/json
 
 {
-  "babyName": "Baby2",
+  "babyName": "Vide",
   "dueDate": "2023-12-31"
 }
 
