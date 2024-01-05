@@ -99,9 +99,6 @@ export default function SettingsScreen({ navigation }: Props) {
         >
           Lägg till ny graviditet
         </Button>
-        <Button mode="elevated" onPress={() => navigation.navigate("Home")}>
-          Go to Home
-        </Button>
       </View>
     </SafeAreaView>
   );
