@@ -33,12 +33,26 @@ const PregnancyProgress = () => {
   return (
     <View style={styles.container}>
       <Svg height={2 * radius} width={2 * radius} style={{ marginTop: 60 }}>
+        {/* Circle for completed progress */}
         <Circle
           cx={radius}
           cy={radius}
-          r={radius - 30} // bredden på cirkeln
+          r={radius - 30}
           fill="none"
-          stroke="#FAF8F4"
+          stroke={theme.colors.accent}
+          strokeWidth="7"
+          strokeDasharray={circumference}
+          strokeDashoffset={0}
+          transform="rotate(-90, 80, 80)"
+        />
+
+        {/* Cirkel för avklarad tid */}
+        <Circle
+          cx={radius}
+          cy={radius}
+          r={radius - 30}
+          fill="none"
+          stroke={theme.colors.background}
           strokeWidth="7"
           strokeDasharray={circumference}
           strokeDashoffset={strokeDashoffset}
@@ -65,6 +79,7 @@ const styles = StyleSheet.create({
   progressText: {
     textAlign: "center",
     marginBottom: 10,
+    color: theme.colors.background,
   },
 });
 
