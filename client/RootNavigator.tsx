@@ -6,33 +6,74 @@ import SettingsScreen from "./screen/SettingsScreen";
 import LoggedInScreen from "./screen/LoggedInScreen";
 import UserInfoScreen from "./screen/UserInfoScreen";
 import AddPregnancyScreen from "./screen/AddPregnancyScreen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useAuth } from "./context/userContext";
 
-export type RootStackParamList = {
-  Home: undefined;
+export type NotLoggedInStackParamList = {
   Login: undefined;
   Signup: undefined;
-  LoggedIn: undefined;
-  UserInfo: undefined;
-  AddPregnancy: undefined;
-  Settings: undefined;
 };
 
-const RootStack = createNativeStackNavigator<RootStackParamList>();
+const NotLoggedInStack =
+  createNativeStackNavigator<NotLoggedInStackParamList>();
 
-export default function RootNavigator() {
+function NotLoggedInStackScreen() {
   return (
-    <RootStack.Navigator
+    <NotLoggedInStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <RootStack.Screen name="Home" component={HomeScreen} />
-      <RootStack.Screen name="Login" component={LoginScreen} />
-      <RootStack.Screen name="Signup" component={SignupScreen} />
-      <RootStack.Screen name="LoggedIn" component={LoggedInScreen} />
-      <RootStack.Screen name="UserInfo" component={UserInfoScreen} />
-      <RootStack.Screen name="AddPregnancy" component={AddPregnancyScreen} />
-      <RootStack.Screen name="Settings" component={SettingsScreen} />
-    </RootStack.Navigator>
+      <NotLoggedInStack.Screen name="Login" component={LoginScreen} />
+      <NotLoggedInStack.Screen name="Signup" component={SignupScreen} />
+    </NotLoggedInStack.Navigator>
+  );
+}
+
+export type LoggedInStackParamList = {
+  LoggedIn: undefined;
+  UserInfo: undefined;
+  AddPregnancy: undefined;
+};
+
+const LoggedInStack = createNativeStackNavigator<LoggedInStackParamList>();
+
+function LoggedInStackScreen() {
+  return (
+    <LoggedInStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <LoggedInStack.Screen name="LoggedIn" component={LoggedInScreen} />
+      <LoggedInStack.Screen name="UserInfo" component={UserInfoScreen} />
+      <LoggedInStack.Screen
+        name="AddPregnancy"
+        component={AddPregnancyScreen}
+      />
+    </LoggedInStack.Navigator>
+  );
+}
+
+export type RootTabParamList = {
+  Home: undefined;
+  Settings: undefined;
+};
+
+const Tab = createBottomTabNavigator<RootTabParamList>();
+
+export default function RootNavigator() {
+  const { user } = useAuth();
+
+  if (!user) {
+    // User not logged in, render login/signup stack
+    return <NotLoggedInStackScreen />;
+  }
+
+  return (
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+    </Tab.Navigator>
   );
 }
