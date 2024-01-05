@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Circle, Svg } from "react-native-svg";
+import theme from "../theme";
 
 const PregnancyProgress = () => {
   const [progress, setProgress] = useState(0);
@@ -37,8 +38,8 @@ const PregnancyProgress = () => {
           cy={radius}
           r={radius - 30} // bredden på cirkeln
           fill="none"
-          stroke="#735751"
-          strokeWidth="10"
+          stroke="#FAF8F4"
+          strokeWidth="7"
           strokeDasharray={circumference}
           strokeDashoffset={strokeDashoffset}
           transform="rotate(-90, 80, 80)"
@@ -53,9 +54,12 @@ const PregnancyProgress = () => {
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
+    height: 300,
     alignItems: "center",
     justifyContent: "center",
     padding: 16,
+    backgroundColor: theme.colors.primary,
   },
   progressText: {
     textAlign: "center",
