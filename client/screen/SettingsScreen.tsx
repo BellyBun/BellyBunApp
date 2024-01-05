@@ -4,6 +4,7 @@ import { Button, Text, useTheme } from "react-native-paper";
 import { SettingsStackParamList } from "../RootNavigator";
 import { useState } from "react";
 import { useAuth } from "../context/userContext";
+import { useBaby } from "../context/babyContext";
 
 type Props = NativeStackScreenProps<SettingsStackParamList, "Settings">;
 
@@ -12,13 +13,20 @@ export default function SettingsScreen({ navigation }: Props) {
   const [isFirstExpanded, setFirstExpanded] = useState(false);
   const [isSecondExpanded, setSecondExpanded] = useState(false);
   const { signOut } = useAuth();
+  const { babies, fetchBabies, setActiveBaby, activeBabyId } = useBaby();
 
-  const toggleFirstAccordion = () => {
+  const toggleFirstAccordion = async () => {
     setFirstExpanded(!isFirstExpanded);
+    if (!isFirstExpanded) {
+      await fetchBabies();
+    }
   };
-
   const toggleSecondAccordion = () => {
     setSecondExpanded(!isSecondExpanded);
+  };
+
+  const handleBabyPress = (babyId: string) => {
+    setActiveBaby(babyId);
   };
 
   return (
@@ -47,20 +55,16 @@ export default function SettingsScreen({ navigation }: Props) {
 
         {isFirstExpanded && (
           <>
-            <Button
-              mode="elevated"
-              onPress={() => console.log("Button 1 pressed")}
-              style={styles.listButton}
-            >
-              Billie
-            </Button>
-            <Button
-              mode="elevated"
-              onPress={() => console.log("Button 2 pressed")}
-              style={styles.listButton}
-            >
-              Hello
-            </Button>
+            {babies.map((baby) => (
+              <Button
+                key={baby.id}
+                mode={activeBabyId === baby.id ? "elevated" : "contained"} // Change the mode based on activeBaby
+                onPress={() => handleBabyPress(baby.id)}
+                style={styles.listButton}
+              >
+                {baby.name}
+              </Button>
+            ))}
           </>
         )}
 
@@ -131,6 +135,9 @@ const styles = StyleSheet.create({
   listButton: {
     marginTop: 5,
     width: 150,
+  },
+  activeButton: {
+    backgroundColor: "green", // Set your active button style
   },
   button: {
     borderBottomWidth: 1,
