@@ -1,14 +1,13 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ScrollView, StyleSheet, SafeAreaView } from "react-native";
-import { Button, Text, useTheme } from "react-native-paper";
-import { RootStackParamList } from "../RootNavigator";
+import { Text } from "react-native-paper";
+import { RootTabParamList } from "../RootNavigator";
 import InfoCard from "../components/InfoCard";
+import theme from "../theme";
 
-type Props = NativeStackScreenProps<RootStackParamList, "Home">;
+type Props = NativeStackScreenProps<RootTabParamList, "Home">;
 
 export default function HomeScreen({ navigation }: Props) {
-  const theme = useTheme();
-
   return (
     <SafeAreaView
       style={[
@@ -21,18 +20,6 @@ export default function HomeScreen({ navigation }: Props) {
           Home
         </Text>
 
-        <Button mode="contained" onPress={() => navigation.navigate("Login")}>
-          Login
-        </Button>
-        <Button mode="contained" onPress={() => navigation.navigate("Signup")}>
-          Signup
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate("Settings")}
-        >
-          Settings
-        </Button>
         <InfoCard />
       </ScrollView>
     </SafeAreaView>
