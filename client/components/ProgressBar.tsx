@@ -5,6 +5,9 @@ import theme from "../theme";
 
 const PregnancyProgress = () => {
   const [progress, setProgress] = useState(0);
+  const [currentWeek, setCurrentWeek] = useState(0);
+  const [daysPregnant, setDaysPregnant] = useState(0);
+  const [daysLeft, setDaysLeft] = useState(0);
 
   const currentDate = new Date("2024-01-01");
   const estimatedDueDate = new Date("2024-06-26");
@@ -17,6 +20,20 @@ const PregnancyProgress = () => {
       )
     );
 
+    const totalDaysPregnant = Math.floor(
+      Math.abs(
+        (estimatedDueDate.getTime() - currentDate.getTime()) /
+          (24 * 60 * 60 * 1000)
+      )
+    );
+
+    const remainingDays = Math.floor(
+      Math.abs(
+        (estimatedDueDate.getTime() - new Date().getTime()) /
+          (24 * 60 * 60 * 1000)
+      )
+    );
+
     const totalWeeksOfPregnancy = 40;
     const calculatedProgress =
       (gestationalAgeInWeeks / totalWeeksOfPregnancy) * 100;
@@ -24,6 +41,9 @@ const PregnancyProgress = () => {
     const clampedProgress = Math.min(100, Math.max(0, calculatedProgress));
 
     setProgress(clampedProgress);
+    setCurrentWeek(gestationalAgeInWeeks);
+    setDaysPregnant(totalDaysPregnant);
+    setDaysLeft(remainingDays);
   }, []);
 
   const radius = 90;
@@ -46,7 +66,7 @@ const PregnancyProgress = () => {
           transform="rotate(-90, 80, 80)"
         />
 
-        {/* Cirkel för avklarad tid */}
+        {/* Circle for completed time */}
         <Circle
           cx={radius}
           cy={radius}
@@ -62,6 +82,13 @@ const PregnancyProgress = () => {
       <Text style={styles.progressText}>
         {progress.toFixed(2)}% av graviditeten är avklarad!
       </Text>
+
+      {/* Three text blocks in a row */}
+      <View style={styles.rowContainer}>
+        <Text style={styles.rowText}>VECKA {currentWeek}</Text>
+        <Text style={styles.middleRowText}>DAG {daysPregnant}</Text>
+        <Text style={styles.rowText}>BF {daysLeft}</Text>
+      </View>
     </View>
   );
 };
@@ -80,6 +107,26 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
     color: theme.colors.background,
+  },
+  rowContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center", // Center items horizontally
+    width: "100%",
+    paddingHorizontal: 30,
+    marginTop: 10,
+  },
+  rowText: {
+    fontFamily: "Oswald",
+    color: theme.colors.background,
+    fontSize: 18,
+  },
+  middleRowText: {
+    fontFamily: "Oswald",
+    color: theme.colors.background,
+    fontSize: 18,
+    marginLeft: 10, // Add left margin
+    marginRight: 10, // Add right margin
   },
 });
 
