@@ -14,8 +14,8 @@ POST http://localhost:3000/api/login
 Content-Type: application/json
 
 {
-  "email": "test21@example.com",
-  "password": "yourpassword"
+  "email": "test26@test.com",
+  "password": "test26"
 }
 
 ### Create Baby
@@ -32,8 +32,8 @@ POST http://localhost:3000/api/add-info/${userId}
 Content-Type: application/json
 
 {
-  "name": "UpdatedName",
-  "gender": "UpdatedGender"
+  "name": "Bruce Wayne",
+  "gender": "Male"
 }
 
 ### Get Due Date

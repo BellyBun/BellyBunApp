@@ -82,7 +82,7 @@ export default function UserInfoScreen({ navigation }: Props) {
         Update User Info
       </Text>
       <Formik
-        initialValues={{ userName: user.userName || '', newEmail: user.email || '' }}
+        initialValues={{ userName: user.name || '', newEmail: user.email || '' }}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
