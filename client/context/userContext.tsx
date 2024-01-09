@@ -1,11 +1,17 @@
 // AuthContext.tsx
 import React, { createContext, useContext, ReactNode, useState } from 'react';
 
+interface Baby {
+  babyName: string;
+  dueDate: Date;
+}
+
 interface User {
   id: string;
   email: string;
-  userName?: string;
+  name?: string;
   dueDate?: Date;
+  babies?: Baby[];
   // Add more user-related fields as needed
 }
 
@@ -21,6 +27,9 @@ interface AuthContextProps {
   ) => Promise<void>;
   getDueDate: () => Promise<Date | null>;
   signOut: () => Promise<void>;
+  getPregnancyProgress: () => { week: number; remainingDays: number } | null;
+
+  
 }
 
 const AuthContext = createContext<AuthContextProps>({
@@ -31,6 +40,8 @@ const AuthContext = createContext<AuthContextProps>({
   addPregnancy: async () => {},
   getDueDate: async () => null,
   signOut: async () => {},
+  getPregnancyProgress: () => null,
+
 });
 
 interface AuthProviderProps {
@@ -39,6 +50,8 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [dueDate, setDueDate] = useState<Date | null>(null); // Add this line
+
 
   // Signup function
   const signUp = async (email: string, password: string) => {
@@ -178,7 +191,9 @@ const getDueDate = async () => {
     }
 
     const { dueDate } = await response.json();
-    return new Date(dueDate);
+    const parsedDueDate = new Date(dueDate);
+    setDueDate(parsedDueDate); // Update the state with the due date
+    return parsedDueDate;
   } catch (error) {
     console.error('Error during get due date:', error.message);
     throw error;
@@ -200,6 +215,35 @@ const signOut = async () => {
   setUser(null); // Clear user state after signing out
 };
 
+const getPregnancyProgress = (): { week: number; remainingDays: number } | null => {
+  if (user && user.babies && user.babies.length > 0) {
+    const targetBaby = user.babies[0]; // You might need to adjust this index based on your data structure
+
+    if (targetBaby && targetBaby.dueDate) {
+      const dueDateObject = new Date(targetBaby.dueDate);
+
+      if (isNaN(dueDateObject.getTime())) {
+        console.error('Invalid dueDate format:', targetBaby.dueDate);
+        return null;
+      }
+
+      const currentDate = new Date();
+
+      const differenceInMilliseconds = dueDateObject.getTime() - currentDate.getTime();
+      const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
+      const pregnancyWeek = Math.floor((currentDate.getDate() - dueDateObject.getDate()) / 7);
+      const remainingDays = Math.ceil(differenceInDays);
+
+      return { week: pregnancyWeek, remainingDays };
+    }
+  }
+
+  return null;
+};
+
+
+
+
 return (
   <AuthContext.Provider
     value={{
@@ -210,6 +254,7 @@ return (
       addPregnancy,
       getDueDate,
       signOut,
+      getPregnancyProgress,
     }}
   >
     {children}
@@ -224,4 +269,5 @@ if (!authContext) {
 }
 return authContext;
 };
+
 
