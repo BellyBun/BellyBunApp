@@ -72,6 +72,7 @@ const FollowPregnancyScreen = ({ navigation }: Props) => {
               mode="elevated"
               color={theme.colors.background}
               onPress={() => navigation.navigate("Home")}
+              style={styles.buttonContainer}
             >
               Följ
             </Button>
@@ -101,6 +102,10 @@ const styles = StyleSheet.create({
   input: {
     width: "60%",
     borderRadius: 100,
+  },
+  buttonContainer: {
+    marginVertical: 10,
+    width: "60%",
   },
 });
 
