@@ -14,9 +14,12 @@ export default function WelcomeScreen({ navigation }: Props) {
   if (user === null) {
     return (
       <View
-        style={[styles.container, { backgroundColor: theme.colors.background }]}
+        style={[styles.container, { backgroundColor: theme.colors.primary }]}
       >
-        <Text>Loading...</Text>
+        <Text>Inte inloggad</Text>
+        <Button mode="contained" onPress={() => navigation.navigate("Login")}>
+          Login
+        </Button>
       </View>
     );
   }
@@ -24,20 +27,30 @@ export default function WelcomeScreen({ navigation }: Props) {
   console.log("User object:", user);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.primary }]}>
+    <View style={styles.container}>
       {user && (
         <>
           <Text variant="displayMedium" style={styles.title}>
-            Välkommen, {user.email || "Guest"}!
+            Välkommen {user.email || "Guest"}!
           </Text>
         </>
       )}
 
-      <Button mode="elevated" onPress={() => navigation.navigate("UserInfo")}>
+      <Button
+        mode="elevated"
+        onPress={() => navigation.navigate("UserInfo")}
+        labelStyle={[styles.button]}
+        style={styles.buttonContainer}
+      >
         Ny graviditet
       </Button>
 
-      <Button mode="elevated" onPress={() => navigation.navigate("Home")}>
+      <Button
+        mode="elevated"
+        onPress={() => navigation.navigate("Home")}
+        labelStyle={[styles.button]}
+        style={styles.buttonContainer}
+      >
         Följ graviditet
       </Button>
     </View>
@@ -49,12 +62,22 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: theme.colors.primary,
   },
   title: {
     fontFamily: "Oswald",
     color: theme.colors.background,
+    textAlign: "center",
+    marginBottom: 50,
   },
   text: {
     fontFamily: "Overpass",
+  },
+  buttonContainer: {
+    marginVertical: 10, // Adjust the value to add desired vertical margin
+    width: "60%",
+  },
+  button: {
+    color: theme.colors.primary,
   },
 });
