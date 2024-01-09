@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
-import { Button, Text, TextInput, useTheme } from "react-native-paper";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { useAuth } from "../context/userContext";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Formik } from "formik";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Button, Text, TextInput, useTheme } from "react-native-paper";
+import * as Yup from "yup";
 import { RootStackParamList } from "../RootNavigator";
+import { useAuth } from "../context/userContext";
 
 type Props = NativeStackScreenProps<RootStackParamList, "AddPregnancy">;
 
@@ -49,8 +49,8 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.primary }]}>
-      <Text variant="displaySmall" style={{ color: theme.colors.background }}>
-        Add Pregnancy
+      <Text variant="displayMedium" style={styles.title}>
+        Lägg till graviditet
       </Text>
       <Formik
         initialValues={{ babyName: "", dueDate: new Date() }}
@@ -67,7 +67,7 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
         }) => (
           <>
             <TextInput
-              label="Baby Name"
+              label="Smeknamn"
               value={values.babyName}
               onBlur={handleBlur("babyName")}
               onChangeText={handleChange("babyName")}
@@ -125,6 +125,13 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 20,
   },
+  title: {
+    fontFamily: "Oswald",
+    color: "white",
+    textAlign: "center",
+    fontSize: 40,
+  },
+
   input: {
     width: "60%",
     borderRadius: 100,

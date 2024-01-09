@@ -2,7 +2,6 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import * as Yup from "yup";
 import { RootStackParamList } from "../RootNavigator";
@@ -45,7 +44,7 @@ const FollowPregnancyScreen = ({ navigation }: Props) => {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.primary }]}>
-      <Text variant="displaySmall" style={{ color: theme.colors.background }}>
+      <Text variant="displayMedium" style={styles.title}>
         Följ graviditet
       </Text>
       <Formik
@@ -56,33 +55,17 @@ const FollowPregnancyScreen = ({ navigation }: Props) => {
         {({
           handleChange,
           handleBlur,
-          handleSubmit,
+
           values,
-          errors,
-          setFieldValue,
         }) => (
           <>
             <TextInput
-              label="Baby Name"
+              label="Ange kod / id"
               value={values.babyName}
               onBlur={handleBlur("babyName")}
               onChangeText={handleChange("babyName")}
               mode="outlined"
               style={styles.input}
-            />
-
-            {errors.dueDate && (
-              <Text style={{ color: "red" }}>{String(errors.dueDate)}</Text>
-            )}
-
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={(date: Date) => {
-                setFieldValue("dueDate", date);
-                hideDatePicker();
-              }}
-              onCancel={hideDatePicker}
             />
 
             <Button
@@ -107,6 +90,14 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 20,
   },
+  title: {
+    fontFamily: "Oswald",
+    color: "white",
+    textAlign: "center",
+
+    fontSize: 40,
+  },
+
   input: {
     width: "60%",
     borderRadius: 100,

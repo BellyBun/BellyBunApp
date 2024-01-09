@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     color: theme.colors.background,
     textAlign: "center",
     marginBottom: 50,
-    fontSize: 20,
+    fontSize: 40,
   },
   text: {
     fontFamily: "Overpass",
