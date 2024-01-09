@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontFamily: "Overpass",
   },
   buttonContainer: {
-    marginVertical: 10, // Adjust the value to add desired vertical margin
+    marginVertical: 10,
     width: "60%",
   },
   button: {
