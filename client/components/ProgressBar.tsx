@@ -9,29 +9,24 @@ const PregnancyProgress = () => {
   const [daysPregnant, setDaysPregnant] = useState(0);
   const [daysLeft, setDaysLeft] = useState(0);
 
-  const currentDate = new Date("2024-01-01");
+  // Adjust estimatedDueDate as needed
   const estimatedDueDate = new Date("2024-06-26");
+  const currentDate = new Date();
 
   useEffect(() => {
     const gestationalAgeInWeeks = Math.floor(
-      Math.abs(
-        (estimatedDueDate.getTime() - currentDate.getTime()) /
-          (7 * 24 * 60 * 60 * 1000)
-      )
+      (estimatedDueDate.getTime() - currentDate.getTime()) /
+        (7 * 24 * 60 * 60 * 1000)
     );
 
     const totalDaysPregnant = Math.floor(
-      Math.abs(
-        (estimatedDueDate.getTime() - currentDate.getTime()) /
-          (24 * 60 * 60 * 1000)
-      )
+      (estimatedDueDate.getTime() - currentDate.getTime()) /
+        (24 * 60 * 60 * 1000)
     );
 
     const remainingDays = Math.floor(
-      Math.abs(
-        (estimatedDueDate.getTime() - new Date().getTime()) /
-          (24 * 60 * 60 * 1000)
-      )
+      (estimatedDueDate.getTime() - new Date().getTime()) /
+        (24 * 60 * 60 * 1000)
     );
 
     const totalWeeksOfPregnancy = 40;
