@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Signup function
   const signUp = async (username: string, email: string, password: string) => {
-    const response = await fetch("http://localhost:3000/api/register", {
+    const response = await fetch("http://localhost:3000/api/user/register", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -64,7 +64,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Signin function
   const signIn = async (values: { email: string; password: string }) => {
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
+      const response = await fetch("http://localhost:3000/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

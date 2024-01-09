@@ -17,6 +17,7 @@ interface BabyContextProps {
   activeBabyId: string | null;
   fetchBabies: () => Promise<void>;
   setActiveBaby: (babyId: string) => void;
+  addBaby: (babyData: { babyName: string; dueDate: Date }) => Promise<void>;
 }
 
 const BabyContext = createContext<BabyContextProps>({
@@ -24,6 +25,7 @@ const BabyContext = createContext<BabyContextProps>({
   activeBabyId: null,
   fetchBabies: async () => {},
   setActiveBaby: () => {},
+  addBaby: async () => {},
 });
 
 interface BabyProviderProps {
@@ -36,7 +38,7 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
 
   const fetchBabies = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/get-babies", {
+      const response = await fetch("http://localhost:3000/api/baby/get", {
         method: "GET",
         credentials: "include",
       });
@@ -54,13 +56,34 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
     }
   };
 
+  const addBaby = async (babyData: { babyName: string; dueDate: Date }) => {
+    try {
+      const response = await fetch("http://localhost:3000/api/baby/create", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(babyData),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error);
+      }
+    } catch (error) {
+      console.error("Error adding baby:", error.message);
+      throw error;
+    }
+  };
+
   const setActiveBaby = (babyId: string) => {
     setActiveBabyId(babyId);
   };
 
   return (
     <BabyContext.Provider
-      value={{ babies, activeBabyId, fetchBabies, setActiveBaby }}
+      value={{ babies, activeBabyId, fetchBabies, setActiveBaby, addBaby }}
     >
       {children}
     </BabyContext.Provider>
