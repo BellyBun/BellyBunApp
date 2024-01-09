@@ -1,7 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ScrollView, StyleSheet, SafeAreaView } from "react-native";
-import { Text } from "react-native-paper";
-import { HomeStackParamList, RootTabParamList } from "../RootNavigator";
+import { HomeStackParamList } from "../RootNavigator";
 import InfoCard from "../components/InfoCard";
 import PregnancyProgress from "../components/ProgressBar";
 import theme from "../theme";
@@ -17,10 +16,7 @@ export default function HomeScreen({ navigation }: Props) {
       ]}
     >
       <ScrollView contentContainerStyle={styles.container}>
-        <Text variant="displayLarge" style={styles.title}>
-          Home
-        </Text>
-
+        <PregnancyProgress />
         <InfoCard />
       </ScrollView>
     </SafeAreaView>
