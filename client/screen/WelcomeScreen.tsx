@@ -17,7 +17,12 @@ export default function WelcomeScreen({ navigation }: Props) {
         style={[styles.container, { backgroundColor: theme.colors.primary }]}
       >
         <Text>Inte inloggad</Text>
-        <Button mode="contained" onPress={() => navigation.navigate("Login")}>
+        <Button
+          mode="contained"
+          onPress={() => navigation.navigate("Login")}
+          labelStyle={[styles.button]}
+          style={styles.buttonContainer}
+        >
           Login
         </Button>
       </View>
