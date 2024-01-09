@@ -16,14 +16,13 @@ export default function WelcomeScreen({ navigation }: Props) {
       <View
         style={[styles.container, { backgroundColor: theme.colors.primary }]}
       >
-        <Text>Inte inloggad</Text>
         <Button
-          mode="contained"
+          mode="elevated"
           onPress={() => navigation.navigate("Login")}
           labelStyle={[styles.button]}
           style={styles.buttonContainer}
         >
-          Login
+          Logga in
         </Button>
       </View>
     );
@@ -43,7 +42,7 @@ export default function WelcomeScreen({ navigation }: Props) {
 
       <Button
         mode="elevated"
-        onPress={() => navigation.navigate("UserInfo")}
+        onPress={() => navigation.navigate("AddPregnancy")}
         labelStyle={[styles.button]}
         style={styles.buttonContainer}
       >
@@ -52,7 +51,7 @@ export default function WelcomeScreen({ navigation }: Props) {
 
       <Button
         mode="elevated"
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate("FollowPregnancy")}
         labelStyle={[styles.button]}
         style={styles.buttonContainer}
       >
