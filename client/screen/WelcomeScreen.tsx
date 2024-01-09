@@ -1,13 +1,15 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { ScrollView, StyleSheet, SafeAreaView } from "react-native";
-import { HomeStackParamList } from "../RootNavigator";
-import InfoCard from "../components/InfoCard";
-import PregnancyProgress from "../components/ProgressBar";
+import { StyleSheet, SafeAreaView, View } from "react-native";
+import { Text } from "react-native-paper";
+import { NotLoggedInStackParamList } from "../RootNavigator";
 import theme from "../theme";
+import { useAuth } from "../context/userContext";
 
-type Props = NativeStackScreenProps<HomeStackParamList, "Home">;
+type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Login">;
 
-export default function HomeScreen({ navigation }: Props) {
+export default function WelcomeScreen({ navigation }: Props) {
+  const { user } = useAuth();
+
   return (
     <SafeAreaView
       style={[
@@ -15,10 +17,11 @@ export default function HomeScreen({ navigation }: Props) {
         { backgroundColor: theme.colors.background },
       ]}
     >
-      <ScrollView contentContainerStyle={styles.container}>
-        <PregnancyProgress />
-        <InfoCard />
-      </ScrollView>
+      <View style={styles.container}>
+        <Text variant="displayLarge" style={styles.title}>
+          Welcome {user.username}
+        </Text>
+      </View>
     </SafeAreaView>
   );
 }
@@ -26,14 +29,12 @@ export default function HomeScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    marginTop: -140, // TODO: Fixa så att det inte är hårdkodat
   },
   container: {
     flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
     gap: 10,
-
     paddingBottom: 10,
   },
   title: {

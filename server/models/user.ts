@@ -9,11 +9,9 @@ export interface IBaby {
 
 export interface IUser extends Document {
   userId: string;
-  userName: string;
+  username: string;
   email: string;
   password: string;
-  name?: string;
-  gender?: string;
   babies?: IBaby[];
 }
 
@@ -25,11 +23,9 @@ const BabySchema = new Schema<IBaby>({
 
 const UserSchema = new Schema<IUser>({
   userId: { type: String, required: false },
-  userName: { type: String, required: false },
+  username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  name: String,
-  gender: String,
   babies: [BabySchema],
 });
 

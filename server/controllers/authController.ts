@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import User, { IUser } from '../models/user';
-import argon2 from 'argon2';
-import * as Yup from 'yup';
-import { Session } from 'express-session';
+import { Request, Response } from "express";
+import User, { IUser } from "../models/user";
+import argon2 from "argon2";
+import * as Yup from "yup";
+import { Session } from "express-session";
 
 interface CustomSession extends Session {
   userId?: string | null;
@@ -11,7 +11,7 @@ interface CustomSession extends Session {
 }
 
 const registerSchema = Yup.object({
-  userName: Yup.string(),
+  username: Yup.string().required(),
   email: Yup.string().email().required(),
   password: Yup.string().required(),
 });
@@ -24,14 +24,14 @@ const loginSchema = Yup.object({
 const authController = {
   register: async (req: Request, res: Response) => {
     try {
-      const { email, password } = await registerSchema.validate(req.body);
+      const { username, email, password } = await registerSchema.validate(
+        req.body
+      );
 
       // Check if the username (email) already exists
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        return res
-          .status(400)
-          .json({ error: 'Username (email) already exists' });
+        return res.status(400).json({ error: "Email already exists" });
       }
 
       // Hash the password
@@ -39,64 +39,61 @@ const authController = {
 
       // Create a new user
       const newUser: IUser = new User({
+        username,
         email,
         password: hashedPassword,
       });
 
       // Save the user to the database
       await newUser.save();
-      console.log('User registered successfully');
-      console.log('New User:', newUser); // Log the new user details
+      console.log("User registered successfully");
+      console.log("New User:", newUser); // Log the new user details
 
-      res.status(201).json({ message: 'User registered successfully' });
+      res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
-      console.error('Error during registration:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error("Error during registration:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
   // login controller
-login: async (req: Request, res: Response) => {
-  try {
-    const { email, password } = await loginSchema.validate(req.body);
+  login: async (req: Request, res: Response) => {
+    try {
+      const { email, password } = await loginSchema.validate(req.body);
 
-    // Find the user by email with all fields
-    const user = await User.findOne({ email });
+      // Find the user by email with all fields
+      const user = await User.findOne({ email });
 
-    // Check if the user exists
-    if (!user) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      // Check if the user exists
+      if (!user) {
+        return res.status(401).json({ error: "Invalid email or password" });
+      }
+
+      // Verify the password using Argon2
+      const isPasswordValid = await argon2.verify(user.password, password);
+
+      if (!isPasswordValid) {
+        return res.status(401).json({ error: "Invalid email or password" });
+      }
+
+      // Password is valid, set up the session
+      const customSession = req.session as CustomSession;
+      customSession.userId = user._id.toString(); // Store user ID in the session
+
+      // Password is valid, user is authenticated
+      res.status(200).json({
+        message: "Login successful",
+        user: {
+          id: user._id.toString(),
+          email: user.email,
+          babies: user.babies,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
-
-    // Verify the password using Argon2
-    const isPasswordValid = await argon2.verify(user.password, password);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
-
-    // Password is valid, set up the session
-    const customSession = req.session as CustomSession;
-    customSession.userId = user._id.toString(); // Store user ID in the session
-
-    // Password is valid, user is authenticated
-    res.status(200).json({
-      message: "Login successful",
-      user: {
-        id: user._id.toString(),
-        email: user.email,
-        name: user.name,
-        gender: user.gender,
-        // Add more user-related fields as needed
-        babies: user.babies,
-      },
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-},
-
+  },
 
   addUserInfo: async (req: Request, res: Response) => {
     try {
@@ -106,25 +103,14 @@ login: async (req: Request, res: Response) => {
 
       // Check if the user is logged in
       if (!userId) {
-        return res.status(401).json({ error: 'User not logged in' });
+        return res.status(401).json({ error: "User not logged in" });
       }
-
-      const { name, gender } = req.body;
 
       // Check if the user exists
       const user = await User.findById(userId);
 
       if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-
-      // Update user information
-      if (name) {
-        user.name = name;
-      }
-
-      if (gender) {
-        user.gender = gender;
+        return res.status(404).json({ error: "User not found" });
       }
 
       // Save the updated user to the database
@@ -132,10 +118,10 @@ login: async (req: Request, res: Response) => {
 
       res
         .status(200)
-        .json({ message: 'User information updated successfully' });
+        .json({ message: "User information updated successfully" });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
@@ -147,16 +133,16 @@ login: async (req: Request, res: Response) => {
 
       // If userId is not found, handle it accordingly
       if (!userId) {
-        return res.status(401).json({ error: 'User not logged in' });
+        return res.status(401).json({ error: "User not logged in" });
       }
 
       // Clear the user ID in the session
       customSession.userId = null;
 
-      res.status(200).json({ message: 'Logout successful' });
+      res.status(200).json({ message: "Logout successful" });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
@@ -168,7 +154,7 @@ login: async (req: Request, res: Response) => {
 
       // Check if the user is logged in
       if (!userId) {
-        return res.status(401).json({ error: 'User not logged in' });
+        return res.status(401).json({ error: "User not logged in" });
       }
 
       const { _id, babyName, dueDate } = req.body;
@@ -177,7 +163,7 @@ login: async (req: Request, res: Response) => {
       const user = await User.findById(userId);
 
       if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+        return res.status(404).json({ error: "User not found" });
       }
 
       // Create a new baby with MongoDB generating the _id
@@ -191,10 +177,10 @@ login: async (req: Request, res: Response) => {
 
       res
         .status(201)
-        .json({ message: 'Baby created successfully', babyId: newBaby._id });
+        .json({ message: "Baby created successfully", babyId: newBaby._id });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
@@ -204,14 +190,14 @@ login: async (req: Request, res: Response) => {
 
       // Check if the user is authenticated
       if (!customSession.userId) {
-        return res.status(401).json({ error: 'User not authenticated' });
+        return res.status(401).json({ error: "User not authenticated" });
       }
 
       const userId = customSession.userId;
       const user = await User.findById(userId);
 
       if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+        return res.status(404).json({ error: "User not found" });
       }
 
       // Assuming dueDate is stored in the first baby of the user (adjust as needed)
@@ -220,13 +206,13 @@ login: async (req: Request, res: Response) => {
       if (!dueDate) {
         return res
           .status(404)
-          .json({ error: 'Due date not found for the user' });
+          .json({ error: "Due date not found for the user" });
       }
 
       res.status(200).json({ dueDate });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
@@ -237,7 +223,7 @@ login: async (req: Request, res: Response) => {
       res.status(200).json(users);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
 };
