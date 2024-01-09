@@ -16,6 +16,10 @@ export default function WelcomeScreen({ navigation }: Props) {
       <View
         style={[styles.container, { backgroundColor: theme.colors.primary }]}
       >
+        <Text style={styles.title}>
+          Vänligen logga in eller skapa konto {"\n"}för att börja följa
+          graviditet
+        </Text>
         <Button
           mode="elevated"
           onPress={() => navigation.navigate("Login")}
@@ -23,6 +27,14 @@ export default function WelcomeScreen({ navigation }: Props) {
           style={styles.buttonContainer}
         >
           Logga in
+        </Button>
+        <Button
+          mode="elevated"
+          onPress={() => navigation.navigate("Signup")}
+          labelStyle={[styles.button]}
+          style={styles.buttonContainer}
+        >
+          Skapa konto
         </Button>
       </View>
     );
@@ -73,6 +85,7 @@ const styles = StyleSheet.create({
     color: theme.colors.background,
     textAlign: "center",
     marginBottom: 50,
+    fontSize: 20,
   },
   text: {
     fontFamily: "Overpass",
