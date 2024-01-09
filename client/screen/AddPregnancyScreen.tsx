@@ -7,6 +7,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useAuth } from "../context/userContext";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { SettingsStackParamList } from "../RootNavigator";
+import { useBaby } from "../context/babyContext";
 
 type Props = NativeStackScreenProps<SettingsStackParamList, "AddPregnancy">;
 
@@ -20,6 +21,7 @@ const validationSchema = Yup.object().shape({
 const AddPregnancyScreen = ({ navigation }: Props) => {
   const theme = useTheme();
   const { user, addPregnancy } = useAuth();
+  const { addBaby } = useBaby();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const showDatePicker = () => {
@@ -36,12 +38,12 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
   //   };
 
   const onSubmit = async (values: { babyName: string; dueDate: Date }) => {
-    try {
-      await addPregnancy(user?.id || "", values.babyName, values.dueDate);
-      console.log("Pregnancy added successfully");
-      // navigation.replace("Home");
+    console.log("Submit button clicked");
 
-      // You can navigate or perform additional actions after adding pregnancy
+    try {
+      await addBaby({ babyName: values.babyName, dueDate: values.dueDate });
+      console.log("Pregnancy added successfully");
+      alert("Pregnancy added successfully");
     } catch (error) {
       console.error("Add pregnancy error:", error);
       alert("Failed to add pregnancy. Please try again.");

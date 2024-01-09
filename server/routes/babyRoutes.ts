@@ -4,7 +4,7 @@ import { addPregnancy, getAllBabies } from "../controllers/babyController";
 
 const babyRouter = express.Router();
 
-babyRouter.post("/create", addPregnancy);
-babyRouter.get("/get-babies", getAllBabies);
+babyRouter.post("/api/baby/create", addPregnancy);
+babyRouter.get("/api/baby/get", getAllBabies);
 
 export default babyRouter;

@@ -1,13 +1,11 @@
 import { Request, Response } from "express";
-import User, { IUser } from "../models/user";
+import User, { IUser } from "../models/userModel";
 import argon2 from "argon2";
 import * as Yup from "yup";
 import { Session } from "express-session";
 
-interface CustomSession extends Session {
+export interface CustomSession extends Session {
   userId?: string | null;
-  // isAdmin?: boolean;
-  // isSignedIn?: boolean;
 }
 
 const registerSchema = Yup.object({
@@ -86,7 +84,6 @@ const authController = {
         user: {
           id: user._id.toString(),
           email: user.email,
-          babies: user.babies,
         },
       });
     } catch (error) {
