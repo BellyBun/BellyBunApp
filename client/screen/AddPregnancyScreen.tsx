@@ -5,10 +5,10 @@ import { StyleSheet, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import * as Yup from "yup";
-import { RootStackParamList } from "../RootNavigator";
+import { SettingsStackParamList } from "../RootNavigator";
 import { useAuth } from "../context/userContext";
 
-type Props = NativeStackScreenProps<RootStackParamList, "AddPregnancy">;
+type Props = NativeStackScreenProps<SettingsStackParamList, "AddPregnancy">;
 
 const validationSchema = Yup.object().shape({
   babyName: Yup.string(),
@@ -39,7 +39,8 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
     try {
       await addPregnancy(user?.id || "", values.babyName, values.dueDate);
       console.log("Pregnancy added successfully");
-      navigation.navigate("UserInfo");
+      // navigation.replace("Home");
+
       // You can navigate or perform additional actions after adding pregnancy
     } catch (error) {
       console.error("Add pregnancy error:", error);
@@ -110,10 +111,6 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
           </>
         )}
       </Formik>
-
-      <Button mode="elevated" onPress={() => navigation.navigate("Home")}>
-        Go to Home
-      </Button>
     </View>
   );
 };
