@@ -52,8 +52,8 @@ const PregnancyProgress = () => {
 
   return (
     <View style={styles.container}>
-      <Svg height={2 * radius} width={2 * radius} style={{ marginTop: 60 }}>
-        {/* Circle for completed progress */}
+      <Svg height={2 * radius} width={2 * radius} style={{ marginTop: 140 }}>
+        {/* Circle for remaining progress */}
         <Circle
           cx={radius}
           cy={radius}
@@ -80,7 +80,7 @@ const PregnancyProgress = () => {
         />
       </Svg>
       <Text style={styles.progressText}>
-        {progress.toFixed(2)}% av graviditeten är avklarad!
+        {progress.toFixed(2)} % {"\n"} av graviditeten är avklarad!
       </Text>
 
       {/* Three text blocks in a row */}
@@ -96,7 +96,7 @@ const PregnancyProgress = () => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 300,
+    height: 400,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: theme.colors.primary,
@@ -107,14 +107,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
     color: theme.colors.background,
+    fontFamily: "Oswald",
+    fontSize: 20,
   },
   rowContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center", // Center items horizontally
+    alignItems: "center",
     width: "100%",
     paddingHorizontal: 30,
     marginTop: 10,
+    marginBottom: 30,
   },
   rowText: {
     fontFamily: "Oswald",
@@ -125,8 +128,8 @@ const styles = StyleSheet.create({
     fontFamily: "Oswald",
     color: theme.colors.background,
     fontSize: 18,
-    marginLeft: 10, // Add left margin
-    marginRight: 10, // Add right margin
+    marginLeft: 10,
+    marginRight: 10,
   },
 });
 
