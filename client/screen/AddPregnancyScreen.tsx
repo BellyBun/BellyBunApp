@@ -4,7 +4,7 @@ import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { useAuth } from "../context/userContext";
+import { useUser } from "../context/userContext";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { SettingsStackParamList } from "../RootNavigator";
 
@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
 
 const AddPregnancyScreen = ({ navigation }: Props) => {
   const theme = useTheme();
-  const { user, addPregnancy } = useAuth();
+  const { user } = useUser();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const showDatePicker = () => {
@@ -36,16 +36,15 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
   //   };
 
   const onSubmit = async (values: { babyName: string; dueDate: Date }) => {
-    try {
-      await addPregnancy(user?.id || "", values.babyName, values.dueDate);
-      console.log("Pregnancy added successfully");
-      // navigation.replace("Home");
-
-      // You can navigate or perform additional actions after adding pregnancy
-    } catch (error) {
-      console.error("Add pregnancy error:", error);
-      alert("Failed to add pregnancy. Please try again.");
-    }
+    // try {
+    //   await addPregnancy(user?.id || "", values.babyName, values.dueDate);
+    //   console.log("Pregnancy added successfully");
+    //   // navigation.replace("Home");
+    //   // You can navigate or perform additional actions after adding pregnancy
+    // } catch (error) {
+    //   console.error("Add pregnancy error:", error);
+    //   alert("Failed to add pregnancy. Please try again.");
+    // }
   };
 
   return (
