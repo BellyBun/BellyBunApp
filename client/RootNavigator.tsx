@@ -1,15 +1,14 @@
+import { Ionicons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet } from "react-native";
+import { useAuth } from "./context/userContext";
+import AddPregnancyScreen from "./screen/AddPregnancyScreen";
 import HomeScreen from "./screen/HomeScreen";
 import LoginScreen from "./screen/LoginScreen";
-import SignupScreen from "./screen/SignupScreen";
 import SettingsScreen from "./screen/SettingsScreen";
-import AddPregnancyScreen from "./screen/AddPregnancyScreen";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useAuth } from "./context/userContext";
-import { StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import SignupScreen from "./screen/SignupScreen";
 import WelcomeScreen from "./screen/WelcomeScreen";
-import ShareScreen from "./screen/ShareScreen";
 
 export type NotLoggedInStackParamList = {
   Login: undefined;
@@ -104,7 +103,7 @@ export default function RootNavigator() {
     >
       <Tab.Screen
         name="Share"
-        component={ShareScreen}
+        component={WelcomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="share-outline" color={color} size={size} />

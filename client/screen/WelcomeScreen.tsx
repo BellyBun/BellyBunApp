@@ -1,9 +1,10 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { StyleSheet, SafeAreaView, View } from "react-native";
-import { Text } from "react-native-paper";
+import React from "react";
+import { SafeAreaView, StyleSheet, View } from "react-native";
+import { Button, Text } from "react-native-paper";
 import { NotLoggedInStackParamList } from "../RootNavigator";
-import theme from "../theme";
 import { useAuth } from "../context/userContext";
+import theme from "../theme";
 
 type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Login">;
 
@@ -11,16 +12,14 @@ export default function WelcomeScreen({ navigation }: Props) {
   const { user } = useAuth();
 
   return (
-    <SafeAreaView
-      style={[
-        styles.safeContainer,
-        { backgroundColor: theme.colors.background },
-      ]}
-    >
+    <SafeAreaView style={[styles.safeContainer]}>
       <View style={styles.container}>
-        <Text variant="displayLarge" style={styles.title}>
-          Welcome {user.username}
+        <Text variant="displayMedium" style={styles.title}>
+          {user ? `Welcome ${user.username}` : "Welcome"}
         </Text>
+        <Text style={styles.text}>Vad vill du göra?</Text>
+        <Button style={styles.button}>Ny graviditet</Button>
+        <Button style={styles.button}>Följ graviditet</Button>
       </View>
     </SafeAreaView>
   );
@@ -36,11 +35,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 10,
     paddingBottom: 10,
+    backgroundColor: theme.colors.primary,
   },
   title: {
     fontFamily: "Oswald",
+    color: theme.colors.background,
   },
   text: {
     fontFamily: "Overpass",
+    fontSize: 20,
+    color: theme.colors.background,
+  },
+  button: {
+    backgroundColor: theme.colors.background,
+    width: 200,
   },
 });
