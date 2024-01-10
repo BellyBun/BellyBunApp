@@ -4,7 +4,7 @@ import { UserModel } from "../models/user-model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const SECRET_KEY = "your_secret_key"; // Replace with a secure secret key
+const SECRET_KEY = "7QX5WDAePe";
 
 export function checkAuth(req: Request, res: Response) {
   const token = req.headers.authorization?.replace("Bearer ", "");
