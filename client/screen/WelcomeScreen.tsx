@@ -18,7 +18,15 @@ export default function WelcomeScreen({ navigation }: Props) {
           {user ? `Welcome ${user.username}` : "Welcome"}
         </Text>
         <Text style={styles.text}>Vad vill du göra?</Text>
-        <Button style={styles.button}>Ny graviditet</Button>
+        <Button
+          style={styles.button}
+          onPress={
+            () => navigation.navigate("Settings", { screen: "AddPregnancy" }) // Varför error? hjälp!
+          }
+        >
+          Ny graviditet
+        </Button>
+
         <Button style={styles.button}>Följ graviditet</Button>
       </View>
     </SafeAreaView>

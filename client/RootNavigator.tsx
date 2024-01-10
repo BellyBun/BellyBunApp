@@ -78,7 +78,7 @@ function HomeStackScreen() {
 export type RootTabParamList = {
   Share: undefined;
   Home: undefined;
-  Settings: undefined;
+  Settings: { screen?: string };
 };
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
