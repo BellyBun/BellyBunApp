@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useAuth } from "../context/userContext";
+import { useUser } from "../context/userContext";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { NotLoggedInStackParamList } from "../RootNavigator";
 import theme from "../theme";
@@ -18,7 +18,7 @@ const validationSchema = Yup.object().shape({
 
 export default function SignupScreen({ navigation }: Props) {
   const theme = useTheme();
-  const { signUp } = useAuth();
+  const { signup } = useUser();
 
   const onSubmit = async (values: {
     username: string;
@@ -27,7 +27,7 @@ export default function SignupScreen({ navigation }: Props) {
   }) => {
     try {
       const lowercaseEmail = values.email.toLowerCase();
-      await signUp(values.username, lowercaseEmail, values.password);
+      await signup(values.username, lowercaseEmail, values.password);
       alert("Registration successful.");
       navigation.navigate("Welcome");
     } catch (error) {

@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useAuth } from "../context/userContext";
+import { useUser } from "../context/userContext";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { NotLoggedInStackParamList } from "../RootNavigator";
 import theme from "../theme";
@@ -16,13 +16,13 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function LoginScreen({ navigation }: Props) {
-  const { signIn } = useAuth();
+  const { login } = useUser();
 
   const onSubmit = async (values: { email: string; password: string }) => {
     try {
       // Convert email to lowercase before calling signIn
       const lowerCaseEmail = values.email.toLowerCase();
-      await signIn({ email: lowerCaseEmail, password: values.password });
+      await login(lowerCaseEmail, values.password);
       alert("Login successful.");
     } catch (error) {
       console.error("Login error:", error);

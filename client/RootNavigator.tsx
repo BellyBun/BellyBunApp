@@ -5,7 +5,7 @@ import SignupScreen from "./screen/SignupScreen";
 import SettingsScreen from "./screen/SettingsScreen";
 import AddPregnancyScreen from "./screen/AddPregnancyScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useAuth } from "./context/userContext";
+import { useUser } from "./context/userContext";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import WelcomeScreen from "./screen/WelcomeScreen";
@@ -85,7 +85,7 @@ export type RootTabParamList = {
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
 export default function RootNavigator() {
-  const { user } = useAuth();
+  const { user } = useUser();
 
   if (!user) {
     return <NotLoggedInStackScreen />;
