@@ -59,6 +59,5 @@ export async function loginUser(req: Request, res: Response) {
 }
 
 export function signoutUser(req: Request, res: Response) {
-  req.session = null;
   res.status(204).json({ message: "Signout successful" });
 }
