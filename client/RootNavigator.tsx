@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet } from "react-native";
 import { useAuth } from "./context/userContext";
 import AddPregnancyScreen from "./screen/AddPregnancyScreen";
+import FollowPregnancyScreen from "./screen/FollowPregnancyScreen";
 import HomeScreen from "./screen/HomeScreen";
 import LoginScreen from "./screen/LoginScreen";
 import SettingsScreen from "./screen/SettingsScreen";
@@ -36,6 +37,7 @@ function NotLoggedInStackScreen() {
 export type SettingsStackParamList = {
   Settings: undefined;
   AddPregnancy: undefined;
+  FollowPregnancy: undefined;
 };
 
 const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
@@ -51,7 +53,10 @@ function SettingsStackScreen() {
       <SettingsStack.Screen
         name="AddPregnancy"
         component={AddPregnancyScreen}
-        options={{ headerShown: true }}
+      />
+      <SettingsStack.Screen
+        name="FollowPregnancy"
+        component={FollowPregnancyScreen}
       />
     </SettingsStack.Navigator>
   );

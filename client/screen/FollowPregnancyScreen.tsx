@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet, TextInput, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { NotLoggedInStackParamList } from "../RootNavigator";
 import { useAuth } from "../context/userContext";
@@ -8,33 +8,19 @@ import theme from "../theme";
 
 type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Login">;
 
-export default function WelcomeScreen({ navigation }: Props) {
+export default function FollowPregnancyScreen({ navigation }: Props) {
   const { user } = useAuth();
 
   return (
     <SafeAreaView style={[styles.safeContainer]}>
       <View style={styles.container}>
         <Text variant="displayMedium" style={styles.title}>
-          {user ? `Välkommen ${user.username}` : "Välkommen"}
-        </Text>
-        <Text style={styles.text}>Vad vill du göra?</Text>
-        <Button
-          style={styles.button}
-          onPress={
-            () => navigation.navigate("Settings", { screen: "AddPregnancy" }) // Varför error? hjälp!
-          }
-        >
-          Ny graviditet
-        </Button>
-
-        <Button
-          style={styles.button}
-          onPress={
-            () => navigation.navigate("Settings", { screen: "FollowPregnancy" }) // Varför error? hjälp!
-          }
-        >
           Följ graviditet
-        </Button>
+        </Text>
+        <Text style={styles.text}>Ange kod/länk/mail</Text>
+        <TextInput style={styles.input} mode="outlined" editable={true} />
+
+        <Button style={styles.button}>Följ graviditet</Button>
       </View>
     </SafeAreaView>
   );
@@ -60,6 +46,12 @@ const styles = StyleSheet.create({
     fontFamily: "Overpass",
     fontSize: 20,
     color: theme.colors.background,
+  },
+  input: {
+    width: "60%",
+    height: 40,
+    borderRadius: 5,
+    backgroundColor: theme.colors.background,
   },
   button: {
     backgroundColor: theme.colors.background,
