@@ -15,6 +15,8 @@ export type NotLoggedInStackParamList = {
   Login: undefined;
   Signup: undefined;
   Welcome: undefined;
+  AddPregnancy: undefined;
+  FollowPregnancy: undefined;
 };
 
 const NotLoggedInStack =
