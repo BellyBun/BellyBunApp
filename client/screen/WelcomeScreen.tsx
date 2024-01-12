@@ -14,27 +14,24 @@ export default function WelcomeScreen({ navigation }: Props) {
   return (
     <SafeAreaView style={[styles.safeContainer]}>
       <View style={styles.container}>
-        <View style={styles.topSection}>
-          <Text variant="displayMedium" style={styles.title}>
-            {user ? `Välkommen ${user.username}` : "Välkommen"}
-          </Text>
-          <Text style={styles.text}>Vad vill du göra?</Text>
-        </View>
-        <View style={styles.bottomSection}>
-          <Button
-            style={styles.button}
-            onPress={() => navigation.navigate("AddPregnancy")}
-          >
-            Ny graviditet
-          </Button>
+        <Text variant="displayMedium" style={styles.title}>
+          {user ? `Välkommen ${user.username}` : "Välkommen"}
+        </Text>
+        <Text style={styles.text}>Vad vill du göra?</Text>
 
-          <Button
-            style={styles.button}
-            onPress={() => navigation.navigate("FollowPregnancy")}
-          >
-            Följ graviditet
-          </Button>
-        </View>
+        <Button
+          style={styles.button}
+          onPress={() => navigation.navigate("AddPregnancy")}
+        >
+          Ny graviditet
+        </Button>
+
+        <Button
+          style={styles.button}
+          onPress={() => navigation.navigate("FollowPregnancy")}
+        >
+          Följ graviditet
+        </Button>
       </View>
     </SafeAreaView>
   );
@@ -51,26 +48,17 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: theme.colors.primary,
   },
-  topSection: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-  },
-  bottomSection: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 10,
-  },
+
   title: {
     fontFamily: "Oswald",
     color: theme.colors.background,
+    marginBottom: 10,
   },
   text: {
     fontFamily: "Overpass",
     fontSize: 20,
     color: theme.colors.background,
+    marginBottom: 10,
   },
   button: {
     backgroundColor: theme.colors.background,
