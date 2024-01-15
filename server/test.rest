@@ -13,7 +13,21 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-  "email": "goran@example.com",
-  "password": "yourpassword"
+  "email": "techel@gmail.com",
+  "password": "password"
 }
+
+### Create pregnancy
+POST http://localhost:3000/api/baby/create
+Content-Type: application/json
+
+{
+  "nickname": "Bamse",
+  "dueDate": "2024-01-25"
+}
+
+
+### Create pregnancy
+GET http://localhost:3000/api/baby/techel@gmail.com
+
 
