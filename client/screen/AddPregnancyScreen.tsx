@@ -6,8 +6,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import * as Yup from "yup";
 import { SettingsStackParamList } from "../RootNavigator";
-import { useUser } from "../context/userContext";
 import theme from "../theme";
+import { useBaby } from "../context/babyContext";
 
 type Props = NativeStackScreenProps<SettingsStackParamList, "AddPregnancy">;
 
