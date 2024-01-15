@@ -36,6 +36,31 @@ function NotLoggedInStackScreen() {
   );
 }
 
+export type WelcomeStackParamList = {
+  Welcome: undefined;
+  AddPregnancy: undefined;
+  FollowPregnancy: undefined;
+};
+
+const WelcomeStack = createNativeStackNavigator<WelcomeStackParamList>();
+
+function WelcomeStackScreen() {
+  return (
+    <WelcomeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <WelcomeStack.Screen name="Welcome" component={WelcomeScreen} />
+      <WelcomeStack.Screen name="AddPregnancy" component={AddPregnancyScreen} />
+      <WelcomeStack.Screen
+        name="FollowPregnancy"
+        component={FollowPregnancyScreen}
+      />
+    </WelcomeStack.Navigator>
+  );
+}
+
 export type SettingsStackParamList = {
   Settings: undefined;
   AddPregnancy: undefined;
@@ -110,7 +135,7 @@ export default function RootNavigator() {
     >
       <Tab.Screen
         name="Share"
-        component={WelcomeScreen}
+        component={WelcomeStackScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="share-outline" color={color} size={size} />

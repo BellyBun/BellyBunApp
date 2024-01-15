@@ -3,13 +3,13 @@ import React from "react";
 import { SafeAreaView, StyleSheet, TextInput, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { NotLoggedInStackParamList } from "../RootNavigator";
-import { useAuth } from "../context/userContext";
+import { useUser } from "../context/userContext";
 import theme from "../theme";
 
 type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Login">;
 
 export default function FollowPregnancyScreen({ navigation }: Props) {
-  const { user } = useAuth();
+  const { user } = useUser();
 
   return (
     <SafeAreaView style={[styles.safeContainer]}>
@@ -18,7 +18,7 @@ export default function FollowPregnancyScreen({ navigation }: Props) {
           Följ graviditet
         </Text>
         <Text style={styles.text}>Ange kod/länk/mail</Text>
-        <TextInput style={styles.input} mode="outlined" editable={true} />
+        <TextInput style={styles.input} editable={true} />
 
         <Button style={styles.button}>Följ graviditet</Button>
       </View>
