@@ -12,7 +12,7 @@ interface BabyContextProps {
   baby?: Baby;
   babies: Baby[];
   createPregnancy: (nickname: string, dueDate: Date) => Promise<void>;
-  getBabiesByUser: (userID: string) => Promise<void>;
+  getBabiesByUser: () => Promise<void>;
 }
 
 const BabyContext = createContext<BabyContextProps>({
