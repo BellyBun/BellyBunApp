@@ -5,6 +5,7 @@ import RootNavigator from "./RootNavigator";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { UserProvider } from "./context/userContext";
+import { BabyProvider } from "./context/babyContext";
 import { useFonts } from "expo-font";
 
 export default function App() {
@@ -22,9 +23,11 @@ export default function App() {
       <StatusBar style="auto" />
       <PaperProvider theme={theme}>
         <UserProvider>
-          <NavigationContainer>
-            <RootNavigator />
-          </NavigationContainer>
+          <BabyProvider>
+            <NavigationContainer>
+              <RootNavigator />
+            </NavigationContainer>
+          </BabyProvider>
         </UserProvider>
       </PaperProvider>
     </SafeAreaProvider>
