@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { NotLoggedInStackParamList } from "../RootNavigator";
 import { useUser } from "../context/userContext";
@@ -12,35 +12,30 @@ export default function WelcomeScreen({ navigation }: Props) {
   const { user } = useUser();
 
   return (
-    <SafeAreaView style={[styles.safeContainer]}>
-      <View style={styles.container}>
-        <Text variant="displayMedium" style={styles.title}>
-          {user ? `Välkommen ${user.username}` : "Välkommen"}
-        </Text>
-        <Text style={styles.text}>Vad vill du göra?</Text>
+    <View style={styles.container}>
+      <Text variant="displayMedium" style={styles.title}>
+        {user ? `Välkommen ${user.username}` : "Välkommen"}
+      </Text>
+      <Text style={styles.text}>Vad vill du göra?</Text>
 
-        <Button
-          style={styles.button}
-          onPress={() => navigation.navigate("AddPregnancy")}
-        >
-          Ny graviditet
-        </Button>
+      <Button
+        style={styles.button}
+        onPress={() => navigation.navigate("AddPregnancy")}
+      >
+        Ny graviditet
+      </Button>
 
-        <Button
-          style={styles.button}
-          onPress={() => navigation.navigate("FollowPregnancy")}
-        >
-          Följ graviditet
-        </Button>
-      </View>
-    </SafeAreaView>
+      <Button
+        style={styles.button}
+        onPress={() => navigation.navigate("FollowPregnancy")}
+      >
+        Följ graviditet
+      </Button>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeContainer: {
-    flex: 1,
-  },
   container: {
     flex: 1,
     alignItems: "center",

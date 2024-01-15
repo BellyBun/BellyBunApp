@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
-import { SafeAreaView, StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { NotLoggedInStackParamList } from "../RootNavigator";
 import { useUser } from "../context/userContext";
@@ -12,24 +12,19 @@ export default function FollowPregnancyScreen({ navigation }: Props) {
   const { user } = useUser();
 
   return (
-    <SafeAreaView style={[styles.safeContainer]}>
-      <View style={styles.container}>
-        <Text variant="displayMedium" style={styles.title}>
-          Följ graviditet
-        </Text>
-        <Text style={styles.text}>Ange kod/länk/mail</Text>
-        <TextInput style={styles.input} editable={true} />
+    <View style={styles.container}>
+      <Text variant="displayMedium" style={styles.title}>
+        Följ graviditet
+      </Text>
+      <Text style={styles.text}>Ange kod/länk/mail</Text>
+      <TextInput style={styles.input} editable={true} />
 
-        <Button style={styles.button}>Följ graviditet</Button>
-      </View>
-    </SafeAreaView>
+      <Button style={styles.button}>Följ graviditet</Button>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeContainer: {
-    flex: 1,
-  },
   container: {
     flexGrow: 1,
     alignItems: "center",
