@@ -2,28 +2,6 @@ import { Request, Response } from "express";
 import { assert } from "../errorHandler";
 import { UserModel } from "../models/user-model";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-
-const SECRET_KEY = "7QX5WDAePe";
-
-// export function checkAuth(req: Request, res: Response) {
-//   const token = req.headers.authorization?.replace("Bearer ", "");
-
-//   if (!token) {
-//     return res.status(204).json({ success: false, user: null });
-//   }
-
-//   try {
-//     const decoded = jwt.verify(token, SECRET_KEY) as {
-//       _id: string;
-//       email: string;
-//     };
-
-//     res.status(200).json({ success: true, user: decoded });
-//   } catch (err) {
-//     res.status(204).json({ success: false, user: null });
-//   }
-// }
 
 export async function createUser(req: Request, res: Response) {
   const { email } = req.body;
@@ -37,9 +15,10 @@ export async function createUser(req: Request, res: Response) {
   const user = await UserModel.create(req.body);
   await user.save();
 
-  const token = jwt.sign({ _id: user.id, email: user.email }, SECRET_KEY);
+  const userResponse: any = user.toObject();
+  delete userResponse.password;
 
-  res.status(201).json({ _id: user.id, email: user.email, token });
+  return res.status(201).json(userResponse);
 }
 
 export async function loginUser(req: Request, res: Response) {
@@ -52,13 +31,26 @@ export async function loginUser(req: Request, res: Response) {
 
   assert(passwordMatch, 401, "Invalid email or password");
 
-  const token = jwt.sign({ _id: user!.id, email: user!.email }, SECRET_KEY, {
-    expiresIn: "7d",
-  });
+  req.session!.user = {
+    _id: user!.id,
+    email: user!.email,
+  };
 
-  res.status(200).json({ _id: user!.id, email: user!.email, token });
+  res.status(200).json({
+    _id: user!.id,
+    email: user!.email,
+  });
 }
 
 export function signoutUser(req: Request, res: Response) {
+  req.session = null;
   res.status(204).json({ message: "Signout successful" });
+}
+
+export function checkAuth(req: Request, res: Response) {
+  if (req.session && req.session.user) {
+    res.status(200).json({ success: true, user: req.session.user });
+  } else {
+    res.status(204).json({ success: false, user: null });
+  }
 }
