@@ -4,6 +4,7 @@ import { Button, Text, useTheme } from "react-native-paper";
 import { SettingsStackParamList } from "../RootNavigator";
 import { useState } from "react";
 import { useUser } from "../context/userContext";
+import { useBaby } from "../context/babyContext";
 
 type Props = NativeStackScreenProps<SettingsStackParamList, "Settings">;
 
@@ -12,6 +13,7 @@ export default function SettingsScreen({ navigation }: Props) {
   const [isFirstExpanded, setFirstExpanded] = useState(false);
   const [isSecondExpanded, setSecondExpanded] = useState(false);
   const { signout } = useUser();
+  const { babies } = useBaby();
 
   const toggleFirstAccordion = () => {
     setFirstExpanded(!isFirstExpanded);
@@ -45,22 +47,20 @@ export default function SettingsScreen({ navigation }: Props) {
           </View>
         </TouchableOpacity>
 
-        {isFirstExpanded && (
+        {isFirstExpanded && babies.length > 0 && (
           <>
-            <Button
-              mode="elevated"
-              onPress={() => console.log("Button 1 pressed")}
-              style={styles.listButton}
-            >
-              Billie
-            </Button>
-            <Button
-              mode="elevated"
-              onPress={() => console.log("Button 2 pressed")}
-              style={styles.listButton}
-            >
-              Hello
-            </Button>
+            {babies.map((baby) => (
+              <Button
+                key={baby._id}
+                mode="elevated"
+                onPress={() =>
+                  console.log(`Button for baby ${baby.nickname} pressed`)
+                }
+                style={styles.listButton}
+              >
+                {baby.nickname}
+              </Button>
+            ))}
           </>
         )}
 
