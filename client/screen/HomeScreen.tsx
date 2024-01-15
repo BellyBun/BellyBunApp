@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { ScrollView, StyleSheet, SafeAreaView } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import { HomeStackParamList } from "../RootNavigator";
 import InfoCard from "../components/InfoCard";
 import PregnancyProgress from "../components/ProgressBar";

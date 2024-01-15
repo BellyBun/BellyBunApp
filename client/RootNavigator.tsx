@@ -1,20 +1,22 @@
+import { Ionicons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet } from "react-native";
+import { useUser } from "./context/userContext";
+import AddPregnancyScreen from "./screen/AddPregnancyScreen";
+import FollowPregnancyScreen from "./screen/FollowPregnancyScreen";
 import HomeScreen from "./screen/HomeScreen";
 import LoginScreen from "./screen/LoginScreen";
-import SignupScreen from "./screen/SignupScreen";
 import SettingsScreen from "./screen/SettingsScreen";
-import AddPregnancyScreen from "./screen/AddPregnancyScreen";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useUser } from "./context/userContext";
-import { StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import SignupScreen from "./screen/SignupScreen";
 import WelcomeScreen from "./screen/WelcomeScreen";
-import ShareScreen from "./screen/ShareScreen";
 
 export type NotLoggedInStackParamList = {
   Login: undefined;
   Signup: undefined;
   Welcome: undefined;
+  AddPregnancy: undefined;
+  FollowPregnancy: undefined;
 };
 
 const NotLoggedInStack =
@@ -34,9 +36,35 @@ function NotLoggedInStackScreen() {
   );
 }
 
+export type WelcomeStackParamList = {
+  Welcome: undefined;
+  AddPregnancy: undefined;
+  FollowPregnancy: undefined;
+};
+
+const WelcomeStack = createNativeStackNavigator<WelcomeStackParamList>();
+
+function WelcomeStackScreen() {
+  return (
+    <WelcomeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <WelcomeStack.Screen name="Welcome" component={WelcomeScreen} />
+      <WelcomeStack.Screen name="AddPregnancy" component={AddPregnancyScreen} />
+      <WelcomeStack.Screen
+        name="FollowPregnancy"
+        component={FollowPregnancyScreen}
+      />
+    </WelcomeStack.Navigator>
+  );
+}
+
 export type SettingsStackParamList = {
   Settings: undefined;
   AddPregnancy: undefined;
+  FollowPregnancy: undefined;
 };
 
 const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
@@ -52,7 +80,10 @@ function SettingsStackScreen() {
       <SettingsStack.Screen
         name="AddPregnancy"
         component={AddPregnancyScreen}
-        options={{ headerShown: true }}
+      />
+      <SettingsStack.Screen
+        name="FollowPregnancy"
+        component={FollowPregnancyScreen}
       />
     </SettingsStack.Navigator>
   );
@@ -79,7 +110,7 @@ function HomeStackScreen() {
 export type RootTabParamList = {
   Share: undefined;
   Home: undefined;
-  Settings: undefined;
+  Settings: { screen?: string };
 };
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -104,7 +135,7 @@ export default function RootNavigator() {
     >
       <Tab.Screen
         name="Share"
-        component={ShareScreen}
+        component={WelcomeStackScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="share-outline" color={color} size={size} />
