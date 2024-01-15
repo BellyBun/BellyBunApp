@@ -1,10 +1,12 @@
 import { Router } from "express";
-import userRouter from "./user-routes";
-import { createPregnancy } from "../controllers/baby-controller";
-import { authenticateUser } from "../middlewares/authenticate";
+import {
+  createPregnancy,
+  getBabiesByUser,
+} from "../controllers/baby-controller";
 
 export const babyRouter = Router();
 
-userRouter.post("/api/baby/create", authenticateUser, createPregnancy);
+babyRouter.post("/api/baby/create", createPregnancy);
+babyRouter.get("/api/baby/:email", getBabiesByUser);
 
 export default babyRouter;
