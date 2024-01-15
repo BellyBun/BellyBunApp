@@ -3,13 +3,13 @@ import React from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { NotLoggedInStackParamList } from "../RootNavigator";
-import { useAuth } from "../context/userContext";
+import { useUser } from "../context/userContext";
 import theme from "../theme";
 
 type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Login">;
 
 export default function WelcomeScreen({ navigation }: Props) {
-  const { user } = useAuth();
+  const { user } = useUser();
 
   return (
     <SafeAreaView style={[styles.safeContainer]}>

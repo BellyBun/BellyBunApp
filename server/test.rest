@@ -1,47 +1,19 @@
 ### Register User
-POST http://localhost:3000/api/register
+POST http://localhost:3000/api/users/create
 Content-Type: application/json
 
 {
-  "userName": "addInfotest",
-  "email": "test21@example.com",
+  "username": "Göran",
+  "email": "goran@example.com",
   "password": "yourpassword"
 }
-
 
 ### Login User
-POST http://localhost:3000/api/login
+POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-  "email": "test21@example.com",
+  "email": "goran@example.com",
   "password": "yourpassword"
 }
 
-### Create Baby
-POST http://localhost:3000/api/create-baby/${userId}
-Content-Type: application/json
-
-{
-  "babyName": "Baby2",
-  "dueDate": "2023-12-31"
-}
-
-### Update User Information
-POST http://localhost:3000/api/add-info/${userId}
-Content-Type: application/json
-
-{
-  "name": "UpdatedName",
-  "gender": "UpdatedGender"
-}
-
-### Get Due Date
-GET http://localhost:3000/api/get-due-date/{userId}
-
-### Logout User
-POST http://localhost:3000/api/signout
-
-
-### Get All Users
-GET http://localhost:3000/api/users

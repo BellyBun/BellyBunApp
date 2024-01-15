@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Button, Text, useTheme } from "react-native-paper";
 import { SettingsStackParamList } from "../RootNavigator";
 import { useState } from "react";
-import { useAuth } from "../context/userContext";
+import { useUser } from "../context/userContext";
 
 type Props = NativeStackScreenProps<SettingsStackParamList, "Settings">;
 
@@ -11,7 +11,7 @@ export default function SettingsScreen({ navigation }: Props) {
   const theme = useTheme();
   const [isFirstExpanded, setFirstExpanded] = useState(false);
   const [isSecondExpanded, setSecondExpanded] = useState(false);
-  const { signOut } = useAuth();
+  const { signout } = useUser();
 
   const toggleFirstAccordion = () => {
     setFirstExpanded(!isFirstExpanded);
@@ -81,7 +81,7 @@ export default function SettingsScreen({ navigation }: Props) {
             <Button
               mode="text"
               onPress={() => {
-                signOut;
+                signout();
               }}
               style={styles.listButton}
               textColor={theme.colors.background}

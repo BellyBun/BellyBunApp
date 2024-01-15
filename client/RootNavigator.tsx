@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet } from "react-native";
-import { useAuth } from "./context/userContext";
+import { useUser } from "./context/userContext";
 import AddPregnancyScreen from "./screen/AddPregnancyScreen";
 import FollowPregnancyScreen from "./screen/FollowPregnancyScreen";
 import HomeScreen from "./screen/HomeScreen";
@@ -91,7 +91,7 @@ export type RootTabParamList = {
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
 export default function RootNavigator() {
-  const { user } = useAuth();
+  const { user } = useUser();
 
   if (!user) {
     return <NotLoggedInStackScreen />;

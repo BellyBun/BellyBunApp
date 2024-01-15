@@ -4,7 +4,7 @@ import theme from "./theme";
 import RootNavigator from "./RootNavigator";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
-import { AuthProvider } from "./context/userContext";
+import { UserProvider } from "./context/userContext";
 import { useFonts } from "expo-font";
 
 export default function App() {
@@ -21,11 +21,11 @@ export default function App() {
     <SafeAreaProvider>
       <StatusBar style="auto" />
       <PaperProvider theme={theme}>
-        <AuthProvider>
+        <UserProvider>
           <NavigationContainer>
             <RootNavigator />
           </NavigationContainer>
-        </AuthProvider>
+        </UserProvider>
       </PaperProvider>
     </SafeAreaProvider>
   );
