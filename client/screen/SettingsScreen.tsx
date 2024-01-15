@@ -13,7 +13,7 @@ export default function SettingsScreen({ navigation }: Props) {
   const [isFirstExpanded, setFirstExpanded] = useState(false);
   const [isSecondExpanded, setSecondExpanded] = useState(false);
   const { signout } = useUser();
-  const { babies } = useBaby();
+  const { babies, setActiveBaby } = useBaby();
 
   const toggleFirstAccordion = () => {
     setFirstExpanded(!isFirstExpanded);
@@ -21,6 +21,15 @@ export default function SettingsScreen({ navigation }: Props) {
 
   const toggleSecondAccordion = () => {
     setSecondExpanded(!isSecondExpanded);
+  };
+
+  const handleBabyPress = async (id: string) => {
+    try {
+      await setActiveBaby(id);
+      console.log(`Button for baby ${id} pressed`);
+    } catch (error) {
+      console.error("Error setting active baby:", error);
+    }
   };
 
   return (
@@ -52,10 +61,8 @@ export default function SettingsScreen({ navigation }: Props) {
             {babies.map((baby) => (
               <Button
                 key={baby._id}
-                mode="elevated"
-                onPress={() =>
-                  console.log(`Button for baby ${baby.nickname} pressed`)
-                }
+                mode={baby.isActive ? "elevated" : "outlined"}
+                onPress={() => handleBabyPress(baby._id)}
                 style={styles.listButton}
               >
                 {baby.nickname}
