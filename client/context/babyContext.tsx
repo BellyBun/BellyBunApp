@@ -93,6 +93,17 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
 
       if (response.ok) {
         const updatedBaby = await response.json();
+
+        // Update the local state for all babies
+        setBabies((prevBabies) =>
+          prevBabies.map((baby) =>
+            baby._id === updatedBaby._id
+              ? { ...baby, isActive: updatedBaby.isActive }
+              : baby
+          )
+        );
+
+        // Update the local state for the active baby
         setBaby(updatedBaby);
       } else {
         const errorData = await response.json();
