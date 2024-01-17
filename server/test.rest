@@ -17,17 +17,23 @@ Content-Type: application/json
   "password": "password"
 }
 
-### Create pregnancy
+### Create Pregnancy
 POST http://localhost:3000/api/baby/create
 Content-Type: application/json
 
 {
-  "nickname": "Bamse",
+  "nickname": "Göran",
   "dueDate": "2024-01-25"
 }
 
-
-### Create pregnancy
+### Get Babies By User
 GET http://localhost:3000/api/baby/techel@gmail.com
 
 
+### Set Active Baby
+PUT http://localhost:3000/api/baby/setActive/65a53ef474ae5c2f8b738f23
+Content-Type: application/json
+
+{
+  "isActive": true
+}

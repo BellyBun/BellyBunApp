@@ -11,6 +11,12 @@ export async function createPregnancy(req: Request, res: Response) {
 
   const userId = req.session.user._id;
 
+  // Deactivate all existing active babies for the user
+  await BabyModel.updateMany(
+    { userId, isActive: true },
+    { $set: { isActive: false } }
+  );
+
   const babyData = {
     ...req.body,
     userId: userId,
@@ -39,4 +45,36 @@ export async function getBabiesByUser(req: Request, res: Response) {
   const babies = await BabyModel.find({ userId: user?._id }).populate("userId");
 
   res.json(babies);
+}
+
+export async function setActiveBaby(req: Request, res: Response) {
+  if (!req.session || !req.session.user || !req.session.user._id) {
+    return res.status(401).json({ message: "Unauthorized. Please log in." });
+  }
+
+  const babyId = req.params.id;
+
+  try {
+    // Deactivate all babies for the user
+    await BabyModel.updateMany(
+      { userId: req.session.user._id },
+      { $set: { isActive: false } }
+    );
+
+    // Set the specified baby as active
+    const updatedBaby = await BabyModel.findByIdAndUpdate(
+      babyId,
+      { $set: { isActive: true } },
+      { new: true }
+    );
+
+    if (!updatedBaby) {
+      return res.status(404).json({ message: "Baby not found" });
+    }
+
+    return res.json(updatedBaby);
+  } catch (error) {
+    console.error("Error setting active baby:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
 }
