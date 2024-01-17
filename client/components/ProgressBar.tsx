@@ -49,8 +49,9 @@ const PregnancyProgress = () => {
     <View style={styles.container}>
       <AnimatedCircularProgress
         size={180}
-        width={3}
+        width={7}
         fill={progress}
+        dashedBackground={{ width: 2, gap: 5 }}
         rotation={0}
         tintColor="#00e0ff"
         backgroundColor="#3d5875"
