@@ -13,7 +13,7 @@ export default function SettingsScreen({ navigation }: Props) {
   const [isFirstExpanded, setFirstExpanded] = useState(false);
   const [isSecondExpanded, setSecondExpanded] = useState(false);
   const { signout } = useUser();
-  const { babies, setActiveBaby, baby } = useBaby();
+  const { babies, setActiveBaby } = useBaby();
 
   const toggleFirstAccordion = () => {
     setFirstExpanded(!isFirstExpanded);
@@ -31,7 +31,6 @@ export default function SettingsScreen({ navigation }: Props) {
       console.error("Error setting active baby:", error);
     }
   };
-
   return (
     <SafeAreaView
       style={[styles.safeContainer, { backgroundColor: theme.colors.primary }]}
@@ -56,20 +55,26 @@ export default function SettingsScreen({ navigation }: Props) {
           </View>
         </TouchableOpacity>
 
-        {isFirstExpanded && babies.length > 0 && (
-          <>
-            {babies.map((babyItem) => (
-              <Button
-                key={babyItem._id}
-                mode={babyItem._id === baby?._id ? "elevated" : "outlined"}
-                onPress={() => handleBabyPress(babyItem._id)}
-                style={styles.listButton}
-              >
-                {babyItem.nickname}
-              </Button>
-            ))}
-          </>
-        )}
+        {babies.map((baby) => (
+          <Button
+            key={baby._id}
+            mode={baby.isActive ? "elevated" : "outlined"}
+            onPress={() => handleBabyPress(baby._id)}
+            style={[
+              styles.listButton,
+              !baby.isActive && {
+                borderColor: theme.colors.background,
+              },
+            ]}
+            labelStyle={{
+              color: !baby.isActive
+                ? theme.colors.background
+                : theme.colors.primary,
+            }}
+          >
+            {baby.nickname}
+          </Button>
+        ))}
 
         {/* Inställningar Accordion */}
         <TouchableOpacity onPress={toggleSecondAccordion} activeOpacity={0.8}>
