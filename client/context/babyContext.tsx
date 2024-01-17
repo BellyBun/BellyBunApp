@@ -5,6 +5,7 @@ export interface Baby {
   _id: string;
   nickname: string;
   dueDate: Date;
+  isActive: boolean;
   userId: string;
 }
 
@@ -13,6 +14,7 @@ interface BabyContextProps {
   babies: Baby[];
   createPregnancy: (nickname: string, dueDate: Date) => Promise<void>;
   getBabiesByUser: () => Promise<void>;
+  setActiveBaby: (id: string) => Promise<void>;
 }
 
 const BabyContext = createContext<BabyContextProps>({
@@ -20,6 +22,7 @@ const BabyContext = createContext<BabyContextProps>({
   babies: [],
   createPregnancy: async () => {},
   getBabiesByUser: async () => {},
+  setActiveBaby: async () => {},
 });
 
 interface BabyProviderProps {
@@ -75,6 +78,31 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
     }
   };
 
+  const setActiveBaby = async (id: string) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/baby/setActive/${id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        // Fetch the updated baby list after setting the active baby
+        await getBabiesByUser();
+      } else {
+        const errorData = await response.json();
+        throw new Error(JSON.stringify(errorData));
+      }
+    } catch (error) {
+      console.error("Error setting active baby:", error);
+    }
+  };
+
   useEffect(() => {
     // Fetch babies when the user changes
     getBabiesByUser();
@@ -87,6 +115,7 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
         babies,
         createPregnancy,
         getBabiesByUser,
+        setActiveBaby,
       }}
     >
       {children}
