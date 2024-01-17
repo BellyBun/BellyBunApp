@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Circle, Svg } from "react-native-svg";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
 import theme from "../theme";
 
 const PregnancyProgress = () => {
@@ -47,36 +47,16 @@ const PregnancyProgress = () => {
 
   return (
     <View style={styles.container}>
-      <Svg height={2 * radius} width={2 * radius} style={{ marginTop: 140 }}>
-        {/* Circle for remaining progress */}
-        <Circle
-          cx={radius}
-          cy={radius}
-          r={radius - 30}
-          fill="none"
-          stroke={theme.colors.accent}
-          strokeWidth="7"
-          strokeDasharray={circumference}
-          strokeDashoffset={0}
-          transform="rotate(-90, 80, 80)"
-        />
-
-        {/* Circle for completed time */}
-        <Circle
-          cx={radius}
-          cy={radius}
-          r={radius - 30}
-          fill="none"
-          stroke={theme.colors.background}
-          strokeWidth="7"
-          strokeDasharray={circumference}
-          strokeDashoffset={strokeDashoffset}
-          transform="rotate(-90, 80, 80)"
-        />
-      </Svg>
-      <Text style={styles.progressText}>
-        {progress.toFixed(2)} % {"\n"} av graviditeten är avklarad!
-      </Text>
+      <AnimatedCircularProgress
+        size={180}
+        width={3}
+        fill={progress}
+        rotation={0}
+        tintColor="#00e0ff"
+        backgroundColor="#3d5875"
+      >
+        {(fill) => <Text>{progress}</Text>}
+      </AnimatedCircularProgress>
 
       {/* Three text blocks in a row */}
       <View style={styles.rowContainer}>
