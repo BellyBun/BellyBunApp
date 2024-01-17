@@ -54,27 +54,30 @@ export default function SettingsScreen({ navigation }: Props) {
             </Text>
           </View>
         </TouchableOpacity>
-
-        {babies.map((baby) => (
-          <Button
-            key={baby._id}
-            mode={baby.isActive ? "elevated" : "outlined"}
-            onPress={() => handleBabyPress(baby._id)}
-            style={[
-              styles.listButton,
-              !baby.isActive && {
-                borderColor: theme.colors.background,
-              },
-            ]}
-            labelStyle={{
-              color: !baby.isActive
-                ? theme.colors.background
-                : theme.colors.primary,
-            }}
-          >
-            {baby.nickname}
-          </Button>
-        ))}
+        {isFirstExpanded && babies.length > 0 && (
+          <>
+            {babies.map((baby) => (
+              <Button
+                key={baby._id}
+                mode={baby.isActive ? "elevated" : "outlined"}
+                onPress={() => handleBabyPress(baby._id)}
+                style={[
+                  styles.listButton,
+                  !baby.isActive && {
+                    borderColor: theme.colors.background,
+                  },
+                ]}
+                labelStyle={{
+                  color: !baby.isActive
+                    ? theme.colors.background
+                    : theme.colors.primary,
+                }}
+              >
+                {baby.nickname}
+              </Button>
+            ))}
+          </>
+        )}
 
         {/* Inställningar Accordion */}
         <TouchableOpacity onPress={toggleSecondAccordion} activeOpacity={0.8}>
