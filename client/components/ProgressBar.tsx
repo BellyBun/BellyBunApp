@@ -53,10 +53,15 @@ const PregnancyProgress = () => {
         fill={progress}
         dashedBackground={{ width: 2, gap: 5 }}
         rotation={0}
-        tintColor="#00e0ff"
-        backgroundColor="#3d5875"
+        tintColor="#FAF8F4"
+        backgroundColor="#FAF8F4"
+        duration={1500}
       >
-        {(fill) => <Text>{progress}</Text>}
+        {(fill) => (
+          <Text style={styles.progressText}>
+            {progress.toFixed(1)}%{"\n"}färdigbakad!
+          </Text>
+        )}
       </AnimatedCircularProgress>
 
       {/* Three text blocks in a row */}
