@@ -8,8 +8,6 @@ const PregnancyProgress = () => {
   const [currentWeek, setCurrentWeek] = useState(0);
   const [daysPregnant, setDaysPregnant] = useState(0);
   const [daysLeft, setDaysLeft] = useState(0);
-
-  // Adjust estimatedDueDate as needed
   const estimatedDueDate = new Date("2024-06-26");
   const currentDate = new Date();
 
