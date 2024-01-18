@@ -78,3 +78,53 @@ export async function setActiveBaby(req: Request, res: Response) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
+
+export async function shareFollowBaby(req: Request, res: Response) {
+  try {
+    const babyId = req.params.id;
+
+    const baby = await BabyModel.findOne({
+      $or: [
+        { _id: babyId },
+        { "userId._id": babyId },
+      ],
+    });
+
+    if (!baby) {
+      return res.status(404).json({ message: "Baby not found" });
+    }
+
+    const followBabyCode = baby.userId._id || baby.userId; // Use baby.userId if it directly contains the user ID
+    console.log("Follow Baby Code:", followBabyCode);
+
+    return res.status(200).json({ followBabyCode });
+  } catch (error) {
+    console.error("Error sharing baby code:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export async function followBaby(req: Request, res: Response) {
+  try {
+    const followBabyCode = req.params.code;
+
+    const baby = await BabyModel.findOne({
+      $or: [
+        { userId: followBabyCode },
+        { "userId._id": followBabyCode },
+      ],
+    });
+
+    if (!baby) {
+      return res.status(400).json({ message: "Baby not found" });
+    }
+
+    console.log("Baby found for followBabyCode:", followBabyCode, baby);
+
+    return res.status(200).json(baby);
+  } catch (error) {
+    console.error("Error following baby:", error);
+    return res.status(500).json({ message: "Internal server error follow baby" });
+  }
+}
+
