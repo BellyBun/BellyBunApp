@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
+import getPregnancyData from "../components/CalculatePregnancy";
 import theme from "../theme";
 
 const PregnancyProgress = () => {
@@ -8,35 +9,19 @@ const PregnancyProgress = () => {
   const [currentWeek, setCurrentWeek] = useState(0);
   const [daysPregnant, setDaysPregnant] = useState(0);
   const [daysLeft, setDaysLeft] = useState(0);
-  const estimatedDueDate = new Date("2024-06-26");
-  const currentDate = new Date();
 
   useEffect(() => {
-    const gestationalAgeInWeeks = Math.floor(
-      (estimatedDueDate.getTime() - currentDate.getTime()) /
-        (7 * 24 * 60 * 60 * 1000)
-    );
+    const {
+      formattedStartDate,
+      percentageComplete,
+      weekOfPregnancy,
+      totalDaysPregnant,
+    } = getPregnancyData();
 
-    const totalDaysPregnant = Math.floor(
-      (estimatedDueDate.getTime() - currentDate.getTime()) /
-        (24 * 60 * 60 * 1000)
-    );
-
-    const remainingDays = Math.floor(
-      (estimatedDueDate.getTime() - new Date().getTime()) /
-        (24 * 60 * 60 * 1000)
-    );
-
-    const totalWeeksOfPregnancy = 40;
-    const calculatedProgress =
-      (gestationalAgeInWeeks / totalWeeksOfPregnancy) * 100;
-
-    const clampedProgress = Math.min(100, Math.max(0, calculatedProgress));
-
-    setProgress(clampedProgress);
-    setCurrentWeek(gestationalAgeInWeeks);
+    setProgress(percentageComplete);
+    setCurrentWeek(weekOfPregnancy);
     setDaysPregnant(totalDaysPregnant);
-    setDaysLeft(remainingDays);
+    setDaysLeft(280 - totalDaysPregnant); // Assuming 280 days pregnancy duration
   }, []);
 
   const radius = 90;
