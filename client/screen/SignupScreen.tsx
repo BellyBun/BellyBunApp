@@ -5,10 +5,10 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useUser } from "../context/userContext";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { NotLoggedInStackParamList } from "../RootNavigator";
+import { NotLoggedInStackParamList, WelcomeStackParamList } from "../RootNavigator";
 import theme from "../theme";
 
-type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Login">;
+type Props = NativeStackScreenProps<WelcomeStackParamList, "Welcome">;
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
@@ -88,7 +88,7 @@ export default function SignupScreen({ navigation }: Props) {
             <Text style={styles.text}>
               Har du redan ett konto? Logga in{" "}
               <Text
-                onPress={() => navigation.navigate("Login")}
+                onPress={() => navigation.navigate("Welcome")}
                 style={styles.textButton}
               >
                 här
