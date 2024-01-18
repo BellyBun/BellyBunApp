@@ -1,4 +1,4 @@
-function getPregnancyData() {
+export default function getPregnancyData() {
   const dueDate = "2024-04-01";
   const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
   const today = new Date();
@@ -15,6 +15,11 @@ function getPregnancyData() {
   console.log("How many percent is done:", percentageComplete + "%");
   console.log("Week of pregnancy:", weekOfPregnancy);
   console.log("Total days pregnant:", totalDaysPregnant);
-  return totalDaysPregnant;
+  return {
+    totalDaysPregnant,
+    percentageComplete,
+    weekOfPregnancy,
+    formattedStartDate,
+  };
 }
 getPregnancyData();
