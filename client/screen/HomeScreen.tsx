@@ -5,7 +5,7 @@ import InfoCard from "../components/InfoCard";
 import PregnancyProgress from "../components/ProgressBar";
 import theme from "../theme";
 
-type Props = NativeStackScreenProps<HomeStackParamList, "Home">;
+type Props = NativeStackScreenProps<HomeStackParamList, "HomeStack">;
 
 export default function HomeScreen({ navigation }: Props) {
   return (

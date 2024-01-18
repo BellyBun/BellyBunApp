@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { NotLoggedInStackParamList } from "../RootNavigator";
@@ -20,14 +20,14 @@ export default function WelcomeScreen({ navigation }: Props) {
 
       <Button
         style={styles.button}
-        onPress={() => navigation.navigate("AddPregnancy")}
+        // onPress={() => navigation.navigate("AddPregnancy")}
       >
         Ny graviditet
       </Button>
 
       <Button
         style={styles.button}
-        onPress={() => navigation.navigate("FollowPregnancy")}
+        // onPress={() => navigation.navigate("FollowPregnancy")}
       >
         Följ graviditet
       </Button>
