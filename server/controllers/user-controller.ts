@@ -34,15 +34,18 @@ export async function loginUser(req: Request, res: Response) {
   req.session!.user = {
     _id: user!.id,
     email: user!.email,
+    username: user!.username,
   };
 
   res.status(200).json({
     _id: user!.id,
     email: user!.email,
+    username: user!.username,
   });
 }
 
 export function signoutUser(req: Request, res: Response) {
+  console.log("Signing out user:", req.session?.user);
   req.session = null;
   res.status(204).json({ message: "Signout successful" });
 }

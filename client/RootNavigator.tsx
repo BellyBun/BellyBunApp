@@ -10,13 +10,13 @@ import LoginScreen from "./screen/LoginScreen";
 import SettingsScreen from "./screen/SettingsScreen";
 import SignupScreen from "./screen/SignupScreen";
 import WelcomeScreen from "./screen/WelcomeScreen";
+import { useEffect } from "react";
 
 export type NotLoggedInStackParamList = {
   Login: undefined;
   Signup: undefined;
-  Welcome: undefined;
-  AddPregnancy: undefined;
-  FollowPregnancy: undefined;
+  // AddPregnancy: undefined;
+  // FollowPregnancy: undefined;
 };
 
 const NotLoggedInStack =
@@ -31,13 +31,12 @@ function NotLoggedInStackScreen() {
     >
       <NotLoggedInStack.Screen name="Login" component={LoginScreen} />
       <NotLoggedInStack.Screen name="Signup" component={SignupScreen} />
-      <NotLoggedInStack.Screen name="Welcome" component={WelcomeScreen} />
     </NotLoggedInStack.Navigator>
   );
 }
 
 export type WelcomeStackParamList = {
-  Welcome: undefined;
+  WelcomeStack: undefined;
   AddPregnancy: undefined;
   FollowPregnancy: undefined;
 };
@@ -45,13 +44,20 @@ export type WelcomeStackParamList = {
 const WelcomeStack = createNativeStackNavigator<WelcomeStackParamList>();
 
 function WelcomeStackScreen() {
+  const { user } = useUser();
+
+  useEffect(() => {
+    console.log("User in welcomestackScreen:", user);
+  }, [user]);
+
+
   return (
     <WelcomeStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <WelcomeStack.Screen name="Welcome" component={WelcomeScreen} />
+      <WelcomeStack.Screen name="WelcomeStack" component={WelcomeScreen} />
       <WelcomeStack.Screen name="AddPregnancy" component={AddPregnancyScreen} />
       <WelcomeStack.Screen
         name="FollowPregnancy"
@@ -62,9 +68,9 @@ function WelcomeStackScreen() {
 }
 
 export type SettingsStackParamList = {
-  Settings: undefined;
-  AddPregnancy: undefined;
-  FollowPregnancy: undefined;
+  SettingsStack: undefined;
+  // AddPregnancy: undefined;
+  // FollowPregnancy: undefined;
 };
 
 const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
@@ -76,21 +82,21 @@ function SettingsStackScreen() {
         headerShown: false,
       }}
     >
-      <SettingsStack.Screen name="Settings" component={SettingsScreen} />
-      <SettingsStack.Screen
+      <SettingsStack.Screen name="SettingsStack" component={SettingsScreen} />
+      {/* <SettingsStack.Screen
         name="AddPregnancy"
         component={AddPregnancyScreen}
       />
       <SettingsStack.Screen
         name="FollowPregnancy"
         component={FollowPregnancyScreen}
-      />
+      /> */}
     </SettingsStack.Navigator>
   );
 }
 
 export type HomeStackParamList = {
-  Home: undefined;
+  HomeStack: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
@@ -102,7 +108,7 @@ function HomeStackScreen() {
         headerShown: false,
       }}
     >
-      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="HomeStack" component={HomeScreen} />
     </HomeStack.Navigator>
   );
 }
@@ -119,12 +125,14 @@ export default function RootNavigator() {
   const { user } = useUser();
 
   if (!user) {
+    console.log("user in if state root:", user)
     return <NotLoggedInStackScreen />;
   }
 
   return (
     <Tab.Navigator
       initialRouteName="Home"
+      id="HomeId"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: "white",
@@ -164,6 +172,7 @@ export default function RootNavigator() {
     </Tab.Navigator>
   );
 }
+
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: "#A36361",
