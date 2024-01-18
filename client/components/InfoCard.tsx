@@ -16,14 +16,12 @@ const InfoCard = () => {
   const handlePreviousWeek = () => {
     if (currentWeekIndex > 0) {
       setSelectedCategory("Bebis");
-      setShowFullText(false);
     }
   };
 
   const handleNextWeek = () => {
     if (currentWeekIndex < weekData.length - 1) {
       setSelectedCategory("Bebis");
-      setShowFullText(false);
     }
   };
 
