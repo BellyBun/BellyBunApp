@@ -1,10 +1,10 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import * as Yup from "yup";
-import { NotLoggedInStackParamList } from "../RootNavigator";
+import { NotLoggedInStackParamList, RootTabParamList } from "../RootNavigator";
 import { useUser } from "../context/userContext";
 import theme from "../theme";
 
