@@ -3,8 +3,8 @@ POST http://localhost:3000/api/users/create
 Content-Type: application/json
 
 {
-  "username": "Speedy Gonzales",
-  "email": "speed@test.com",
+  "username": "Mommy Gonzales",
+  "email": "speedmom@test.com",
   "password": "batman"
 }
 
@@ -13,7 +13,7 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-  "email": "speed@test.com",
+  "email": "speedmom@test.com",
   "password": "batman"
 }
 
@@ -27,7 +27,7 @@ Content-Type: application/json
 }
 
 ### Get Babies By User
-GET http://localhost:3000/api/baby/speed@test.com
+GET http://localhost:3000/api/baby/speedmom@test.com
 
 
 ### Set Active Baby
@@ -39,7 +39,7 @@ Content-Type: application/json
 }
 
 ### Follow Baby
-POST http://localhost:3000/api/baby/follow/65a92633329a5c86283ead95
+POST http://localhost:3000/api/baby/follow/65a9265a329a5c86283ead9a
 Content-Type: application/json
 
 ### Share Follow Code
