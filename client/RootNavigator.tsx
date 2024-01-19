@@ -10,13 +10,11 @@ import LoginScreen from "./screen/LoginScreen";
 import SettingsScreen from "./screen/SettingsScreen";
 import SignupScreen from "./screen/SignupScreen";
 import WelcomeScreen from "./screen/WelcomeScreen";
-import { useEffect } from "react";
+import ShareScreen from "./screen/ShareScreen";
 
 export type NotLoggedInStackParamList = {
   Login: undefined;
   Signup: undefined;
-  // AddPregnancy: undefined;
-  // FollowPregnancy: undefined;
 };
 
 const NotLoggedInStack =
@@ -41,15 +39,29 @@ export type WelcomeStackParamList = {
   FollowPregnancy: undefined;
 };
 
+export type ShareStackParamList = {
+  Share: undefined;
+};
+
+const ShareStack = createNativeStackNavigator<ShareStackParamList>();
+
+function ShareStackScreen() {
+  return (
+    <ShareStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <ShareStack.Screen name="Share" component={ShareScreen} />
+    </ShareStack.Navigator>
+  );
+}
+
 const WelcomeStack = createNativeStackNavigator<WelcomeStackParamList>();
 
+//Let this be: it will be used with conditional rendering later
 function WelcomeStackScreen() {
   const { user } = useUser();
-
-  useEffect(() => {
-    console.log("User in welcomestackScreen:", user);
-  }, [user]);
-
 
   return (
     <WelcomeStack.Navigator
@@ -58,19 +70,14 @@ function WelcomeStackScreen() {
       }}
     >
       <WelcomeStack.Screen name="WelcomeStack" component={WelcomeScreen} />
-      <WelcomeStack.Screen name="AddPregnancy" component={AddPregnancyScreen} />
-      <WelcomeStack.Screen
-        name="FollowPregnancy"
-        component={FollowPregnancyScreen}
-      />
     </WelcomeStack.Navigator>
   );
 }
 
 export type SettingsStackParamList = {
-  SettingsStack: undefined;
-  // AddPregnancy: undefined;
-  // FollowPregnancy: undefined;
+  Settings: undefined;
+  AddPregnancy: undefined;
+  FollowPregnancy: undefined;
 };
 
 const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
@@ -78,25 +85,26 @@ const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
 function SettingsStackScreen() {
   return (
     <SettingsStack.Navigator
+      initialRouteName="Settings"
       screenOptions={{
         headerShown: false,
       }}
     >
-      <SettingsStack.Screen name="SettingsStack" component={SettingsScreen} />
-      {/* <SettingsStack.Screen
+      <SettingsStack.Screen name="Settings" component={SettingsScreen} />
+      <SettingsStack.Screen
         name="AddPregnancy"
         component={AddPregnancyScreen}
       />
       <SettingsStack.Screen
         name="FollowPregnancy"
         component={FollowPregnancyScreen}
-      /> */}
+      />
     </SettingsStack.Navigator>
   );
 }
 
 export type HomeStackParamList = {
-  HomeStack: undefined;
+  Home: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
@@ -108,15 +116,15 @@ function HomeStackScreen() {
         headerShown: false,
       }}
     >
-      <HomeStack.Screen name="HomeStack" component={HomeScreen} />
+      <HomeStack.Screen name="Home" component={HomeScreen} />
     </HomeStack.Navigator>
   );
 }
 
 export type RootTabParamList = {
-  Share: undefined;
-  Home: undefined;
-  Settings: { screen?: string };
+  ShareStack: undefined;
+  HomeStack: undefined;
+  SettingsStack: undefined;
 };
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -125,14 +133,12 @@ export default function RootNavigator() {
   const { user } = useUser();
 
   if (!user) {
-    console.log("user in if state root:", user)
     return <NotLoggedInStackScreen />;
   }
 
   return (
     <Tab.Navigator
-      initialRouteName="Home"
-      id="HomeId"
+      initialRouteName="HomeStack"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: "white",
@@ -142,8 +148,8 @@ export default function RootNavigator() {
       }}
     >
       <Tab.Screen
-        name="Share"
-        component={WelcomeStackScreen}
+        name="ShareStack"
+        component={ShareStackScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="share-outline" color={color} size={size} />
@@ -151,7 +157,7 @@ export default function RootNavigator() {
         }}
       />
       <Tab.Screen
-        name="Home"
+        name="HomeStack"
         component={HomeStackScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -161,7 +167,7 @@ export default function RootNavigator() {
       />
 
       <Tab.Screen
-        name="Settings"
+        name="SettingsStack"
         component={SettingsStackScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
