@@ -69,7 +69,7 @@ function WelcomeStackScreen() {
 
 export type SettingsStackParamList = {
   SettingsStack: undefined;
-  // AddPregnancy: undefined;
+  AddPregnancy: undefined;
   // FollowPregnancy: undefined;
 };
 
@@ -83,11 +83,11 @@ function SettingsStackScreen() {
       }}
     >
       <SettingsStack.Screen name="SettingsStack" component={SettingsScreen} />
-      {/* <SettingsStack.Screen
+      <SettingsStack.Screen
         name="AddPregnancy"
         component={AddPregnancyScreen}
       />
-      <SettingsStack.Screen
+      {/* <SettingsStack.Screen
         name="FollowPregnancy"
         component={FollowPregnancyScreen}
       /> */}
