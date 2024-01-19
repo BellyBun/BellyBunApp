@@ -15,6 +15,8 @@ interface BabyContextProps {
   createPregnancy: (nickname: string, dueDate: Date) => Promise<void>;
   getBabiesByUser: () => Promise<void>;
   setActiveBaby: (id: string) => Promise<void>;
+  followBaby: (followBabyCode: string) => Promise<void>;
+  shareFollowBaby: (babyId: string) => Promise<string>;
 }
 
 const BabyContext = createContext<BabyContextProps>({
@@ -23,6 +25,8 @@ const BabyContext = createContext<BabyContextProps>({
   createPregnancy: async () => {},
   getBabiesByUser: async () => {},
   setActiveBaby: async () => {},
+  followBaby: async () => {},
+  shareFollowBaby: async () => "",
 });
 
 interface BabyProviderProps {
@@ -103,6 +107,53 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
     }
   };
 
+  const followBaby = async (followBabyCode: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/baby/follow/${followBabyCode}`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return data; 
+      } else {
+        const errorData = await response.json();
+        throw new Error(JSON.stringify(errorData));
+      }
+    } catch (error) {
+      console.error("Error following baby:", error);
+      throw error;
+    }
+  };
+
+  const shareFollowBaby = async (babyId: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/baby/share/${babyId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return data.followBabyCode;
+      } else {
+        const errorData = await response.json();
+        throw new Error(JSON.stringify(errorData));
+      }
+    } catch (error) {
+      console.error("Error sharing baby code:", error);
+      throw error;
+    }
+  };
+
+
   useEffect(() => {
     // Fetch babies when the user changes
     getBabiesByUser();
@@ -116,6 +167,8 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
         createPregnancy,
         getBabiesByUser,
         setActiveBaby,
+        followBaby,
+        shareFollowBaby
       }}
     >
       {children}

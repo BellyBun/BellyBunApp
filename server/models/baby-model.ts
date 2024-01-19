@@ -5,6 +5,7 @@ const babySchema = new Schema({
   nickname: { type: String, required: true },
   dueDate: { type: Date, required: true },
   isActive: { type: Boolean, default: true, unique: true, sparse: true },
+  followBabyCode: { type: String }
 });
 
 export type Baby = InferSchemaType<typeof babySchema>;
