@@ -2,11 +2,11 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
-import { NotLoggedInStackParamList } from "../RootNavigator";
+import { SettingsStackParamList } from "../RootNavigator";
 import { useUser } from "../context/userContext";
 import theme from "../theme";
 
-type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Login">;
+type Props = NativeStackScreenProps<SettingsStackParamList>;
 
 export default function WelcomeScreen({ navigation }: Props) {
   const { user } = useUser();
@@ -20,14 +20,14 @@ export default function WelcomeScreen({ navigation }: Props) {
 
       <Button
         style={styles.button}
-        // onPress={() => navigation.navigate("AddPregnancy")}
+        onPress={() => navigation.navigate("AddPregnancy")}
       >
         Ny graviditet
       </Button>
 
       <Button
         style={styles.button}
-        // onPress={() => navigation.navigate("FollowPregnancy")}
+        onPress={() => navigation.navigate("FollowPregnancy")}
       >
         Följ graviditet
       </Button>
