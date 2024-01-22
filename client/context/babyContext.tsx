@@ -54,7 +54,8 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
       if (response.ok) {
         const createdBaby = await response.json();
         console.log("Created Baby:", createdBaby);
-        setBaby(createdBaby);
+        await getBabiesByUser();
+        await setActiveBaby(createdBaby._id);
       } else {
         const errorData = await response.json();
         throw new Error(JSON.stringify(errorData));
