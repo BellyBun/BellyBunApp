@@ -22,7 +22,7 @@ export default function SettingsScreen({ navigation }: Props) {
   const [isFirstExpanded, setFirstExpanded] = useState(false);
   const [isSecondExpanded, setSecondExpanded] = useState(false);
   const { signout } = useUser();
-  const { babies, setActiveBaby } = useBaby();
+  const { babies, setActiveBaby, shareFollowBaby } = useBaby();
   const [copiedText, setCopiedText] = useState("");
 
   const copyToClipboard = async () => {
@@ -49,29 +49,34 @@ export default function SettingsScreen({ navigation }: Props) {
 
       const clickedBaby = babies.find((baby) => baby._id === id);
       if (clickedBaby && clickedBaby.isActive) {
-        const babyIdText = `${id}`;
-        Alert.alert(
-          "Dela kod",
-          babyIdText,
-          [
-            {
-              text: "Kopiera",
-              onPress: async () => {
-                try {
-                  await Clipboard.setStringAsync(babyIdText);
-                  // Provide feedback or show the copied text
-                  fetchCopiedText();
-                } catch (error) {
-                  console.error("Error copying to clipboard:", error);
-                }
-              },
-            },
-            { text: "OK" },
-          ],
-          { cancelable: true }
-        );
+        try {
+          // Use shareFollowBaby to get the babyId to share
+          const babyCode = await shareFollowBaby(id);
+          const babyIdText = `${babyCode}`;
 
-        return;
+          Alert.alert(
+            "Dela kod",
+            babyIdText,
+            [
+              {
+                text: "Kopiera",
+                onPress: async () => {
+                  try {
+                    await Clipboard.setStringAsync(babyIdText);
+                    // Provide feedback or show the copied text
+                    fetchCopiedText();
+                  } catch (error) {
+                    console.error("Error copying to clipboard:", error);
+                  }
+                },
+              },
+              { text: "OK" },
+            ],
+            { cancelable: true }
+          );
+        } catch (error) {
+          console.error("Error sharing baby code:", error);
+        }
       }
     } catch (error) {
       console.error("Error setting active baby:", error);
@@ -100,36 +105,23 @@ export default function SettingsScreen({ navigation }: Props) {
             </Text>
             <View>
               {babies.map((baby) => (
-                <>
+                <View key={baby._id} style={styles.babyContainer}>
                   <Button
                     key={baby._id}
                     mode={baby.isActive ? "elevated" : "outlined"}
-                    style={[
-                      styles.listButton,
-                      !baby.isActive && {
-                        borderColor: theme.colors.background,
-                      },
-                    ]}
-                    labelStyle={{
-                      color: !baby.isActive
-                        ? theme.colors.background
-                        : theme.colors.primary,
-                    }}
                   >
                     {baby.nickname}
                   </Button>
                   <TouchableOpacity onPress={() => handleBabyPress(baby._id)}>
-                    <View>
-                      <Button>
-                        <Ionicons
-                          name="share-outline"
-                          color={theme.colors.background}
-                          size={24}
-                        />
-                      </Button>
+                    <View style={styles.shareButtonContainer}>
+                      <Ionicons
+                        name="share-outline"
+                        color={theme.colors.background}
+                        size={24}
+                      />
                     </View>
                   </TouchableOpacity>
-                </>
+                </View>
               ))}
             </View>
           </>
@@ -217,5 +209,15 @@ const styles = StyleSheet.create({
   },
   shareButton: {
     color: theme.colors.background,
+  },
+  babyContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 5,
+  },
+  shareButtonContainer: {
+    padding: 10,
+    marginLeft: 10,
   },
 });

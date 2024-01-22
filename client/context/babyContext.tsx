@@ -109,17 +109,26 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
 
   const followBaby = async (followBabyCode: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/baby/follow/${followBabyCode}`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      console.log("Sending request to follow baby with code:", followBabyCode);
+
+      const response = await fetch(
+        `http://localhost:3000/api/baby/follow/${followBabyCode}`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ followBabyCode }),
+        }
+      );
+
+      console.log("Response from server:", response);
 
       if (response.ok) {
         const data = await response.json();
-        return data; 
+        console.log("Data received from server:", data);
+        return data;
       } else {
         const errorData = await response.json();
         throw new Error(JSON.stringify(errorData));
@@ -132,13 +141,16 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
 
   const shareFollowBaby = async (babyId: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/baby/share/${babyId}`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/baby/share/${babyId}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -152,7 +164,6 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
       throw error;
     }
   };
-
 
   useEffect(() => {
     // Fetch babies when the user changes
@@ -168,7 +179,7 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
         getBabiesByUser,
         setActiveBaby,
         followBaby,
-        shareFollowBaby
+        shareFollowBaby,
       }}
     >
       {children}

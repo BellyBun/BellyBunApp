@@ -26,11 +26,12 @@ export default function FollowPregnancyScreen() {
       <Text variant="displayMedium" style={styles.title}>
         Följ graviditet
       </Text>
-      <Text style={styles.text}>Ange kod/länk/mail</Text>
+      <Text style={styles.text}>Ange kod</Text>
       <TextInput
         style={styles.input}
         editable={true}
         onChangeText={(text) => setFollowBabyCode(text)}
+        onSubmitEditing={handleFollowBaby} // Add this line
       />
 
       <Button style={styles.button} onPress={handleFollowBaby}>
