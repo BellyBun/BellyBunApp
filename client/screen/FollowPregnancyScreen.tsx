@@ -17,9 +17,7 @@ export default function FollowPregnancyScreen({ navigation }: Props) {
   const handleFollowBaby = async () => {
     try {
       await followBaby(followBabyCode);
-      navigation.navigate("HomeStack" as keyof HomeStackParamList, {
-        screen: "Home",
-      });
+      navigation.navigate("Home", undefined);
     } catch (error) {
       console.error("Error following baby:", error);
     }
