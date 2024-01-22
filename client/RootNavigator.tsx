@@ -35,8 +35,6 @@ function NotLoggedInStackScreen() {
 
 export type WelcomeStackParamList = {
   WelcomeStack: undefined;
-  AddPregnancy: undefined;
-  FollowPregnancy: undefined;
 };
 
 export type ShareStackParamList = {
