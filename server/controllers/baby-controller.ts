@@ -43,8 +43,12 @@ export async function getBabiesByUser(req: Request, res: Response) {
   assert(user !== null, 404, "User not found");
 
   const babies = await BabyModel.find({ userId: user?._id }).populate("userId");
+  const followedBabies = await BabyModel.find({ _id: { $in: user!.followedBabies } }).populate("userId");
 
-  res.json(babies);
+  const allBabies = babies.concat(followedBabies);
+
+
+  res.json(allBabies);
 }
 
 export async function setActiveBaby(req: Request, res: Response) {
@@ -78,3 +82,101 @@ export async function setActiveBaby(req: Request, res: Response) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
+
+export async function shareFollowBaby(req: Request, res: Response) {
+  try {
+    const babyId = req.params.id;
+
+    const baby = await BabyModel.findOne({
+      $or: [
+        { _id: babyId },
+        { "userId._id": babyId },
+      ],
+    });
+
+    if (!baby) {
+      return res.status(404).json({ message: "Baby not found" });
+    }
+
+    const followBabyCode = baby.userId._id.toString(); // Convert ObjectId to string
+    console.log("Follow Baby Code:", followBabyCode);
+
+    return res.status(200).json({ followBabyCode });
+  } catch (error) {
+    console.error("Error sharing baby code:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export async function followBaby(req: Request, res: Response) {
+  try {
+    // Check if the user is logged in
+    if (!req.session || !req.session.user || !req.session.user._id) {
+      return res.status(401).json({ message: "Unauthorized. Please log in." });
+    }
+
+    const followBabyCode = req.params.code;
+
+    // Find the baby based on the provided followBabyCode
+    const baby = await BabyModel.findOne({
+      $or: [
+        { _id: followBabyCode },
+        { "userId._id": followBabyCode },
+      ],
+    });
+
+    if (!baby) {
+      return res.status(400).json({ message: "Baby not found" });
+    }
+
+    // Associate the baby with the logged-in user as a followedBaby
+    const userId = req.session.user._id;
+
+    // Add the baby to the user's followedBabies array (assuming followedBabies is an array in the user model)
+    const user = await UserModel.findById(userId);
+    assert(user !== null, 404, "User not found");
+
+    // Add the baby to the followedBabies array
+    if (user) {
+      user.followedBabies.push(baby._id);
+    
+      // Save the updated user
+      await user.save();
+    } else {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    console.log("Baby found and associated with user:", followBabyCode, user);
+
+    return res.status(200).json({ message: "Baby successfully followed" });
+  } catch (error) {
+    console.error("Error following baby:", error);
+    return res.status(500).json({ message: "Internal server error follow baby" });
+  }
+}
+
+
+// export async function followBaby(req: Request, res: Response) {
+//   try {
+//     const followBabyCode = req.params.code;
+
+//     const baby = await BabyModel.findOne({
+//       $or: [
+//         { userId: followBabyCode },
+//         { "userId._id": followBabyCode },
+//       ],
+//     });
+
+//     if (!baby) {
+//       return res.status(400).json({ message: "Baby not found" });
+//     }
+
+//     console.log("Baby found for followBabyCode:", followBabyCode, baby);
+
+//     return res.status(200).json(baby);
+//   } catch (error) {
+//     console.error("Error following baby:", error);
+//     return res.status(500).json({ message: "Internal server error follow baby" });
+//   }
+// }
+

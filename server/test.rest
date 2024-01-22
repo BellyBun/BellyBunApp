@@ -3,9 +3,9 @@ POST http://localhost:3000/api/users/create
 Content-Type: application/json
 
 {
-  "username": "Göran",
-  "email": "goran@example.com",
-  "password": "yourpassword"
+  "username": "Mommy Gonzales",
+  "email": "speedmom@test.com",
+  "password": "batman"
 }
 
 ### Login User
@@ -13,8 +13,8 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-  "email": "techel@gmail.com",
-  "password": "password"
+  "email": "speedmom@test.com",
+  "password": "batman"
 }
 
 ### Create Pregnancy
@@ -22,18 +22,33 @@ POST http://localhost:3000/api/baby/create
 Content-Type: application/json
 
 {
-  "nickname": "Göran",
-  "dueDate": "2024-01-25"
+  "nickname": "Slow Gonzales",
+  "dueDate": "2024-05-25"
 }
 
 ### Get Babies By User
-GET http://localhost:3000/api/baby/techel@gmail.com
+GET http://localhost:3000/api/baby/speedmom@test.com
 
 
 ### Set Active Baby
-PUT http://localhost:3000/api/baby/setActive/65a53ef474ae5c2f8b738f23
+PUT http://localhost:3000/api/baby/setActive/65a92633329a5c86283ead95
 Content-Type: application/json
 
 {
   "isActive": true
 }
+
+### Follow Baby
+POST http://localhost:3000/api/baby/follow/65a9265a329a5c86283ead9a
+Content-Type: application/json
+
+### Share Follow Code
+GET http://localhost:3000/api/baby/share/65a9265a329a5c86283ead9a
+
+### Sign out User
+POST http://localhost:3000/api/users/signout
+
+### Check Authentication
+GET http://localhost:3000/api/users/auth
+
+
