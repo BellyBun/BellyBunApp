@@ -33,7 +33,7 @@ export default function FollowPregnancyScreen({ navigation }: Props) {
         style={styles.input}
         editable={true}
         onChangeText={(text) => setFollowBabyCode(text)}
-        onSubmitEditing={handleFollowBaby} // Add this line
+        onSubmitEditing={handleFollowBaby}
       />
 
       <Button style={styles.button} onPress={handleFollowBaby}>
