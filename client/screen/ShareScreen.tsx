@@ -1,12 +1,8 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StyleSheet, SafeAreaView, View } from "react-native";
 import { Text } from "react-native-paper";
-import { RootTabParamList } from "../RootNavigator";
 import theme from "../theme";
 
-type Props = NativeStackScreenProps<RootTabParamList, "Share">;
-
-export default function ShareScreen({ navigation }: Props) {
+export default function ShareScreen() {
   return (
     <SafeAreaView
       style={[

@@ -5,17 +5,10 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useUser } from "../context/userContext";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { NotLoggedInStackParamList, RootTabParamList, WelcomeStackParamList } from "../RootNavigator";
+import { NotLoggedInStackParamList } from "../RootNavigator";
 import theme from "../theme";
 
-type BaseProps = {
-  navigation: any;
-};
-
-type HomeScreenProps = NativeStackScreenProps<RootTabParamList, "Share"> & BaseProps;
-type SignupScreenProps = NativeStackScreenProps<NotLoggedInStackParamList, "Signup"> & BaseProps;
-
-type Props = HomeScreenProps | SignupScreenProps;
+type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Signup">;
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
@@ -36,7 +29,6 @@ export default function SignupScreen({ navigation }: Props) {
       const lowercaseEmail = values.email.toLowerCase();
       await signup(values.username, lowercaseEmail, values.password);
       alert("Registration successful.");
-      navigation.getParent('HomeId', { screen: 'Share' })
     } catch (error) {
       console.error("Registration error:", error);
       alert("Registration failed. Please try again.");

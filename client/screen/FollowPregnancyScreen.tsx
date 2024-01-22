@@ -1,14 +1,10 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { Button, Text } from "react-native-paper";
-import { NotLoggedInStackParamList } from "../RootNavigator";
 import { useUser } from "../context/userContext";
 import theme from "../theme";
 
-type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Login">;
-
-export default function FollowPregnancyScreen({ navigation }: Props) {
+export default function FollowPregnancyScreen() {
   const { user } = useUser();
 
   return (
