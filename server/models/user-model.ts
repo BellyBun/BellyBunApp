@@ -7,7 +7,7 @@ const userSchema = new Schema({
   username: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  isWelcomed: { type: Boolean, default: true },
+  isWelcomed: { type: Boolean, default: false },
   followedBabies: [{ type: SchemaTypes.ObjectId, ref: "Baby" }],
 });
 

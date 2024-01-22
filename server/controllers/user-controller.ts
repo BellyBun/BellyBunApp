@@ -63,18 +63,16 @@ export async function updateUserWelcomeStatus(req: Request, res: Response) {
     // Update the user's welcome status in the database
     const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
-      { $set: { isWelcomed: false } },
+      { $set: { isWelcomed: true } },
       { new: true }
     );
 
     assert(updatedUser !== null, 404, "User not found");
 
     // Update the user in the session
-    req.session.user.isWelcomed = false;
+    req.session.user.isWelcomed = true;
 
-    res
-      .status(200)
-      .json({ success: true, message: "User welcome status updated" });
+    return res.json(updatedUser);
   } catch (error) {
     console.error("Error updating user welcome status:", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
