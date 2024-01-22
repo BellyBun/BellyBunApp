@@ -35,12 +35,14 @@ export async function loginUser(req: Request, res: Response) {
     _id: user!.id,
     email: user!.email,
     username: user!.username,
+    isWelcomed: user!.isWelcomed,
   };
 
   res.status(200).json({
     _id: user!.id,
     email: user!.email,
     username: user!.username,
+    isWelcomed: user!.isWelcomed,
   });
 }
 
@@ -48,6 +50,35 @@ export function signoutUser(req: Request, res: Response) {
   console.log("Signing out user:", req.session?.user);
   req.session = null;
   res.status(204).json({ message: "Signout successful" });
+}
+
+export async function updateUserWelcomeStatus(req: Request, res: Response) {
+  if (!req.session || !req.session.user || !req.session.user._id) {
+    return res.status(401).json({ message: "Unauthorized. Please log in." });
+  }
+
+  const userId = req.session.user._id;
+
+  try {
+    // Update the user's welcome status in the database
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      userId,
+      { $set: { isWelcomed: false } },
+      { new: true }
+    );
+
+    assert(updatedUser !== null, 404, "User not found");
+
+    // Update the user in the session
+    req.session.user.isWelcomed = false;
+
+    res
+      .status(200)
+      .json({ success: true, message: "User welcome status updated" });
+  } catch (error) {
+    console.error("Error updating user welcome status:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
 }
 
 export function checkAuth(req: Request, res: Response) {
