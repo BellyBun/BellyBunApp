@@ -3,9 +3,9 @@ POST http://localhost:3000/api/users/create
 Content-Type: application/json
 
 {
-  "username": "Mommy Gonzales",
-  "email": "speedmom@test.com",
-  "password": "batman"
+  "username": "Bosse",
+  "email": "bosse@gmail.com",
+  "password": "password"
 }
 
 ### Login User
@@ -13,8 +13,8 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-  "email": "speedmom@test.com",
-  "password": "batman"
+  "email": "bosse@gmail.com",
+  "password": "password"
 }
 
 ### Create Pregnancy
@@ -37,6 +37,15 @@ Content-Type: application/json
 {
   "isActive": true
 }
+
+### Set IsWelcome status
+PUT http://localhost:3000/api/users/65ae3527ecf7787e58adf5b6
+Content-Type: application/json
+
+{
+  "isWelcome": false
+}
+
 
 ### Follow Baby
 POST http://localhost:3000/api/baby/follow/65a9265a329a5c86283ead9a
