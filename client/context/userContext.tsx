@@ -5,12 +5,14 @@ export interface User {
   username: string;
   email: string;
   password: string;
+  isWelcomed: boolean;
 }
 interface UserContextProps {
   user: User | null;
   signup: (username: string, email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   signout: () => Promise<void>;
+  setIsWelcome: (id: string) => Promise<void>;
 }
 
 const UserContext = createContext<UserContextProps>({
@@ -18,6 +20,7 @@ const UserContext = createContext<UserContextProps>({
   signup: async () => {},
   login: async () => {},
   signout: async () => {},
+  setIsWelcome: async () => {},
 });
 
 interface UserProviderProps {
@@ -33,9 +36,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       const response = await fetch("http://localhost:3000/api/users/auth", {
         credentials: "include",
       });
-  
+
       console.log("After fetch in checkLoggedIn");
-  
+
       if (response.status === 204) {
         console.log("User is null");
         setUser(null);
@@ -56,7 +59,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setUser(null);
     }
   };
-  
+
   useEffect(() => {
     checkLoggedIn();
   }, []);
@@ -109,7 +112,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         method: "POST",
         credentials: "include",
       });
-  
+
       if (response.ok) {
         setUser(null);
         console.log("After setUser(null):", user);
@@ -121,6 +124,25 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   };
 
+  // Update isWelcome status
+  const setIsWelcome = async (id: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/users/${id}`, {
+        method: "PUT",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const updatedUser = await response.json();
+        setUser(updatedUser);
+      } else {
+        console.error("Error during update status:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error during update status:", error);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -128,6 +150,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         signup,
         login,
         signout,
+        setIsWelcome,
       }}
     >
       {children}
