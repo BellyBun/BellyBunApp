@@ -9,8 +9,6 @@ import { SettingsStackParamList } from "../RootNavigator";
 import theme from "../theme";
 import { useBaby } from "../context/babyContext";
 
-type Props = NativeStackScreenProps<SettingsStackParamList, "AddPregnancy">;
-
 const validationSchema = Yup.object().shape({
   babyName: Yup.string(),
   dueDate: Yup.date()
@@ -18,7 +16,7 @@ const validationSchema = Yup.object().shape({
     .required("Due date is required"),
 });
 
-const AddPregnancyScreen = ({ navigation }: Props) => {
+const AddPregnancyScreen = () => {
   const theme = useTheme();
   const { createPregnancy } = useBaby();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
