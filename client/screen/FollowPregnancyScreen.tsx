@@ -1,23 +1,27 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { Button, Text } from "react-native-paper";
+import { HomeStackParamList } from "../RootNavigator";
 import { useBaby } from "../context/babyContext";
 import { useUser } from "../context/userContext";
 import theme from "../theme";
 
-export default function FollowPregnancyScreen() {
+type Props = NativeStackScreenProps<HomeStackParamList, "Home">;
+
+export default function FollowPregnancyScreen({ navigation }: Props) {
   const { user } = useUser();
   const { followBaby } = useBaby();
   const [followBabyCode, setFollowBabyCode] = React.useState("");
 
   const handleFollowBaby = async () => {
     try {
-      // Call the followBaby function with the followBabyCode
       await followBaby(followBabyCode);
-      // Optionally, you can navigate or perform other actions after successfully following the baby
+      navigation.navigate("HomeStack" as keyof HomeStackParamList, {
+        screen: "Home",
+      });
     } catch (error) {
       console.error("Error following baby:", error);
-      // Handle the error as needed
     }
   };
 

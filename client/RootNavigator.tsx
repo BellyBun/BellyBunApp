@@ -102,6 +102,7 @@ function SettingsStackScreen() {
 
 export type HomeStackParamList = {
   Home: undefined;
+  FollowPregnancy: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
