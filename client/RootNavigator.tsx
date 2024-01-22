@@ -33,10 +33,6 @@ function NotLoggedInStackScreen() {
   );
 }
 
-export type WelcomeStackParamList = {
-  WelcomeStack: undefined;
-};
-
 export type ShareStackParamList = {
   Share: undefined;
 };
@@ -52,23 +48,6 @@ function ShareStackScreen() {
     >
       <ShareStack.Screen name="Share" component={ShareScreen} />
     </ShareStack.Navigator>
-  );
-}
-
-const WelcomeStack = createNativeStackNavigator<WelcomeStackParamList>();
-
-//Let this be: it will be used with conditional rendering later
-function WelcomeStackScreen() {
-  const { user } = useUser();
-
-  return (
-    <WelcomeStack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <WelcomeStack.Screen name="WelcomeStack" component={WelcomeScreen} />
-    </WelcomeStack.Navigator>
   );
 }
 
@@ -103,18 +82,24 @@ function SettingsStackScreen() {
 
 export type HomeStackParamList = {
   Home: undefined;
+  Welcome: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
 function HomeStackScreen() {
+  const { user } = useUser();
   return (
     <HomeStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <HomeStack.Screen name="Home" component={HomeScreen} />
+      {user.isWelcomed ? (
+        <HomeStack.Screen name="Home" component={HomeScreen} />
+      ) : (
+        <HomeStack.Screen name="Welcome" component={WelcomeScreen} />
+      )}
     </HomeStack.Navigator>
   );
 }
