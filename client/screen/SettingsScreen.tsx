@@ -1,4 +1,7 @@
+import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import * as Clipboard from "expo-clipboard";
+
 import { useState } from "react";
 import {
   Alert,
@@ -20,6 +23,16 @@ export default function SettingsScreen({ navigation }: Props) {
   const [isSecondExpanded, setSecondExpanded] = useState(false);
   const { signout } = useUser();
   const { babies, setActiveBaby } = useBaby();
+  const [copiedText, setCopiedText] = useState("");
+
+  const copyToClipboard = async () => {
+    await Clipboard.setStringAsync("hello world");
+  };
+
+  const fetchCopiedText = async () => {
+    const text = await Clipboard.getStringAsync();
+    setCopiedText(text);
+  };
 
   const toggleFirstAccordion = () => {
     setFirstExpanded(!isFirstExpanded);
@@ -36,7 +49,27 @@ export default function SettingsScreen({ navigation }: Props) {
 
       const clickedBaby = babies.find((baby) => baby._id === id);
       if (clickedBaby && clickedBaby.isActive) {
-        Alert.alert("Dela kod", `Bebis id: ${id}`);
+        const babyIdText = `${id}`;
+        Alert.alert(
+          "Dela kod",
+          babyIdText,
+          [
+            {
+              text: "Kopiera",
+              onPress: async () => {
+                try {
+                  await Clipboard.setStringAsync(babyIdText);
+                  // Provide feedback or show the copied text
+                  fetchCopiedText();
+                } catch (error) {
+                  console.error("Error copying to clipboard:", error);
+                }
+              },
+            },
+            { text: "OK" },
+          ],
+          { cancelable: true }
+        );
 
         return;
       }
@@ -44,6 +77,7 @@ export default function SettingsScreen({ navigation }: Props) {
       console.error("Error setting active baby:", error);
     }
   };
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <View style={styles.container}>
@@ -64,26 +98,40 @@ export default function SettingsScreen({ navigation }: Props) {
             <Text variant="titleLarge" style={styles.smallTitle}>
               VÄLJ BEBIS
             </Text>
-            {babies.map((baby) => (
-              <Button
-                key={baby._id}
-                mode={baby.isActive ? "elevated" : "outlined"}
-                onPress={() => handleBabyPress(baby._id)}
-                style={[
-                  styles.listButton,
-                  !baby.isActive && {
-                    borderColor: theme.colors.background,
-                  },
-                ]}
-                labelStyle={{
-                  color: !baby.isActive
-                    ? theme.colors.background
-                    : theme.colors.primary,
-                }}
-              >
-                {baby.nickname}
-              </Button>
-            ))}
+            <View>
+              {babies.map((baby) => (
+                <>
+                  <Button
+                    key={baby._id}
+                    mode={baby.isActive ? "elevated" : "outlined"}
+                    style={[
+                      styles.listButton,
+                      !baby.isActive && {
+                        borderColor: theme.colors.background,
+                      },
+                    ]}
+                    labelStyle={{
+                      color: !baby.isActive
+                        ? theme.colors.background
+                        : theme.colors.primary,
+                    }}
+                  >
+                    {baby.nickname}
+                  </Button>
+                  <TouchableOpacity onPress={() => handleBabyPress(baby._id)}>
+                    <View>
+                      <Button>
+                        <Ionicons
+                          name="share-outline"
+                          color={theme.colors.background}
+                          size={24}
+                        />
+                      </Button>
+                    </View>
+                  </TouchableOpacity>
+                </>
+              ))}
+            </View>
           </>
         )}
 
@@ -139,6 +187,7 @@ const styles = StyleSheet.create({
     paddingTop: "20%",
     width: "100%",
   },
+
   title: {
     fontFamily: "Oswald",
     color: theme.colors.background,
@@ -165,5 +214,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "white",
     position: "absolute",
     bottom: 50,
+  },
+  shareButton: {
+    color: theme.colors.background,
   },
 });
