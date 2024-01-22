@@ -1,10 +1,16 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import {
+  Alert,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Button, Text } from "react-native-paper";
 import { SettingsStackParamList } from "../RootNavigator";
-import { useState } from "react";
-import { useUser } from "../context/userContext";
 import { useBaby } from "../context/babyContext";
+import { useUser } from "../context/userContext";
 import theme from "../theme";
 
 type Props = NativeStackScreenProps<SettingsStackParamList, "Settings">;
@@ -27,6 +33,13 @@ export default function SettingsScreen({ navigation }: Props) {
     try {
       await setActiveBaby(id);
       console.log(`Button for baby ${id} pressed`);
+
+      const clickedBaby = babies.find((baby) => baby._id === id);
+      if (clickedBaby && clickedBaby.isActive) {
+        Alert.alert("Dela kod", `Bebis id: ${id}`);
+
+        return;
+      }
     } catch (error) {
       console.error("Error setting active baby:", error);
     }
