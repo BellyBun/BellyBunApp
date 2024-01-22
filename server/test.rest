@@ -27,7 +27,7 @@ Content-Type: application/json
 }
 
 ### Get Babies By User
-GET http://localhost:3000/api/baby/speedmom@test.com
+GET http://localhost:3000/api/baby/monkey@gmail.com
 
 
 ### Set Active Baby
