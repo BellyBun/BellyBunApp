@@ -124,7 +124,7 @@ export default function RootNavigator() {
       initialRouteName="HomeStack"
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#FAF8F4",
+        tabBarActiveTintColor: "#E8B298",
         tabBarInactiveTintColor: "#FAF8F4",
         tabBarStyle: styles.tabBar,
         tabBarShowLabel: false,
@@ -135,7 +135,7 @@ export default function RootNavigator() {
         component={ShareStackScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="share-outline" color={color} size={size} />
+            <Ionicons name="add" color={color} size={size} />
           ),
         }}
       />
