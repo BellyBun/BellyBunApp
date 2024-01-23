@@ -214,6 +214,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 5,
+    color: theme.colors.primary,
   },
   shareButtonContainer: {
     padding: 10,
