@@ -1,21 +1,44 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { Button, Text } from "react-native-paper";
+import { HomeStackParamList } from "../RootNavigator";
+import { useBaby } from "../context/babyContext";
 import { useUser } from "../context/userContext";
 import theme from "../theme";
 
-export default function FollowPregnancyScreen() {
+type Props = NativeStackScreenProps<HomeStackParamList, "Home">;
+
+export default function FollowPregnancyScreen({ navigation }: Props) {
   const { user } = useUser();
+  const { followBaby } = useBaby();
+  const [followBabyCode, setFollowBabyCode] = React.useState("");
+
+  const handleFollowBaby = async () => {
+    try {
+      await followBaby(followBabyCode);
+      navigation.navigate("Home", undefined);
+    } catch (error) {
+      console.error("Error following baby:", error);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Text variant="displayMedium" style={styles.title}>
         Följ graviditet
       </Text>
-      <Text style={styles.text}>Ange kod/länk/mail</Text>
-      <TextInput style={styles.input} editable={true} />
+      <Text style={styles.text}>Ange kod</Text>
+      <TextInput
+        style={styles.input}
+        editable={true}
+        onChangeText={(text) => setFollowBabyCode(text)}
+        onSubmitEditing={handleFollowBaby}
+      />
 
-      <Button style={styles.button}>Följ graviditet</Button>
+      <Button style={styles.button} onPress={handleFollowBaby}>
+        Följ graviditet
+      </Button>
     </View>
   );
 }
@@ -43,6 +66,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 5,
     backgroundColor: theme.colors.background,
+    marginBottom: 10,
   },
   button: {
     backgroundColor: theme.colors.background,

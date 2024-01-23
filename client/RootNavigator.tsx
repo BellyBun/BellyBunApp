@@ -10,7 +10,6 @@ import LoginScreen from "./screen/LoginScreen";
 import SettingsScreen from "./screen/SettingsScreen";
 import SignupScreen from "./screen/SignupScreen";
 import WelcomeScreen from "./screen/WelcomeScreen";
-import ShareScreen from "./screen/ShareScreen";
 
 export type NotLoggedInStackParamList = {
   Login: undefined;
@@ -35,6 +34,7 @@ function NotLoggedInStackScreen() {
 
 export type ShareStackParamList = {
   Share: undefined;
+  FollowPregnancy: undefined;
 };
 
 const ShareStack = createNativeStackNavigator<ShareStackParamList>();
@@ -46,7 +46,11 @@ function ShareStackScreen() {
         headerShown: false,
       }}
     >
-      <ShareStack.Screen name="Share" component={ShareScreen} />
+      <ShareStack.Screen name="Share" component={FollowPregnancyScreen} />
+      <ShareStack.Screen
+        name="FollowPregnancy"
+        component={FollowPregnancyScreen}
+      />
     </ShareStack.Navigator>
   );
 }
@@ -54,7 +58,6 @@ function ShareStackScreen() {
 export type SettingsStackParamList = {
   Settings: undefined;
   AddPregnancy: undefined;
-  FollowPregnancy: undefined;
 };
 
 const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
@@ -71,10 +74,6 @@ function SettingsStackScreen() {
       <SettingsStack.Screen
         name="AddPregnancy"
         component={AddPregnancyScreen}
-      />
-      <SettingsStack.Screen
-        name="FollowPregnancy"
-        component={FollowPregnancyScreen}
       />
     </SettingsStack.Navigator>
   );

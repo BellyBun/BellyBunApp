@@ -21,7 +21,7 @@ const PregnancyProgress = () => {
     setProgress(percentageComplete);
     setCurrentWeek(weekOfPregnancy);
     setDaysPregnant(totalDaysPregnant);
-    setDaysLeft(280 - totalDaysPregnant); // Assuming 280 days pregnancy duration
+    setDaysLeft(280 - totalDaysPregnant);
   }, []);
 
   const radius = 90;

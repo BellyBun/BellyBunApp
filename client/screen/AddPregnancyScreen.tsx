@@ -5,9 +5,11 @@ import { StyleSheet, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import * as Yup from "yup";
-import { SettingsStackParamList } from "../RootNavigator";
-import theme from "../theme";
+import { HomeStackParamList } from "../RootNavigator";
 import { useBaby } from "../context/babyContext";
+import theme from "../theme";
+
+type Props = NativeStackScreenProps<HomeStackParamList, "Home">;
 
 const validationSchema = Yup.object().shape({
   babyName: Yup.string(),
@@ -16,7 +18,7 @@ const validationSchema = Yup.object().shape({
     .required("Due date is required"),
 });
 
-const AddPregnancyScreen = () => {
+const AddPregnancyScreen = ({ navigation }: Props) => {
   const theme = useTheme();
   const { createPregnancy } = useBaby();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -34,6 +36,7 @@ const AddPregnancyScreen = () => {
       await createPregnancy(values.babyName, values.dueDate);
       console.log("Pregnancy added successfully");
       alert("Pregnancy successfully added");
+      navigation.navigate("Home", undefined);
     } catch (error) {
       console.error("Add pregnancy error:", error);
       alert("Failed to add pregnancy. Please try again.");
@@ -102,6 +105,13 @@ const AddPregnancyScreen = () => {
               style={styles.button}
             >
               Skapa
+            </Button>
+            <Button
+              mode="elevated"
+              onPress={() => navigation.navigate("Home")}
+              style={styles.button}
+            >
+              Tillbaka
             </Button>
           </>
         )}
