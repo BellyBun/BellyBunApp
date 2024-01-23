@@ -94,6 +94,7 @@ function HomeStackScreen() {
       screenOptions={{
         headerShown: false,
       }}
+      initialRouteName={user.isWelcomed ? "Home" : "Welcome"}
     >
       {user.isWelcomed ? (
         <HomeStack.Screen name="Home" component={HomeScreen} />
@@ -105,9 +106,9 @@ function HomeStackScreen() {
 }
 
 export type RootTabParamList = {
-  ShareStack: undefined;
-  HomeStack: undefined;
-  SettingsStack: undefined;
+  ShareStack: { screen?: string };
+  HomeStack: { screen?: string };
+  SettingsStack: { screen?: string };
 };
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -124,8 +125,8 @@ export default function RootNavigator() {
       initialRouteName="HomeStack"
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "white",
-        tabBarInactiveTintColor: "white",
+        tabBarActiveTintColor: "#FAF8F4",
+        tabBarInactiveTintColor: "#FAF8F4",
         tabBarStyle: styles.tabBar,
         tabBarShowLabel: false,
       }}
