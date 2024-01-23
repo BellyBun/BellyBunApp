@@ -60,7 +60,6 @@ export async function updateUserWelcomeStatus(req: Request, res: Response) {
   const userId = req.session.user._id;
 
   try {
-    // Update the user's welcome status in the database
     const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
       { $set: { isWelcomed: true } },
