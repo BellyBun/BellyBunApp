@@ -3,8 +3,8 @@ POST http://localhost:3000/api/users/create
 Content-Type: application/json
 
 {
-  "username": "Bosse",
-  "email": "bosse@gmail.com",
+  "username": "Mats",
+  "email": "mats@gmail.com",
   "password": "password"
 }
 
@@ -13,7 +13,7 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-  "email": "bosse@gmail.com",
+  "email": "mats@gmail.com",
   "password": "password"
 }
 
@@ -39,11 +39,11 @@ Content-Type: application/json
 }
 
 ### Set IsWelcome status
-PUT http://localhost:3000/api/users/65ae3527ecf7787e58adf5b6
+PUT http://localhost:3000/api/users/65ae3c04f683534af255d082
 Content-Type: application/json
 
 {
-  "isWelcome": false
+  "isWelcome": true
 }
 
 
