@@ -1,26 +1,37 @@
 import * as React from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
-import getPregnancyData from "../components/CalculatePregnancy";
 import weekData from "../data/weeks.json";
 import theme from "../theme";
+import { useBaby } from "../context/babyContext";
+import { useEffect } from "react";
 
 const InfoCard = () => {
+  const theme = useTheme();
+  const { getBabiesByUser, pregnancyData } = useBaby();
   const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
   const [showFullText, setShowFullText] = React.useState(false);
-  const theme = useTheme();
 
-  const { weekOfPregnancy } = getPregnancyData();
-  const currentWeekIndex = weekOfPregnancy - 1;
+  useEffect(() => {
+    // Make sure you have the latest pregnancy data when the component mounts
+    getBabiesByUser();
+  }, []);
+
+  console.log("Pregnancy Data:", pregnancyData);
+
+
+  if (!pregnancyData || !pregnancyData.weekOfPregnancy) {
+    return <Text>Loading...</Text>;
+  }
 
   const handlePreviousWeek = () => {
-    if (currentWeekIndex > 0) {
+    if (pregnancyData.weekOfPregnancy > 1) {
       setSelectedCategory("Bebis");
     }
   };
 
   const handleNextWeek = () => {
-    if (currentWeekIndex < weekData.length - 1) {
+    if (pregnancyData.weekOfPregnancy < weekData.length) {
       setSelectedCategory("Bebis");
     }
   };
@@ -30,7 +41,7 @@ const InfoCard = () => {
   };
 
   const renderContent = () => {
-    const selectedData = weekData[currentWeekIndex];
+    const selectedData = weekData[pregnancyData.weekOfPregnancy -1];
 
     const getText = (category) => {
       switch (category) {

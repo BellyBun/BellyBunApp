@@ -13,6 +13,7 @@ interface UserContextProps {
   login: (email: string, password: string) => Promise<void>;
   signout: () => Promise<void>;
   setIsWelcome: (id: string) => Promise<void>;
+  checkLoggedIn: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextProps>({
@@ -21,6 +22,7 @@ const UserContext = createContext<UserContextProps>({
   login: async () => {},
   signout: async () => {},
   setIsWelcome: async () => {},
+  checkLoggedIn: async () => {},
 });
 
 interface UserProviderProps {
@@ -152,6 +154,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         login,
         signout,
         setIsWelcome,
+        checkLoggedIn
       }}
     >
       {children}

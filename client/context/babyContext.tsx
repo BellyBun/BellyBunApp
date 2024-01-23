@@ -17,6 +17,12 @@ interface BabyContextProps {
   setActiveBaby: (id: string) => Promise<void>;
   followBaby: (followBabyCode: string) => Promise<void>;
   shareFollowBaby: (babyId: string) => Promise<string>;
+  pregnancyData: {
+    totalDaysPregnant: number;
+    percentageComplete: number;
+    weekOfPregnancy: number;
+    formattedStartDate: string;
+  } | null;
 }
 
 const BabyContext = createContext<BabyContextProps>({
@@ -27,6 +33,7 @@ const BabyContext = createContext<BabyContextProps>({
   setActiveBaby: async () => {},
   followBaby: async () => {},
   shareFollowBaby: async () => "",
+  pregnancyData: null,
 });
 
 interface BabyProviderProps {
@@ -37,8 +44,9 @@ export const useBaby = () => useContext(BabyContext);
 
 export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
   const [baby, setBaby] = useState<Baby>();
-  const { user } = useUser();
+  const { user, checkLoggedIn } = useUser();
   const [babies, setBabies] = useState<Baby[]>([]);
+  const [pregnancyData, setPregnancyData] = useState<any>(null);
 
   const createPregnancy = async (nickname: string, dueDate: Date) => {
     try {
@@ -165,11 +173,62 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
       throw error;
     }
   };
+  const calculatePregnancyData = (babies) => {
+    const activeBaby = babies.find((baby) => baby.isActive);
+    const dueDate = activeBaby ? activeBaby.dueDate : null;
+
+    if (!dueDate) {
+      console.error("Active baby's dueDate not found.");
+      return null;
+    }
+
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    const today = new Date();
+    const startDate = new Date(dueDate);
+    startDate.setDate(startDate.getDate() - 280);
+    const formattedStartDate = startDate.toISOString().split("T")[0];
+
+    const totalTimePregnant = Math.abs(today.getTime() - startDate.getTime());
+    const totalDaysPregnant = Math.ceil(totalTimePregnant / oneDay);
+    const percentageComplete = Math.round((totalDaysPregnant / 280) * 100);
+    const weekOfPregnancy = Math.floor(totalDaysPregnant / 7);
+
+    console.log("Start Date:", formattedStartDate);
+    console.log("How many percent is done:", percentageComplete + "%");
+    console.log("Week of pregnancy:", weekOfPregnancy);
+    console.log("Total days pregnant:", totalDaysPregnant);
+
+    return {
+      totalDaysPregnant,
+      percentageComplete,
+      weekOfPregnancy,
+      formattedStartDate,
+    };
+  };
+
+  const fetchAndCalculatePregnancyData = async () => {
+    try {
+      await checkLoggedIn();
+
+      if (user) {
+        await getBabiesByUser();
+        const data = await calculatePregnancyData(babies);
+        setPregnancyData(data);
+      } else {
+        console.error("No user logged in");
+      }
+    } catch (error) {
+      console.error("Error fetching or calculating pregnancy data:", error);
+    }
+  };
+
 
   useEffect(() => {
     // Fetch babies when the user changes
+    console.log("Effect triggered. User ID:", user?._id, "Babies:", babies);
     getBabiesByUser();
-  }, [user?._id]);
+    fetchAndCalculatePregnancyData();
+  }, [user?._id, babies]);
 
   return (
     <BabyContext.Provider
@@ -181,6 +240,7 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
         setActiveBaby,
         followBaby,
         shareFollowBaby,
+        pregnancyData
       }}
     >
       {children}
