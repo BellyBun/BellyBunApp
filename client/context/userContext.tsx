@@ -89,6 +89,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const login = async (email: string, password: string) => {
     const response = await fetch("http://localhost:3000/api/users/login", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
