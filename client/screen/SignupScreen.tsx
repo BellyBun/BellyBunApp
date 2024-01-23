@@ -18,7 +18,7 @@ const validationSchema = Yup.object().shape({
 
 export default function SignupScreen({ navigation }: Props) {
   const theme = useTheme();
-  const { signup } = useUser();
+  const { signup, login } = useUser();
 
   const onSubmit = async (values: {
     username: string;
@@ -28,6 +28,8 @@ export default function SignupScreen({ navigation }: Props) {
     try {
       const lowercaseEmail = values.email.toLowerCase();
       await signup(values.username, lowercaseEmail, values.password);
+      await login(lowercaseEmail, values.password);
+
       alert("Registration successful.");
     } catch (error) {
       console.error("Registration error:", error);

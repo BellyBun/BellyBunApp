@@ -32,10 +32,6 @@ function NotLoggedInStackScreen() {
   );
 }
 
-export type WelcomeStackParamList = {
-  WelcomeStack: undefined;
-};
-
 export type ShareStackParamList = {
   Share: undefined;
   FollowPregnancy: undefined;
@@ -56,23 +52,6 @@ function ShareStackScreen() {
         component={FollowPregnancyScreen}
       />
     </ShareStack.Navigator>
-  );
-}
-
-const WelcomeStack = createNativeStackNavigator<WelcomeStackParamList>();
-
-//Let this be: it will be used with conditional rendering later
-function WelcomeStackScreen() {
-  const { user } = useUser();
-
-  return (
-    <WelcomeStack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <WelcomeStack.Screen name="WelcomeStack" component={WelcomeScreen} />
-    </WelcomeStack.Navigator>
   );
 }
 
@@ -102,27 +81,33 @@ function SettingsStackScreen() {
 
 export type HomeStackParamList = {
   Home: undefined;
-  FollowPregnancy: undefined;
+  Welcome: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
 function HomeStackScreen() {
+  const { user } = useUser();
   return (
     <HomeStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
+      initialRouteName={user.isWelcomed ? "Home" : "Welcome"}
     >
-      <HomeStack.Screen name="Home" component={HomeScreen} />
+      {user.isWelcomed ? (
+        <HomeStack.Screen name="Home" component={HomeScreen} />
+      ) : (
+        <HomeStack.Screen name="Welcome" component={WelcomeScreen} />
+      )}
     </HomeStack.Navigator>
   );
 }
 
 export type RootTabParamList = {
-  ShareStack: undefined;
-  HomeStack: undefined;
-  SettingsStack: undefined;
+  ShareStack: { screen?: string };
+  HomeStack: { screen?: string };
+  SettingsStack: { screen?: string };
 };
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -139,8 +124,8 @@ export default function RootNavigator() {
       initialRouteName="HomeStack"
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "white",
-        tabBarInactiveTintColor: "white",
+        tabBarActiveTintColor: "#FAF8F4",
+        tabBarInactiveTintColor: "#FAF8F4",
         tabBarStyle: styles.tabBar,
         tabBarShowLabel: false,
       }}

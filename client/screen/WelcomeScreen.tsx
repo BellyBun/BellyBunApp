@@ -1,15 +1,25 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
-import { SettingsStackParamList } from "../RootNavigator";
+import { RootTabParamList } from "../RootNavigator";
 import { useUser } from "../context/userContext";
 import theme from "../theme";
 
-type Props = NativeStackScreenProps<SettingsStackParamList>;
+type Props = NativeStackScreenProps<RootTabParamList>;
 
 export default function WelcomeScreen({ navigation }: Props) {
-  const { user } = useUser();
+  const { user, setIsWelcome } = useUser();
+
+  const handleUpdateWelcomeStatus = async () => {
+    try {
+      if (user) {
+        await setIsWelcome(user._id);
+      }
+    } catch (error) {
+      console.error("Error updating welcome status:", error.message);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -20,14 +30,29 @@ export default function WelcomeScreen({ navigation }: Props) {
 
       <Button
         style={styles.button}
-        onPress={() => navigation.navigate("AddPregnancy")}
+        onPress={async () => {
+          await handleUpdateWelcomeStatus();
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "SettingsStack" }],
+          });
+          navigation.navigate("SettingsStack", { screen: "AddPregnancy" });
+        }}
       >
         Ny graviditet
       </Button>
 
       <Button
         style={styles.button}
-        onPress={() => navigation.navigate("FollowPregnancy")}
+        onPress={async () => {
+          await handleUpdateWelcomeStatus();
+
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "SettingsStack" }],
+          });
+          navigation.navigate("SettingsStack", { screen: "FollowPregnancy" });
+        }}
       >
         Följ graviditet
       </Button>
