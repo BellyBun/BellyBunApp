@@ -49,7 +49,7 @@ export default function SettingsScreen({ navigation }: Props) {
       const clickedBaby = babies.find((baby) => baby._id === id);
       if (clickedBaby && clickedBaby.isActive) {
         try {
-          const babyCode = await shareFollowBaby(id);
+          const babyCode = await shareFollowBaby(clickedBaby._id);
           const babyIdText = `${babyCode}`;
 
           Alert.alert(
