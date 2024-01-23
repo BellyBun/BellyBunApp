@@ -106,6 +106,13 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
             >
               Skapa
             </Button>
+            <Button
+              mode="elevated"
+              onPress={() => navigation.navigate("Home")}
+              style={styles.button}
+            >
+              Tillbaka
+            </Button>
           </>
         )}
       </Formik>

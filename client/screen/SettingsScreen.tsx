@@ -49,8 +49,7 @@ export default function SettingsScreen({ navigation }: Props) {
       const clickedBaby = babies.find((baby) => baby._id === id);
       if (clickedBaby && clickedBaby.isActive) {
         try {
-          // Use shareFollowBaby to get the babyId to share
-          const babyCode = await shareFollowBaby(id);
+          const babyCode = await shareFollowBaby(clickedBaby._id);
           const babyIdText = `${babyCode}`;
 
           Alert.alert(
@@ -62,7 +61,7 @@ export default function SettingsScreen({ navigation }: Props) {
                 onPress: async () => {
                   try {
                     await Clipboard.setStringAsync(babyIdText);
-                    // Provide feedback or show the copied text
+
                     fetchCopiedText();
                   } catch (error) {
                     console.error("Error copying to clipboard:", error);
@@ -108,6 +107,20 @@ export default function SettingsScreen({ navigation }: Props) {
                   <Button
                     key={baby._id}
                     mode={baby.isActive ? "elevated" : "outlined"}
+                    style={{
+                      backgroundColor: baby.isActive
+                        ? theme.colors.background
+                        : theme.colors.primary,
+                      borderColor: baby.isActive
+                        ? "white"
+                        : theme.colors.background,
+                    }}
+                    labelStyle={{
+                      color: baby.isActive
+                        ? theme.colors.primary
+                        : theme.colors.background,
+                    }}
+                    onPress={() => handleBabyPress(baby._id)}
                   >
                     {baby.nickname}
                   </Button>
@@ -214,6 +227,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 5,
+    color: theme.colors.primary,
   },
   shareButtonContainer: {
     padding: 10,
