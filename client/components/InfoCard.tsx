@@ -35,7 +35,7 @@ const InfoCard = () => {
 
   // Set the initial value of selectedData based on the current week
 useEffect(() => {
-  setSelectedData(weekData[weekOfPregnancy]);
+  setSelectedData(weekData[weekOfPregnancy -1]);
 }, [weekOfPregnancy]);
 
   const handlePreviousWeek = () => {
@@ -157,6 +157,7 @@ useEffect(() => {
         <Card.Actions>
           <View style={styles.bottomButtonsContainer}>
             <Button onPress={handlePreviousWeek}>Föregående</Button>
+            <Text>{`Vecka ${selectedData ? selectedData.week : ""}`}</Text>
             <Button onPress={handleNextWeek}>Nästa</Button>
           </View>
         </Card.Actions>

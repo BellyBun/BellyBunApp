@@ -44,7 +44,7 @@ export const useBaby = () => useContext(BabyContext);
 
 export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
   const [baby, setBaby] = useState<Baby>();
-  const { user, checkLoggedIn } = useUser();
+  const { user } = useUser();
   const [babies, setBabies] = useState<Baby[]>([]);
   const [pregnancyData, setPregnancyData] = useState<any>(null);
 
@@ -173,12 +173,13 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
       throw error;
     }
   };
+
   const calculatePregnancyData = (babies) => {
     const activeBaby = babies.find((baby) => baby.isActive);
     const dueDate = activeBaby ? activeBaby.dueDate : null;
 
     if (!dueDate) {
-      console.error("Active baby's dueDate not found.");
+      // console.error("Active baby's dueDate not found.");
       return null;
     }
 
@@ -206,29 +207,32 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
     };
   };
 
-  const fetchAndCalculatePregnancyData = async () => {
-    try {
-      await checkLoggedIn();
 
-      if (user) {
-        await getBabiesByUser();
-        const data = await calculatePregnancyData(babies);
-        setPregnancyData(data);
-      } else {
-        console.error("No user logged in");
-      }
-    } catch (error) {
-      console.error("Error fetching or calculating pregnancy data:", error);
-    }
-  };
 
 
   useEffect(() => {
-    // Fetch babies when the user changes
-    console.log("Effect triggered. User ID:", user?._id, "Babies:", babies);
-    getBabiesByUser();
-    fetchAndCalculatePregnancyData();
-  }, [user?._id, babies]);
+    const fetchData = async () => {
+      try {
+        if (user?._id && !pregnancyData) {
+          console.log("Effect triggered. User ID:", user._id, "Babies:", babies);
+  
+          // Fetch babies
+          await getBabiesByUser();
+  
+          // Calculate pregnancy data
+          const data = calculatePregnancyData(babies);
+          setPregnancyData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching or calculating pregnancy data:", error);
+      }
+    };
+  
+    fetchData();
+  }, [user, babies, pregnancyData]);
+  
+  
+  
 
   return (
     <BabyContext.Provider
