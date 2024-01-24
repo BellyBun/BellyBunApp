@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useAsyncStorageState } from "../hooks/useAscynStorageState";
 
 export interface User {
   _id: string;
@@ -28,26 +29,21 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useAsyncStorageState<User | null>(null, "user");
 
   const checkLoggedIn = async () => {
     try {
-      console.log("Before fetch in checkLoggedIn");
       const response = await fetch("http://localhost:3000/api/users/auth", {
         credentials: "include",
       });
 
-      console.log("After fetch in checkLoggedIn");
-
       if (response.status === 204) {
-        console.log("User is null");
         setUser(null);
       } else if (response.ok) {
         const user = await response.json();
-        console.log("Received user data:", user);
         if (user.success) {
-          console.log("Setting user:", user);
           setUser(user);
+          console.log("in check:", user);
         }
       } else {
         console.log("Error status during checkLoggedIn:", response.status);
@@ -98,7 +94,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     if (response.ok) {
       const user = await response.json();
-      console.log("User after login:", user); // Check the structure of the received user object
+      console.log("User after login:", user);
       setUser(user);
     } else {
       const errorData = await response.json();
@@ -116,7 +112,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       if (response.ok) {
         setUser(null);
-        console.log("After setUser(null):", user);
       } else {
         console.error("Error during signout:", response.statusText);
       }
