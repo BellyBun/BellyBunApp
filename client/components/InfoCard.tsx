@@ -1,27 +1,55 @@
 import * as React from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { Button, Card, Text, useTheme } from "react-native-paper";
-import getPregnancyData from "../components/CalculatePregnancy";
 import weekData from "../data/weeks.json";
 import theme from "../theme";
+import { useBaby } from "../context/babyContext";
+import { useEffect, useState } from "react";
 
 const InfoCard = () => {
-  const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
-  const [showFullText, setShowFullText] = React.useState(false);
   const theme = useTheme();
+  const { pregnancyData } = useBaby();
+  const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
+  const [currentWeek, setCurrentWeek] = useState(pregnancyData?.weekOfPregnancy || 1);
+  const [showFullText, setShowFullText] = React.useState(false);
+  const [selectedData, setSelectedData] = useState(weekData[currentWeek - 1]);
 
-  const { weekOfPregnancy } = getPregnancyData();
-  const currentWeekIndex = weekOfPregnancy - 1;
+  console.log("Pregnancy Data:", pregnancyData);
+
+  useEffect(() => {
+    // Update the currentWeek and selectedData when pregnancyData changes
+    if (pregnancyData) {
+      const { weekOfPregnancy } = pregnancyData;
+      setCurrentWeek(weekOfPregnancy || 1);
+      setSelectedData(weekData[weekOfPregnancy - 1]);
+    }
+  }, [pregnancyData]);
+
+  // Check if pregnancyData is null or undefined
+  if (!pregnancyData) {
+    return <Text>Loading...</Text>; // Display a loading state
+  }
+
+  const { weekOfPregnancy } = pregnancyData;
+
+  // Check if weekOfPregnancy is null or undefined
+  if (!weekOfPregnancy) {
+    return <Text>No pregnancy data available.</Text>; 
+  }
 
   const handlePreviousWeek = () => {
-    if (currentWeekIndex > 0) {
+    if (currentWeek > 1) {
+      setCurrentWeek(prevWeek => prevWeek - 1);
       setSelectedCategory("Bebis");
+      setSelectedData(weekData[currentWeek - 2]);
     }
   };
-
+  
   const handleNextWeek = () => {
-    if (currentWeekIndex < weekData.length - 1) {
+    if (currentWeek < weekData.length) {
+      setCurrentWeek(prevWeek => prevWeek + 1);
       setSelectedCategory("Bebis");
+      setSelectedData(weekData[currentWeek]);
     }
   };
 
@@ -30,19 +58,16 @@ const InfoCard = () => {
   };
 
   const renderContent = () => {
-    const selectedData = weekData[currentWeekIndex];
+    if (!selectedData) {
+      return null;
+    }
 
     const getText = (category) => {
-      switch (category) {
-        case "Bebis":
-          return selectedData.Bebis;
-        case "Mamma":
-          return selectedData.Mamma;
-        case "Partner":
-          return selectedData.Partner;
-        default:
-          return null;
+      if (!selectedData[category]) {
+        return null;
       }
+
+      return selectedData[category];
     };
 
     const text = getText(selectedCategory);
@@ -59,7 +84,7 @@ const InfoCard = () => {
     return (
       <>
         <Text variant="titleLarge" style={styles.title}>
-          {selectedData[`Rubrik${selectedCategory}`]}
+          {selectedData && selectedData[`Rubrik${selectedCategory}`]}
         </Text>
         <Text variant="bodyMedium" style={styles.text}>
           {showFullText ? text : truncatedText}
@@ -129,6 +154,7 @@ const InfoCard = () => {
         <Card.Actions>
           <View style={styles.bottomButtonsContainer}>
             <Button onPress={handlePreviousWeek}>Föregående</Button>
+            <Text>{`Vecka ${selectedData ? selectedData.week : ""}`}</Text>
             <Button onPress={handleNextWeek}>Nästa</Button>
           </View>
         </Card.Actions>
