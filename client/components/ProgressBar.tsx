@@ -1,39 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
-import getPregnancyData from "../components/CalculatePregnancy";
 import theme from "../theme";
+import { useBaby } from "../context/babyContext";
 
 const PregnancyProgress = () => {
-  const [progress, setProgress] = useState(0);
-  const [currentWeek, setCurrentWeek] = useState(0);
-  const [daysPregnant, setDaysPregnant] = useState(0);
-  const [daysLeft, setDaysLeft] = useState(0);
+  const { pregnancyData, getBabiesByUser } = useBaby();
 
   useEffect(() => {
-    const {
-      formattedStartDate,
-      percentageComplete,
-      weekOfPregnancy,
-      totalDaysPregnant,
-    } = getPregnancyData();
-
-    setProgress(percentageComplete);
-    setCurrentWeek(weekOfPregnancy);
-    setDaysPregnant(totalDaysPregnant);
-    setDaysLeft(280 - totalDaysPregnant);
+    // Make sure you have the latest pregnancy data when the component mounts
+    getBabiesByUser();
   }, []);
+
+  if (!pregnancyData) {
+    // Handle the case where pregnancy data is not available yet
+    return <Text>Loading...</Text>;
+  }
+
+  const { percentageComplete, weekOfPregnancy, totalDaysPregnant } = pregnancyData;
 
   const radius = 90;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = (progress / 100) * circumference;
+  const strokeDashoffset = (percentageComplete / 100) * circumference;
 
   return (
     <View style={styles.container}>
       <AnimatedCircularProgress
         size={180}
         width={7}
-        fill={progress}
+        fill={percentageComplete}
         dashedBackground={{ width: 2, gap: 5 }}
         rotation={0}
         tintColor="#FAF8F4"
@@ -42,20 +37,21 @@ const PregnancyProgress = () => {
       >
         {(fill) => (
           <Text style={styles.progressText}>
-            {progress.toFixed(1)}%{"\n"}färdigbakad!
+            {percentageComplete.toFixed(1)}%{"\n"}färdigbakad!
           </Text>
         )}
       </AnimatedCircularProgress>
 
       {/* Three text blocks in a row */}
       <View style={styles.rowContainer}>
-        <Text style={styles.rowText}>VECKA {currentWeek}</Text>
-        <Text style={styles.middleRowText}>DAG {daysPregnant}</Text>
-        <Text style={styles.rowText}>BF {daysLeft}</Text>
+        <Text style={styles.rowText}>VECKA {weekOfPregnancy}</Text>
+        <Text style={styles.middleRowText}>DAG {totalDaysPregnant}</Text>
+        <Text style={styles.rowText}>BF {280 - totalDaysPregnant}</Text>
       </View>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

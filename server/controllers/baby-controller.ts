@@ -98,7 +98,7 @@ export async function shareFollowBaby(req: Request, res: Response) {
       return res.status(404).json({ message: "Baby not found" });
     }
 
-    const followBabyCode = baby.userId._id.toString(); // Convert ObjectId to string
+    const followBabyCode = baby._id.toString(); // Convert ObjectId to string
     console.log("Follow Baby Code:", followBabyCode);
 
     return res.status(200).json({ followBabyCode });

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useUser } from "./userContext";
 
 export interface Baby {
@@ -17,6 +17,12 @@ interface BabyContextProps {
   setActiveBaby: (id: string) => Promise<void>;
   followBaby: (followBabyCode: string) => Promise<void>;
   shareFollowBaby: (babyId: string) => Promise<string>;
+  pregnancyData: {
+    totalDaysPregnant: number;
+    percentageComplete: number;
+    weekOfPregnancy: number;
+    formattedStartDate: string;
+  } | null;
 }
 
 const BabyContext = createContext<BabyContextProps>({
@@ -27,6 +33,7 @@ const BabyContext = createContext<BabyContextProps>({
   setActiveBaby: async () => {},
   followBaby: async () => {},
   shareFollowBaby: async () => "",
+  pregnancyData: null,
 });
 
 interface BabyProviderProps {
@@ -39,6 +46,7 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
   const [baby, setBaby] = useState<Baby>();
   const { user } = useUser();
   const [babies, setBabies] = useState<Baby[]>([]);
+  const [pregnancyData, setPregnancyData] = useState<any>(null);
 
   const createPregnancy = async (nickname: string, dueDate: Date) => {
     try {
@@ -97,6 +105,8 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
       );
 
       if (response.ok) {
+        console.log(`Baby ${id} set as active`);
+
         // Fetch the updated baby list after setting the active baby
         await getBabiesByUser();
       } else {
@@ -125,6 +135,7 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
       );
 
       console.log("Response from server:", response);
+      
 
       if (response.ok) {
         const data = await response.json();
@@ -166,10 +177,71 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
     }
   };
 
+  const calculatePregnancyData = (babies) => {
+    const activeBaby = babies.find((baby) => baby.isActive);
+    const dueDate = activeBaby ? activeBaby.dueDate : null;
+
+    if (!dueDate) {
+      // console.error("Active baby's dueDate not found.");
+      return null;
+    }
+
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    const today = new Date();
+    const startDate = new Date(dueDate);
+    startDate.setDate(startDate.getDate() - 280);
+    const formattedStartDate = startDate.toISOString().split("T")[0];
+
+    const totalTimePregnant = Math.abs(today.getTime() - startDate.getTime());
+    const totalDaysPregnant = Math.ceil(totalTimePregnant / oneDay);
+    const percentageComplete = Math.round((totalDaysPregnant / 280) * 100);
+    const weekOfPregnancy = Math.floor(totalDaysPregnant / 7);
+
+    console.log("Start Date:", formattedStartDate);
+    console.log("How many percent is done:", percentageComplete + "%");
+    console.log("Week of pregnancy:", weekOfPregnancy);
+    console.log("Total days pregnant:", totalDaysPregnant);
+
+    return {
+      totalDaysPregnant,
+      percentageComplete,
+      weekOfPregnancy,
+      formattedStartDate,
+    };
+  };
+
+
+  const getBabiesByUserCallback = useCallback(getBabiesByUser, []);
+
   useEffect(() => {
-    // Fetch babies when the user changes
-    getBabiesByUser();
-  }, [user?._id]);
+    const fetchData = async () => {
+      try {
+        if (user?._id && !pregnancyData) {
+          console.log("Effect triggered. User ID:", user._id, "Babies:", babies);
+
+          // Fetch babies
+          await getBabiesByUserCallback();
+
+          console.log("Babies after fetching:", babies);
+
+          // Calculate pregnancy data using the updated babies state
+          const data = calculatePregnancyData(babies);
+          console.log("Calculated Pregnancy Data:", data);
+
+          setPregnancyData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching or calculating pregnancy data:", error);
+      }
+    };
+
+    fetchData();
+  }, [user, getBabiesByUserCallback, babies, pregnancyData]);
+
+  // Move the useEffect for fetching babies outside the fetchData function
+  useEffect(() => {
+    getBabiesByUserCallback();
+  }, [getBabiesByUserCallback]);
 
   return (
     <BabyContext.Provider
@@ -181,6 +253,7 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
         setActiveBaby,
         followBaby,
         shareFollowBaby,
+        pregnancyData
       }}
     >
       {children}
