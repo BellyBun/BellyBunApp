@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "Overpass",
-    fontSize: 20,
+    fontSize: 15,
     color: theme.colors.background,
   },
   input: {
