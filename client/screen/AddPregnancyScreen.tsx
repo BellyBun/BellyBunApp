@@ -5,11 +5,11 @@ import { StyleSheet, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import * as Yup from "yup";
-import { HomeStackParamList } from "../RootNavigator";
+import { RootTabParamList } from "../RootNavigator";
 import { useBaby } from "../context/babyContext";
 import theme from "../theme";
 
-type Props = NativeStackScreenProps<HomeStackParamList, "Home">;
+type Props = NativeStackScreenProps<RootTabParamList>;
 
 const validationSchema = Yup.object().shape({
   babyName: Yup.string(),
@@ -36,7 +36,7 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
       await createPregnancy(values.babyName, values.dueDate);
       console.log("Pregnancy added successfully");
       alert("Pregnancy successfully added");
-      navigation.navigate("Home", undefined);
+      //navigation.navigate("Home", undefined);
     } catch (error) {
       console.error("Add pregnancy error:", error);
       alert("Failed to add pregnancy. Please try again.");
@@ -65,7 +65,7 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
           <>
             <Text style={styles.text}>Vad vill du kalla din bebis?</Text>
             <TextInput
-              label="Smeknamn"
+              placeholder="Smeknamn"
               value={values.babyName}
               onBlur={handleBlur("babyName")}
               onChangeText={handleChange("babyName")}
@@ -75,7 +75,6 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
             <Text style={styles.text}>Ange datum för BF</Text>
 
             <TextInput
-              // label="Due Date (YYYY-MM-DD)"
               value={values.dueDate.toISOString().split("T")[0]}
               onTouchStart={() => {
                 showDatePicker();
@@ -108,7 +107,9 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
             </Button>
             <Button
               mode="elevated"
-              onPress={() => navigation.navigate("Home")}
+              onPress={() =>
+                navigation.navigate("SettingsStack", { screen: "Settings" })
+              }
               style={styles.button}
             >
               Tillbaka

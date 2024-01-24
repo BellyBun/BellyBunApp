@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
-import { StyleSheet, TextInput, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Button, Text, TextInput } from "react-native-paper";
 import { HomeStackParamList } from "../RootNavigator";
 import { useBaby } from "../context/babyContext";
 import { useUser } from "../context/userContext";
@@ -31,9 +31,10 @@ export default function FollowPregnancyScreen({ navigation }: Props) {
       <Text style={styles.text}>Ange kod</Text>
       <TextInput
         style={styles.input}
-        editable={true}
+        placeholder="Klistra in kod"
         onChangeText={(text) => setFollowBabyCode(text)}
         onSubmitEditing={handleFollowBaby}
+        mode="outlined"
       />
 
       <Button style={styles.button} onPress={handleFollowBaby}>
@@ -58,15 +59,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "Overpass",
-    fontSize: 20,
+    fontSize: 15,
     color: theme.colors.background,
   },
   input: {
     width: "60%",
-    height: 40,
-    borderRadius: 5,
-    backgroundColor: theme.colors.background,
-    marginBottom: 10,
+    borderRadius: 100,
   },
   button: {
     backgroundColor: theme.colors.background,

@@ -1,11 +1,11 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Button, Text, TextInput, useTheme } from "react-native-paper";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { useUser } from "../context/userContext";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Formik } from "formik";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { Button, Text, TextInput, useTheme } from "react-native-paper";
+import * as Yup from "yup";
 import { NotLoggedInStackParamList } from "../RootNavigator";
+import { useUser } from "../context/userContext";
 import theme from "../theme";
 
 type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Signup">;
@@ -50,31 +50,31 @@ export default function SignupScreen({ navigation }: Props) {
         {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
           <>
             <TextInput
-              label="Förnamn"
+              style={styles.input}
+              placeholder="Förnamn"
               value={values.username}
               onBlur={handleBlur("username")}
               onChangeText={handleChange("username")}
               mode="outlined"
-              style={styles.input}
             />
             {errors.username && (
               <Text style={{ color: "red" }}>{errors.username}</Text>
             )}
 
             <TextInput
-              label="Mejladress"
+              style={styles.input}
+              placeholder="Mejladress"
               value={values.email}
               onBlur={handleBlur("email")}
               onChangeText={handleChange("email")}
               mode="outlined"
-              style={styles.input}
             />
             {errors.email && (
               <Text style={{ color: "red" }}>{errors.email}</Text>
             )}
 
             <TextInput
-              label="Lösenord"
+              placeholder="Lösenord"
               value={values.password}
               onBlur={handleBlur("password")}
               onChangeText={handleChange("password")}

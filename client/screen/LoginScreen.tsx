@@ -43,7 +43,7 @@ export default function LoginScreen({ navigation }: Props) {
         {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
           <>
             <TextInput
-              label="Mejladress"
+              placeholder="Mejladress"
               value={values.email}
               onBlur={handleBlur("email")}
               onChangeText={handleChange("email")}
@@ -55,7 +55,7 @@ export default function LoginScreen({ navigation }: Props) {
             )}
 
             <TextInput
-              label="Lösenord"
+              placeholder="Lösenord"
               value={values.password}
               onBlur={handleBlur("password")}
               onChangeText={handleChange("password")}
