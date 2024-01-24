@@ -4,35 +4,55 @@ import { Button, Card, Text, useTheme } from "react-native-paper";
 import weekData from "../data/weeks.json";
 import theme from "../theme";
 import { useBaby } from "../context/babyContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const InfoCard = () => {
   const theme = useTheme();
   const { getBabiesByUser, pregnancyData } = useBaby();
   const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
+  const [currentWeek, setCurrentWeek] = useState(pregnancyData?.weekOfPregnancy || 1);
+  const [selectedData, setSelectedData] = useState(null);
   const [showFullText, setShowFullText] = React.useState(false);
-
-  useEffect(() => {
-    // Make sure you have the latest pregnancy data when the component mounts
-    getBabiesByUser();
-  }, []);
+  
 
   console.log("Pregnancy Data:", pregnancyData);
 
+  useEffect(() => {
+    getBabiesByUser();
+  }, []);
 
-  if (!pregnancyData || !pregnancyData.weekOfPregnancy) {
-    return <Text>Loading...</Text>;
+  // Check if pregnancyData is null or undefined
+  if (!pregnancyData) {
+    return <Text>Loading...</Text>; // Display a loading state
   }
 
+  const { weekOfPregnancy } = pregnancyData;
+
+  // Check if weekOfPregnancy is null or undefined
+  if (!weekOfPregnancy) {
+    return <Text>No pregnancy data available.</Text>; 
+  }
+
+  // Set the initial value of selectedData based on the current week
+useEffect(() => {
+  setSelectedData(weekData[weekOfPregnancy]);
+}, [weekOfPregnancy]);
+
   const handlePreviousWeek = () => {
-    if (pregnancyData.weekOfPregnancy > 1) {
+    if (currentWeek > 1) {
+      setCurrentWeek(currentWeek - 1);
       setSelectedCategory("Bebis");
+      setSelectedData(weekData[currentWeek - 2]);
+      console.log("handlePreviousWeek data:", selectedData);
     }
   };
 
   const handleNextWeek = () => {
-    if (pregnancyData.weekOfPregnancy < weekData.length) {
+    if (currentWeek < weekData.length) {
       setSelectedCategory("Bebis");
+      setCurrentWeek(currentWeek + 1);
+      setSelectedData(weekData[currentWeek]);
+      console.log("handleNextWeek data:", selectedData);
     }
   };
 
@@ -41,36 +61,33 @@ const InfoCard = () => {
   };
 
   const renderContent = () => {
-    const selectedData = weekData[pregnancyData.weekOfPregnancy -1];
-
+    if (!selectedData) {
+      return null;
+    }
+  
     const getText = (category) => {
-      switch (category) {
-        case "Bebis":
-          return selectedData.Bebis;
-        case "Mamma":
-          return selectedData.Mamma;
-        case "Partner":
-          return selectedData.Partner;
-        default:
-          return null;
+      if (!selectedData[category]) {
+        return null;
       }
+  
+      return selectedData[category];
     };
-
+  
     const text = getText(selectedCategory);
-
+  
     if (!text) {
       return null;
     }
-
+  
     const maxWords = 40;
-
+  
     const words = text.split(" ");
     const truncatedText = words.slice(0, maxWords).join(" ");
-
+  
     return (
       <>
         <Text variant="titleLarge" style={styles.title}>
-          {selectedData[`Rubrik${selectedCategory}`]}
+          {selectedData && selectedData[`Rubrik${selectedCategory}`]}
         </Text>
         <Text variant="bodyMedium" style={styles.text}>
           {showFullText ? text : truncatedText}
@@ -94,7 +111,7 @@ const InfoCard = () => {
       </>
     );
   };
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.topButtonsContainer}>
