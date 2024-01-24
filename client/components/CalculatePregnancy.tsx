@@ -11,10 +11,10 @@ export default function getPregnancyData() {
   const percentageComplete = Math.round((totalDaysPregnant / 280) * 100);
   const weekOfPregnancy = Math.floor(totalDaysPregnant / 7);
 
-  console.log("Start Date:", formattedStartDate);
-  console.log("How many percent is done:", percentageComplete + "%");
-  console.log("Week of pregnancy:", weekOfPregnancy);
-  console.log("Total days pregnant:", totalDaysPregnant);
+  //console.log("Start Date:", formattedStartDate);
+  //console.log("How many percent is done:", percentageComplete + "%");
+  //console.log("Week of pregnancy:", weekOfPregnancy);
+  //console.log("Total days pregnant:", totalDaysPregnant);
   return {
     totalDaysPregnant,
     percentageComplete,
