@@ -11,8 +11,8 @@ import theme from "../theme";
 type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Login">;
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().required("Mejladress är obligatoriskt"),
-  password: Yup.string().required("Ange ett lösenord"),
+  email: Yup.string().required("Vänligen ange mejladress"),
+  password: Yup.string().required("Vänligen ange lösenord"),
 });
 
 export default function LoginScreen({ navigation }: Props) {
@@ -20,7 +20,6 @@ export default function LoginScreen({ navigation }: Props) {
 
   const onSubmit = async (values: { email: string; password: string }) => {
     try {
-      // Convert email to lowercase before calling signIn
       const lowerCaseEmail = values.email.toLowerCase();
       await login(lowerCaseEmail, values.password);
       alert("Login successful.");
@@ -51,7 +50,7 @@ export default function LoginScreen({ navigation }: Props) {
               style={styles.input}
             />
             {errors.email && (
-              <Text style={{ color: "red" }}>{errors.email}</Text>
+              <Text style={{ color: "#E8B298" }}>{errors.email}</Text>
             )}
 
             <TextInput
@@ -65,7 +64,7 @@ export default function LoginScreen({ navigation }: Props) {
               style={styles.input}
             />
             {errors.password && (
-              <Text style={{ color: "red" }}>{errors.password}</Text>
+              <Text style={{ color: "#E8B298" }}>{errors.password}</Text>
             )}
 
             <Text style={styles.text}>
