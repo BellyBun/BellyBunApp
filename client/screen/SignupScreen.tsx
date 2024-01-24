@@ -60,7 +60,7 @@ export default function SignupScreen({ navigation }: Props) {
               mode="outlined"
             />
             {errors.username && (
-              <Text style={{ color: "#E8B298" }}>{errors.username}</Text>
+              <Text style={{ color: "darkred" }}>{errors.username}</Text>
             )}
 
             <TextInput
@@ -72,7 +72,7 @@ export default function SignupScreen({ navigation }: Props) {
               mode="outlined"
             />
             {errors.email && (
-              <Text style={{ color: "#E8B298" }}>{errors.email}</Text>
+              <Text style={{ color: "darkred" }}>{errors.email}</Text>
             )}
 
             <TextInput
@@ -86,7 +86,7 @@ export default function SignupScreen({ navigation }: Props) {
               style={styles.input}
             />
             {errors.password && (
-              <Text style={{ color: "#E8B298" }}>{errors.password}</Text>
+              <Text style={{ color: "darkred" }}>{errors.password}</Text>
             )}
             <Text style={styles.text}>
               Har du redan ett konto? Logga in{" "}

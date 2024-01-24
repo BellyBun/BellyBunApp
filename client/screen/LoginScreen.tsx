@@ -50,7 +50,7 @@ export default function LoginScreen({ navigation }: Props) {
               style={styles.input}
             />
             {errors.email && (
-              <Text style={{ color: "#E8B298" }}>{errors.email}</Text>
+              <Text style={{ color: "darkred" }}>{errors.email}</Text>
             )}
 
             <TextInput
@@ -64,7 +64,7 @@ export default function LoginScreen({ navigation }: Props) {
               style={styles.input}
             />
             {errors.password && (
-              <Text style={{ color: "#E8B298" }}>{errors.password}</Text>
+              <Text style={{ color: "darkred" }}>{errors.password}</Text>
             )}
 
             <Text style={styles.text}>
