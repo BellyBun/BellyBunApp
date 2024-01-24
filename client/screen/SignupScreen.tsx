@@ -11,9 +11,11 @@ import theme from "../theme";
 type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Signup">;
 
 const validationSchema = Yup.object().shape({
-  username: Yup.string().required("Username is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string().required("Password is required"),
+  username: Yup.string().required("Vänligen ange förnamn"),
+  email: Yup.string()
+    .email("Invalid email")
+    .required("Vänligen ange mejladress"),
+  password: Yup.string().required("Vänligen ange lösenord (min 6 tecken)"),
 });
 
 export default function SignupScreen({ navigation }: Props) {
@@ -58,7 +60,7 @@ export default function SignupScreen({ navigation }: Props) {
               mode="outlined"
             />
             {errors.username && (
-              <Text style={{ color: "red" }}>{errors.username}</Text>
+              <Text style={{ color: "darkred" }}>{errors.username}</Text>
             )}
 
             <TextInput
@@ -70,7 +72,7 @@ export default function SignupScreen({ navigation }: Props) {
               mode="outlined"
             />
             {errors.email && (
-              <Text style={{ color: "red" }}>{errors.email}</Text>
+              <Text style={{ color: "darkred" }}>{errors.email}</Text>
             )}
 
             <TextInput
@@ -84,7 +86,7 @@ export default function SignupScreen({ navigation }: Props) {
               style={styles.input}
             />
             {errors.password && (
-              <Text style={{ color: "red" }}>{errors.password}</Text>
+              <Text style={{ color: "darkred" }}>{errors.password}</Text>
             )}
             <Text style={styles.text}>
               Har du redan ett konto? Logga in{" "}
