@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useUser } from "./userContext";
 
 export interface Baby {
@@ -105,6 +105,8 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
       );
 
       if (response.ok) {
+        console.log(`Baby ${id} set as active`);
+
         // Fetch the updated baby list after setting the active baby
         await getBabiesByUser();
       } else {
@@ -133,6 +135,7 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
       );
 
       console.log("Response from server:", response);
+      
 
       if (response.ok) {
         const data = await response.json();
@@ -208,31 +211,37 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
   };
 
 
-
+  const getBabiesByUserCallback = useCallback(getBabiesByUser, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (user?._id && !pregnancyData) {
           console.log("Effect triggered. User ID:", user._id, "Babies:", babies);
-  
+
           // Fetch babies
-          await getBabiesByUser();
-  
-          // Calculate pregnancy data
+          await getBabiesByUserCallback();
+
+          console.log("Babies after fetching:", babies);
+
+          // Calculate pregnancy data using the updated babies state
           const data = calculatePregnancyData(babies);
+          console.log("Calculated Pregnancy Data:", data);
+
           setPregnancyData(data);
         }
       } catch (error) {
         console.error("Error fetching or calculating pregnancy data:", error);
       }
     };
-  
+
     fetchData();
-  }, [user, babies, pregnancyData]);
-  
-  
-  
+  }, [user, getBabiesByUserCallback, babies, pregnancyData]);
+
+  // Move the useEffect for fetching babies outside the fetchData function
+  useEffect(() => {
+    getBabiesByUserCallback();
+  }, [getBabiesByUserCallback]);
 
   return (
     <BabyContext.Provider

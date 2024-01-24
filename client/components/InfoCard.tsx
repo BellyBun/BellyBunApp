@@ -8,18 +8,22 @@ import { useEffect, useState } from "react";
 
 const InfoCard = () => {
   const theme = useTheme();
-  const { getBabiesByUser, pregnancyData } = useBaby();
+  const { pregnancyData } = useBaby();
   const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
   const [currentWeek, setCurrentWeek] = useState(pregnancyData?.weekOfPregnancy || 1);
-  const [selectedData, setSelectedData] = useState(null);
   const [showFullText, setShowFullText] = React.useState(false);
-  
+  const [selectedData, setSelectedData] = useState(weekData[currentWeek - 1]);
 
   console.log("Pregnancy Data:", pregnancyData);
 
   useEffect(() => {
-    getBabiesByUser();
-  }, []);
+    // Update the currentWeek and selectedData when pregnancyData changes
+    if (pregnancyData) {
+      const { weekOfPregnancy } = pregnancyData;
+      setCurrentWeek(weekOfPregnancy || 1);
+      setSelectedData(weekData[weekOfPregnancy - 1]);
+    }
+  }, [pregnancyData]);
 
   // Check if pregnancyData is null or undefined
   if (!pregnancyData) {
@@ -33,26 +37,19 @@ const InfoCard = () => {
     return <Text>No pregnancy data available.</Text>; 
   }
 
-  // Set the initial value of selectedData based on the current week
-useEffect(() => {
-  setSelectedData(weekData[weekOfPregnancy -1]);
-}, [weekOfPregnancy]);
-
   const handlePreviousWeek = () => {
     if (currentWeek > 1) {
-      setCurrentWeek(currentWeek - 1);
+      setCurrentWeek(prevWeek => prevWeek - 1);
       setSelectedCategory("Bebis");
       setSelectedData(weekData[currentWeek - 2]);
-      console.log("handlePreviousWeek data:", selectedData);
     }
   };
-
+  
   const handleNextWeek = () => {
     if (currentWeek < weekData.length) {
+      setCurrentWeek(prevWeek => prevWeek + 1);
       setSelectedCategory("Bebis");
-      setCurrentWeek(currentWeek + 1);
       setSelectedData(weekData[currentWeek]);
-      console.log("handleNextWeek data:", selectedData);
     }
   };
 
@@ -64,26 +61,26 @@ useEffect(() => {
     if (!selectedData) {
       return null;
     }
-  
+
     const getText = (category) => {
       if (!selectedData[category]) {
         return null;
       }
-  
+
       return selectedData[category];
     };
-  
+
     const text = getText(selectedCategory);
-  
+
     if (!text) {
       return null;
     }
-  
+
     const maxWords = 40;
-  
+
     const words = text.split(" ");
     const truncatedText = words.slice(0, maxWords).join(" ");
-  
+
     return (
       <>
         <Text variant="titleLarge" style={styles.title}>
@@ -111,7 +108,7 @@ useEffect(() => {
       </>
     );
   };
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.topButtonsContainer}>
