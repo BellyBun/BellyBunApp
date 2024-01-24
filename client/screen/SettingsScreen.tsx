@@ -20,6 +20,7 @@ type Props = NativeStackScreenProps<SettingsStackParamList, "Settings">;
 export default function SettingsScreen({ navigation }: Props) {
   const [isFirstExpanded, setFirstExpanded] = useState(false);
   const [isSecondExpanded, setSecondExpanded] = useState(false);
+  const [isThirdExpanded, setThirdExpanded] = useState(false);
   const { signout } = useUser();
   const { babies, setActiveBaby, shareFollowBaby } = useBaby();
   const [copiedText, setCopiedText] = useState("");
@@ -39,6 +40,9 @@ export default function SettingsScreen({ navigation }: Props) {
 
   const toggleSecondAccordion = () => {
     setSecondExpanded(!isSecondExpanded);
+  };
+  const toggleThirdAccordion = () => {
+    setThirdExpanded(!isThirdExpanded);
   };
 
   const handleBabyPress = async (id: string) => {
@@ -155,7 +159,30 @@ export default function SettingsScreen({ navigation }: Props) {
               onPress={() => {
                 signout();
               }}
-              style={styles.listButton}
+              style={styles.signOutButton}
+              textColor={theme.colors.background}
+            >
+              Ändra
+            </Button>
+          </>
+        )}
+        {/* Logga ut Accordion */}
+        <TouchableOpacity onPress={toggleThirdAccordion} activeOpacity={0.8}>
+          <View style={styles.accordionTitleContainer}>
+            <Text variant="headlineMedium" style={styles.listTitle}>
+              LOGGA UT
+            </Text>
+          </View>
+        </TouchableOpacity>
+
+        {isThirdExpanded && (
+          <>
+            <Button
+              mode="text"
+              onPress={() => {
+                signout();
+              }}
+              style={styles.signOutButton}
               textColor={theme.colors.background}
             >
               Logga ut
@@ -166,7 +193,7 @@ export default function SettingsScreen({ navigation }: Props) {
         <Button
           mode="text"
           textColor={theme.colors.background}
-          style={styles.button}
+          style={styles.addPregnancybutton}
           onPress={() => navigation.navigate("AddPregnancy")}
           icon="plus"
         >
@@ -199,6 +226,7 @@ const styles = StyleSheet.create({
   smallTitle: {
     fontFamily: "Oswald",
     color: theme.colors.background,
+    textDecorationLine: "underline",
   },
   accordionTitleContainer: {
     width: "100%",
@@ -209,16 +237,7 @@ const styles = StyleSheet.create({
     width: "100%",
     color: theme.colors.background,
   },
-  listButton: {
-    marginTop: 5,
-    width: 150,
-  },
-  button: {
-    borderBottomWidth: 1,
-    borderBottomColor: "white",
-    position: "absolute",
-    bottom: 50,
-  },
+
   shareButton: {
     color: theme.colors.background,
   },
@@ -232,5 +251,16 @@ const styles = StyleSheet.create({
   shareButtonContainer: {
     padding: 10,
     marginLeft: 10,
+    backgroundColor: theme.colors.accent, //ta bort färg när klar
+  },
+  signOutButton: {
+    marginTop: 5,
+    width: 150,
+  },
+  addPregnancybutton: {
+    borderBottomWidth: 1,
+    borderBottomColor: "white",
+    position: "absolute",
+    bottom: 50,
   },
 });
