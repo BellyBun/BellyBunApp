@@ -61,7 +61,6 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
 
       if (response.ok) {
         const createdBaby = await response.json();
-        console.log("Created Baby:", createdBaby);
         await getBabiesByUser();
         await setActiveBaby(createdBaby._id);
       } else {
@@ -105,9 +104,6 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
       );
 
       if (response.ok) {
-        console.log(`Baby ${id} set as active`);
-
-        // Fetch the updated baby list after setting the active baby
         await getBabiesByUser();
       } else {
         const errorData = await response.json();
@@ -120,8 +116,6 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
 
   const followBaby = async (followBabyCode: string) => {
     try {
-      console.log("Sending request to follow baby with code:", followBabyCode);
-
       const response = await fetch(
         `http://localhost:3000/api/baby/follow/${followBabyCode}`,
         {
@@ -133,13 +127,8 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
           body: JSON.stringify({ followBabyCode }),
         }
       );
-
-      console.log("Response from server:", response);
-      
-
       if (response.ok) {
         const data = await response.json();
-        console.log("Data received from server:", data);
         return data;
       } else {
         const errorData = await response.json();
@@ -182,7 +171,6 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
     const dueDate = activeBaby ? activeBaby.dueDate : null;
 
     if (!dueDate) {
-      // console.error("Active baby's dueDate not found.");
       return null;
     }
 
@@ -196,11 +184,6 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
     const totalDaysPregnant = Math.ceil(totalTimePregnant / oneDay);
     const percentageComplete = Math.round((totalDaysPregnant / 280) * 100);
     const weekOfPregnancy = Math.floor(totalDaysPregnant / 7);
-
-    console.log("Start Date:", formattedStartDate);
-    console.log("How many percent is done:", percentageComplete + "%");
-    console.log("Week of pregnancy:", weekOfPregnancy);
-    console.log("Total days pregnant:", totalDaysPregnant);
 
     return {
       totalDaysPregnant,
@@ -217,17 +200,9 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
     const fetchData = async () => {
       try {
         if (user?._id && !pregnancyData) {
-          console.log("Effect triggered. User ID:", user._id, "Babies:", babies);
-
-          // Fetch babies
           await getBabiesByUserCallback();
 
-          console.log("Babies after fetching:", babies);
-
-          // Calculate pregnancy data using the updated babies state
           const data = calculatePregnancyData(babies);
-          console.log("Calculated Pregnancy Data:", data);
-
           setPregnancyData(data);
         }
       } catch (error) {
@@ -238,7 +213,6 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
     fetchData();
   }, [user, getBabiesByUserCallback, babies, pregnancyData]);
 
-  // Move the useEffect for fetching babies outside the fetchData function
   useEffect(() => {
     getBabiesByUserCallback();
   }, [getBabiesByUserCallback]);

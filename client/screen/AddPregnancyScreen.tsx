@@ -34,7 +34,6 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
   const onSubmit = async (values: { babyName: string; dueDate: Date }) => {
     try {
       await createPregnancy(values.babyName, values.dueDate);
-      console.log("Pregnancy added successfully");
       navigation.navigate("HomeStack", { screen: "Home" });
     } catch (error) {
       console.error("Add pregnancy error:", error);

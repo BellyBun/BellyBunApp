@@ -64,7 +64,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     if (response.ok) {
       const user = await response.json();
       setUser(user);
-      console.log("new user:", user);
     } else {
       const errorData = await response.json();
       throw new Error(JSON.stringify(errorData));
@@ -84,7 +83,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     if (response.ok) {
       const user = await response.json();
-      console.log("User after login:", user);
       setUser(user);
     } else {
       const errorData = await response.json();

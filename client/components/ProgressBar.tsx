@@ -9,12 +9,10 @@ const PregnancyProgress = () => {
   const { pregnancyData, getBabiesByUser, babies } = useBaby();
 
   useEffect(() => {
-    // Make sure you have the latest pregnancy data when the component mounts
     getBabiesByUser();
   }, []);
 
   if (!pregnancyData) {
-    // Handle the case where pregnancy data is not available yet
     return <Text>Loading...</Text>;
   }
 

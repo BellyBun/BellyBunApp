@@ -64,9 +64,6 @@ export default function SettingsScreen({ navigation }: Props) {
   const handleBabyPress = async (id: string) => {
     try {
       await setActiveBaby(id);
-      console.log("Updated Babies:", babies);
-      console.log(`Button for baby ${id} pressed`);
-
       const clickedBaby = babies.find((baby) => baby._id === id);
       if (clickedBaby && clickedBaby.isActive) {
         try {
