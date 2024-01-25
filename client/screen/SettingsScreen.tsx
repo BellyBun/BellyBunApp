@@ -42,7 +42,23 @@ export default function SettingsScreen({ navigation }: Props) {
     setSecondExpanded(!isSecondExpanded);
   };
   const toggleThirdAccordion = () => {
-    setThirdExpanded(!isThirdExpanded);
+    Alert.alert(
+      "Logga ut",
+      "Är du säker på att du vill logga ut?",
+      [
+        {
+          text: "Avbryt",
+          style: "cancel",
+        },
+        {
+          text: "Ja",
+          onPress: () => {
+            signout();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   const handleBabyPress = async (id: string) => {
