@@ -109,7 +109,10 @@ export default function SettingsScreen({ navigation }: Props) {
             </Text>
             <View style={styles.accordionContent}>
               {babies.map((baby) => (
-                <View key={baby._id} style={styles.babyContainer}>
+                <View
+                  key={baby._id}
+                  style={[styles.babyContainer, { marginBottom: 15 }]}
+                >
                   <View
                     style={{
                       flexDirection: "row",
