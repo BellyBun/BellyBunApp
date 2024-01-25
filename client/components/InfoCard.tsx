@@ -86,6 +86,9 @@ const InfoCard = () => {
         <Text variant="titleLarge" style={styles.title}>
           {selectedData && selectedData[`Rubrik${selectedCategory}`]}
         </Text>
+        <Text style={styles.weekText}>{`Vecka ${
+          selectedData ? selectedData.week : ""
+        }`}</Text>
         <Text variant="bodyMedium" style={styles.text}>
           {showFullText ? text : truncatedText}
           {!showFullText && words.length > maxWords && (
@@ -154,9 +157,7 @@ const InfoCard = () => {
         <Card.Actions>
           <View style={styles.bottomButtonsContainer}>
             <Button onPress={handlePreviousWeek}>Föregående</Button>
-            <Text style={styles.weekText}>{`Vecka ${
-              selectedData ? selectedData.week : ""
-            }`}</Text>
+
             <Button onPress={handleNextWeek}>Nästa</Button>
           </View>
         </Card.Actions>
@@ -191,11 +192,11 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "Oswald",
     color: theme.colors.accent,
-    marginVertical: 15,
+    marginTop: 15,
   },
   text: {
     fontFamily: "Overpass",
-    marginBottom: 10,
+    marginVertical: 10,
   },
   weekText: {
     fontFamily: "Overpass",
