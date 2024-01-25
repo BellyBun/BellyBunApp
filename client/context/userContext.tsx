@@ -31,31 +31,17 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const checkLoggedIn = async () => {
-    try {
-      console.log("Before fetch in checkLoggedIn");
-      const response = await fetch("http://localhost:3000/api/users/auth", {
-        credentials: "include",
-      });
-
-      console.log("After fetch in checkLoggedIn");
-
-      if (response.status === 204) {
-        console.log("User is null");
-        setUser(null);
-      } else if (response.ok) {
-        const user = await response.json();
-        console.log("Received user data:", user);
-        if (user.success) {
-          console.log("Setting user:", user);
-          setUser(user);
-        }
-      } else {
-        console.log("Error status during checkLoggedIn:", response.status);
-        setUser(null);
-        console.error("Error checking login status:", response.statusText);
+    const response = await fetch("http://localhost:3000/api/users/auth", {
+      credentials: "include",
+    });
+    if (response.status === 204) {
+      setUser(null);
+    } else if (response.ok) {
+      const data = await response.json();
+      if (data.success) {
+        setUser(data.user);
       }
-    } catch (error) {
-      console.log("Error during checkLoggedIn:", error.message);
+    } else {
       setUser(null);
     }
   };
@@ -98,7 +84,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     if (response.ok) {
       const user = await response.json();
-      console.log("User after login:", user); // Check the structure of the received user object
+      console.log("User after login:", user);
       setUser(user);
     } else {
       const errorData = await response.json();
@@ -116,7 +102,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       if (response.ok) {
         setUser(null);
-        console.log("After setUser(null):", user);
       } else {
         console.error("Error during signout:", response.statusText);
       }
