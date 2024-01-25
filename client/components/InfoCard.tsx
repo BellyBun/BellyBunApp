@@ -10,11 +10,11 @@ const InfoCard = () => {
   const theme = useTheme();
   const { pregnancyData } = useBaby();
   const [selectedCategory, setSelectedCategory] = React.useState("Bebis");
-  const [currentWeek, setCurrentWeek] = useState(pregnancyData?.weekOfPregnancy || 1);
+  const [currentWeek, setCurrentWeek] = useState(
+    pregnancyData?.weekOfPregnancy || 1
+  );
   const [showFullText, setShowFullText] = React.useState(false);
   const [selectedData, setSelectedData] = useState(weekData[currentWeek - 1]);
-
-  console.log("Pregnancy Data:", pregnancyData);
 
   useEffect(() => {
     // Update the currentWeek and selectedData when pregnancyData changes
@@ -34,20 +34,20 @@ const InfoCard = () => {
 
   // Check if weekOfPregnancy is null or undefined
   if (!weekOfPregnancy) {
-    return <Text>No pregnancy data available.</Text>; 
+    return <Text>No pregnancy data available.</Text>;
   }
 
   const handlePreviousWeek = () => {
     if (currentWeek > 1) {
-      setCurrentWeek(prevWeek => prevWeek - 1);
+      setCurrentWeek((prevWeek) => prevWeek - 1);
       setSelectedCategory("Bebis");
       setSelectedData(weekData[currentWeek - 2]);
     }
   };
-  
+
   const handleNextWeek = () => {
     if (currentWeek < weekData.length) {
-      setCurrentWeek(prevWeek => prevWeek + 1);
+      setCurrentWeek((prevWeek) => prevWeek + 1);
       setSelectedCategory("Bebis");
       setSelectedData(weekData[currentWeek]);
     }
@@ -76,7 +76,7 @@ const InfoCard = () => {
       return null;
     }
 
-    const maxWords = 40;
+    const maxWords = 60;
 
     const words = text.split(" ");
     const truncatedText = words.slice(0, maxWords).join(" ");
@@ -148,13 +148,15 @@ const InfoCard = () => {
         </TouchableWithoutFeedback>
       </View>
 
-      <Card style={{ width: "95%", backgroundColor: "#FAF8F4" }}>
+      <Card style={styles.card}>
         <Card.Content>{renderContent()}</Card.Content>
 
         <Card.Actions>
           <View style={styles.bottomButtonsContainer}>
             <Button onPress={handlePreviousWeek}>Föregående</Button>
-            <Text>{`Vecka ${selectedData ? selectedData.week : ""}`}</Text>
+            <Text style={styles.weekText}>{`Vecka ${
+              selectedData ? selectedData.week : ""
+            }`}</Text>
             <Button onPress={handleNextWeek}>Nästa</Button>
           </View>
         </Card.Actions>
@@ -170,27 +172,40 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
   },
+  card: {
+    maxWidth: "100%",
+    backgroundColor: theme.colors.background,
+    marginHorizontal: 15,
+  },
   topButtonsContainer: {
+    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignContent: "center",
-    width: "90%",
-    marginBottom: 10,
+    width: "100%",
+    paddingHorizontal: 30,
+    marginBottom: 15,
+    textAlign: "center",
   },
+
   title: {
     fontFamily: "Oswald",
     color: theme.colors.accent,
-    marginTop: 15,
-    marginBottom: 15,
+    marginVertical: 15,
   },
   text: {
     fontFamily: "Overpass",
     marginBottom: 10,
   },
+  weekText: {
+    fontFamily: "Overpass",
+    color: theme.colors.accent,
+  },
   buttonText: {
     fontFamily: "Oswald",
     color: theme.colors.accent,
     fontSize: 17,
+    textAlign: "center",
   },
   activeButton: {
     color: theme.colors.primary,
@@ -200,6 +215,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
+    alignItems: "center",
   },
 });
 
