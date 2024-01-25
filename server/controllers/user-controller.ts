@@ -68,7 +68,6 @@ export async function updateUserWelcomeStatus(req: Request, res: Response) {
 
     assert(updatedUser !== null, 404, "User not found");
 
-    // Update the user in the session
     req.session.user.isWelcomed = true;
 
     return res.json(updatedUser);

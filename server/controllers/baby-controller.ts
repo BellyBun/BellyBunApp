@@ -35,10 +35,7 @@ export async function createPregnancy(req: Request, res: Response) {
 
 export async function getBabiesByUser(req: Request, res: Response) {
   const userEmail = req.params.email;
-  console.log("User Email:", userEmail);
-
   const user = await UserModel.findOne({ email: userEmail });
-  console.log("Found User:", user);
 
   assert(user !== null, 404, "User not found");
 
@@ -98,8 +95,7 @@ export async function shareFollowBaby(req: Request, res: Response) {
       return res.status(404).json({ message: "Baby not found" });
     }
 
-    const followBabyCode = baby._id.toString(); // Convert ObjectId to string
-    console.log("Follow Baby Code:", followBabyCode);
+    const followBabyCode = baby._id.toString();
 
     return res.status(200).json({ followBabyCode });
   } catch (error) {
@@ -132,7 +128,7 @@ export async function followBaby(req: Request, res: Response) {
     // Associate the baby with the logged-in user as a followedBaby
     const userId = req.session.user._id;
 
-    // Add the baby to the user's followedBabies array (assuming followedBabies is an array in the user model)
+    // Add the baby to the user's followedBabies array
     const user = await UserModel.findById(userId);
     assert(user !== null, 404, "User not found");
 
@@ -140,14 +136,10 @@ export async function followBaby(req: Request, res: Response) {
     if (user) {
       user.followedBabies.push(baby._id);
     
-      // Save the updated user
       await user.save();
     } else {
       return res.status(404).json({ message: "User not found" });
     }
-
-    console.log("Baby found and associated with user:", followBabyCode, user);
-
     return res.status(200).json({ message: "Baby successfully followed" });
   } catch (error) {
     console.error("Error following baby:", error);
@@ -155,28 +147,4 @@ export async function followBaby(req: Request, res: Response) {
   }
 }
 
-
-// export async function followBaby(req: Request, res: Response) {
-//   try {
-//     const followBabyCode = req.params.code;
-
-//     const baby = await BabyModel.findOne({
-//       $or: [
-//         { userId: followBabyCode },
-//         { "userId._id": followBabyCode },
-//       ],
-//     });
-
-//     if (!baby) {
-//       return res.status(400).json({ message: "Baby not found" });
-//     }
-
-//     console.log("Baby found for followBabyCode:", followBabyCode, baby);
-
-//     return res.status(200).json(baby);
-//   } catch (error) {
-//     console.error("Error following baby:", error);
-//     return res.status(500).json({ message: "Internal server error follow baby" });
-//   }
-// }
 
