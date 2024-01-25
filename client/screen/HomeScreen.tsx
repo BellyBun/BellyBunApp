@@ -9,12 +9,7 @@ type Props = NativeStackScreenProps<HomeStackParamList, "Home">;
 
 export default function HomeScreen({ navigation }: Props) {
   return (
-    <SafeAreaView
-      style={[
-        styles.safeContainer,
-        { backgroundColor: theme.colors.background },
-      ]}
-    >
+    <SafeAreaView style={styles.safeContainer}>
       <ScrollView contentContainerStyle={styles.container}>
         <PregnancyProgress />
         <InfoCard />
@@ -26,15 +21,14 @@ export default function HomeScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    marginTop: -140, // TODO: Fixa så att det inte är hårdkodat
+    backgroundColor: theme.colors.primary,
   },
   container: {
     flexGrow: 1,
     alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-
-    paddingBottom: 10,
+    gap: 50,
+    paddingBottom: 20,
+    backgroundColor: theme.colors.background,
   },
   title: {
     fontFamily: "Oswald",
