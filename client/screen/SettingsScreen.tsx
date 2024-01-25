@@ -124,19 +124,26 @@ export default function SettingsScreen({ navigation }: Props) {
                   >
                     <Button
                       key={baby._id}
-                      mode={baby.isActive ? "elevated" : "outlined"}
+                      //mode={baby.isActive ? "elevated" : "outlined"}
                       style={{
+                        borderColor: theme.colors.primary,
+
                         backgroundColor: baby.isActive
-                          ? theme.colors.background
+                          ? theme.colors.primary
                           : theme.colors.primary,
                       }}
                       labelStyle={{
                         color: baby.isActive
-                          ? theme.colors.primary
+                          ? theme.colors.background
                           : theme.colors.background,
                         fontFamily: "Oswald",
                         fontSize: 18,
+                        marginLeft: 20,
+
                         textTransform: "uppercase",
+                        textDecorationLine: baby.isActive
+                          ? "underline"
+                          : "none",
                       }}
                       onPress={() => handleBabyPress(baby._id)}
                     >
