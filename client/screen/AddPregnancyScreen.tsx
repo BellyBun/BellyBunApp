@@ -12,7 +12,7 @@ import theme from "../theme";
 type Props = NativeStackScreenProps<RootTabParamList>;
 
 const validationSchema = Yup.object().shape({
-  babyName: Yup.string(),
+  babyName: Yup.string().required("Nickname is required"),
   dueDate: Yup.date()
     .typeError("Invalid date format")
     .required("Due date is required"),
@@ -35,8 +35,7 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
     try {
       await createPregnancy(values.babyName, values.dueDate);
       console.log("Pregnancy added successfully");
-      alert("Pregnancy successfully added");
-      //navigation.navigate("Home", undefined);
+      navigation.navigate("HomeStack", { screen: "Home" });
     } catch (error) {
       console.error("Add pregnancy error:", error);
       alert("Failed to add pregnancy. Please try again.");
