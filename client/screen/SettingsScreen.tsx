@@ -17,10 +17,10 @@ import theme from "../theme";
 
 type Props = NativeStackScreenProps<SettingsStackParamList, "Settings">;
 
-
 export default function SettingsScreen({ navigation }: Props) {
   const [isFirstExpanded, setFirstExpanded] = useState(false);
   const [isSecondExpanded, setSecondExpanded] = useState(false);
+  const [isThirdExpanded, setThirdExpanded] = useState(false);
   const { signout } = useUser();
   const { babies, setActiveBaby, shareFollowBaby } = useBaby();
   const [copiedText, setCopiedText] = useState("");
@@ -41,11 +41,30 @@ export default function SettingsScreen({ navigation }: Props) {
   const toggleSecondAccordion = () => {
     setSecondExpanded(!isSecondExpanded);
   };
+  const toggleThirdAccordion = () => {
+    Alert.alert(
+      "Logga ut",
+      "Är du säker på att du vill logga ut?",
+      [
+        {
+          text: "Avbryt",
+          style: "cancel",
+        },
+        {
+          text: "Ja",
+          onPress: () => {
+            signout();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   const handleBabyPress = async (id: string) => {
     try {
       await setActiveBaby(id);
-      console.log('Updated Babies:', babies);
+      console.log("Updated Babies:", babies);
       console.log(`Button for baby ${id} pressed`);
 
       const clickedBaby = babies.find((baby) => baby._id === id);
@@ -98,43 +117,72 @@ export default function SettingsScreen({ navigation }: Props) {
             </Text>
           </View>
         </TouchableOpacity>
+
         {isFirstExpanded && babies.length > 0 && (
           <>
-            <Text variant="titleLarge" style={styles.smallTitle}>
-              VÄLJ BEBIS
+            <Text style={styles.smallTitle}>
+              Välj bebis att följa eller dela kod
             </Text>
-            <View>
+            <View style={styles.accordionContent}>
               {babies.map((baby) => (
-                <View key={baby._id} style={styles.babyContainer}>
-                  <Button
-                    key={baby._id}
-                    mode={baby.isActive ? "elevated" : "outlined"}
+                <View
+                  key={baby._id}
+                  style={[styles.babyContainer, { marginBottom: 15 }]}
+                >
+                  <View
                     style={{
-                      backgroundColor: baby.isActive
-                        ? theme.colors.background
-                        : theme.colors.primary,
-                      borderColor: baby.isActive
-                        ? "white"
-                        : theme.colors.background,
+                      flexDirection: "row",
+                      borderColor: theme.colors.background,
+                      borderWidth: 1,
+                      borderRadius: 30,
+                      overflow: "hidden",
+                      width: "60%",
+                      alignItems: "center",
+                      justifyContent: "space-between",
                     }}
-                    labelStyle={{
-                      color: baby.isActive
-                        ? theme.colors.primary
-                        : theme.colors.background,
-                    }}
-                    onPress={() => handleBabyPress(baby._id)}
                   >
-                    {baby.nickname}
-                  </Button>
-                  <TouchableOpacity onPress={() => handleBabyPress(baby._id)}>
-                    <View style={styles.shareButtonContainer}>
+                    <Button
+                      key={baby._id}
+                      //mode={baby.isActive ? "elevated" : "outlined"}
+                      style={{
+                        borderColor: theme.colors.primary,
+
+                        backgroundColor: baby.isActive
+                          ? theme.colors.primary
+                          : theme.colors.primary,
+                      }}
+                      labelStyle={{
+                        color: baby.isActive
+                          ? theme.colors.background
+                          : theme.colors.background,
+                        fontFamily: "Oswald",
+                        fontSize: 18,
+                        marginLeft: 20,
+
+                        textTransform: "uppercase",
+                        textDecorationLine: baby.isActive
+                          ? "underline"
+                          : "none",
+                      }}
+                      onPress={() => handleBabyPress(baby._id)}
+                    >
+                      {baby.nickname}
+                    </Button>
+                    <TouchableOpacity
+                      onPress={() => handleBabyPress(baby._id)}
+                      style={{
+                        padding: 10,
+                        marginLeft: 10,
+                        backgroundColor: theme.colors.primary,
+                      }}
+                    >
                       <Ionicons
                         name="share-outline"
                         color={theme.colors.background}
                         size={24}
                       />
-                    </View>
-                  </TouchableOpacity>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               ))}
             </View>
@@ -154,10 +202,30 @@ export default function SettingsScreen({ navigation }: Props) {
           <>
             <Button
               mode="text"
+              style={styles.signOutButton}
+              textColor={theme.colors.background}
+            >
+              Ändra lösenord
+            </Button>
+          </>
+        )}
+        {/* Logga ut Accordion */}
+        <TouchableOpacity onPress={toggleThirdAccordion} activeOpacity={0.8}>
+          <View style={styles.accordionTitleContainer}>
+            <Text variant="headlineMedium" style={styles.listTitle}>
+              LOGGA UT
+            </Text>
+          </View>
+        </TouchableOpacity>
+
+        {isThirdExpanded && (
+          <>
+            <Button
+              mode="text"
               onPress={() => {
                 signout();
               }}
-              style={styles.listButton}
+              style={styles.signOutButton}
               textColor={theme.colors.background}
             >
               Logga ut
@@ -168,9 +236,14 @@ export default function SettingsScreen({ navigation }: Props) {
         <Button
           mode="text"
           textColor={theme.colors.background}
-          style={styles.button}
+          style={styles.addPregnancybutton}
           onPress={() => navigation.navigate("AddPregnancy")}
           icon="plus"
+          labelStyle={{
+            fontFamily: "Oswald",
+            fontSize: 15,
+            textTransform: "uppercase",
+          }}
         >
           Lägg till ny graviditet
         </Button>
@@ -199,8 +272,10 @@ const styles = StyleSheet.create({
     color: theme.colors.background,
   },
   smallTitle: {
-    fontFamily: "Oswald",
+    fontFamily: "Overpass",
+    fontSize: 17,
     color: theme.colors.background,
+    //textDecorationLine: "underline",
   },
   accordionTitleContainer: {
     width: "100%",
@@ -211,15 +286,9 @@ const styles = StyleSheet.create({
     width: "100%",
     color: theme.colors.background,
   },
-  listButton: {
-    marginTop: 5,
-    width: 150,
-  },
-  button: {
-    borderBottomWidth: 1,
-    borderBottomColor: "white",
-    position: "absolute",
-    bottom: 50,
+  accordionContent: {
+    justifyContent: "center",
+    alignItems: "center",
   },
   shareButton: {
     color: theme.colors.background,
@@ -234,5 +303,16 @@ const styles = StyleSheet.create({
   shareButtonContainer: {
     padding: 10,
     marginLeft: 10,
+    backgroundColor: theme.colors.primary, //ta bort färg när klar
+  },
+  signOutButton: {
+    marginTop: 5,
+    width: 150,
+  },
+  addPregnancybutton: {
+    borderBottomWidth: 1,
+    borderBottomColor: "white",
+    position: "absolute",
+    bottom: 50,
   },
 });
