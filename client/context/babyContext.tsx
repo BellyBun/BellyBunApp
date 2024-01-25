@@ -197,11 +197,11 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
   const getBabiesByUserCallback = useCallback(getBabiesByUser, []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDataAndCalculatePregnancy = async () => {
       try {
-        if (user?._id && !pregnancyData) {
+        if (user?._id) {
           await getBabiesByUserCallback();
-
+          // Calculate pregnancy data after updating babies state
           const data = calculatePregnancyData(babies);
           setPregnancyData(data);
         }
@@ -209,9 +209,10 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
         console.error("Error fetching or calculating pregnancy data:", error);
       }
     };
-
-    fetchData();
-  }, [user, getBabiesByUserCallback, babies, pregnancyData]);
+  
+    fetchDataAndCalculatePregnancy();
+  }, [user, getBabiesByUserCallback, babies]); // Include babies as a dependency
+  
 
   useEffect(() => {
     getBabiesByUserCallback();
