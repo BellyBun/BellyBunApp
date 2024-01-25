@@ -242,6 +242,11 @@ export default function SettingsScreen({ navigation }: Props) {
           style={styles.addPregnancybutton}
           onPress={() => navigation.navigate("AddPregnancy")}
           icon="plus"
+          labelStyle={{
+            fontFamily: "Oswald",
+            fontSize: 15,
+            textTransform: "uppercase",
+          }}
         >
           Lägg till ny graviditet
         </Button>
