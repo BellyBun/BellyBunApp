@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import theme from "../theme";
 import { useBaby } from "../context/babyContext";
 
 const PregnancyProgress = () => {
-  const { pregnancyData, getBabiesByUser } = useBaby();
+  const { pregnancyData, getBabiesByUser, baby } = useBaby();
 
   useEffect(() => {
     // Make sure you have the latest pregnancy data when the component mounts
@@ -17,7 +18,8 @@ const PregnancyProgress = () => {
     return <Text>Loading...</Text>;
   }
 
-  const { percentageComplete, weekOfPregnancy, totalDaysPregnant } = pregnancyData;
+  const { percentageComplete, weekOfPregnancy, totalDaysPregnant } =
+    pregnancyData;
 
   const radius = 90;
   const circumference = 2 * Math.PI * radius;
@@ -25,6 +27,10 @@ const PregnancyProgress = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.info}>
+        <Text style={styles.infoText}>Baby name</Text>
+        <Text style={styles.infoText}>2024-02-21</Text>
+      </View>
       <AnimatedCircularProgress
         size={180}
         width={7}
@@ -37,38 +43,82 @@ const PregnancyProgress = () => {
       >
         {(fill) => (
           <Text style={styles.progressText}>
-            {percentageComplete.toFixed(1)}%{"\n"}färdigbakad!
+            {percentageComplete.toFixed(0)}%{"\n"}färdigbakad
           </Text>
         )}
       </AnimatedCircularProgress>
 
-      {/* Three text blocks in a row */}
-      <View style={styles.rowContainer}>
-        <Text style={styles.rowText}>VECKA {weekOfPregnancy}</Text>
-        <Text style={styles.middleRowText}>DAG {totalDaysPregnant}</Text>
-        <Text style={styles.rowText}>BF {280 - totalDaysPregnant}</Text>
+      <View style={styles.flexContainer}>
+        <View style={styles.textBox}>
+          <Text style={styles.title}>Vecka</Text>
+          <Text style={styles.text}>{weekOfPregnancy}</Text>
+        </View>
+        <View style={styles.textBox}>
+          <Text style={styles.title}>Dag</Text>
+          <Text style={styles.text}>{totalDaysPregnant} av 280</Text>
+        </View>
+        <View style={styles.textBox}>
+          <Text style={styles.title}>BF</Text>
+          <Text style={styles.text}>{280 - totalDaysPregnant} dagar </Text>
+        </View>
       </View>
     </View>
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 400,
+    height: 380,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-around",
     backgroundColor: theme.colors.primary,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
+  },
+  info: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 30,
+  },
+  infoText: {
+    fontFamily: "Oswald",
+    color: theme.colors.background,
+    fontSize: 14,
+    textTransform: "uppercase",
   },
   progressText: {
     textAlign: "center",
     marginBottom: 10,
     color: theme.colors.background,
     fontFamily: "Oswald",
-    fontSize: 20,
+    fontSize: 16,
+  },
+  flexContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    paddingHorizontal: 30,
+  },
+  textBox: {
+    //flexGrow: 1,
+    //width: "33.3333333%",
+  },
+  title: {
+    fontFamily: "Oswald",
+    color: theme.colors.background,
+    textTransform: "uppercase",
+    fontSize: 18,
+    textAlign: "center",
+  },
+  text: {
+    fontFamily: "Oswald",
+    textAlign: "center",
+    color: theme.colors.background,
   },
   rowContainer: {
     flexDirection: "row",
@@ -77,7 +127,7 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 30,
     marginTop: 10,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   rowText: {
     fontFamily: "Oswald",
