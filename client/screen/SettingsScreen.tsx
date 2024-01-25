@@ -120,8 +120,8 @@ export default function SettingsScreen({ navigation }: Props) {
 
         {isFirstExpanded && babies.length > 0 && (
           <>
-            <Text variant="titleLarge" style={styles.smallTitle}>
-              VÄLJ BEBIS
+            <Text style={styles.smallTitle}>
+              Välj bebis att följa eller dela kod
             </Text>
             <View style={styles.accordionContent}>
               {babies.map((baby) => (
@@ -202,13 +202,10 @@ export default function SettingsScreen({ navigation }: Props) {
           <>
             <Button
               mode="text"
-              onPress={() => {
-                signout();
-              }}
               style={styles.signOutButton}
               textColor={theme.colors.background}
             >
-              Ändra
+              Ändra lösenord
             </Button>
           </>
         )}
@@ -275,9 +272,10 @@ const styles = StyleSheet.create({
     color: theme.colors.background,
   },
   smallTitle: {
-    fontFamily: "Oswald",
+    fontFamily: "Overpass",
+    fontSize: 17,
     color: theme.colors.background,
-    textDecorationLine: "underline",
+    //textDecorationLine: "underline",
   },
   accordionTitleContainer: {
     width: "100%",
