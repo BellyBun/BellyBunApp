@@ -6,7 +6,7 @@ import theme from "../theme";
 import { useBaby } from "../context/babyContext";
 
 const PregnancyProgress = () => {
-  const { pregnancyData, getBabiesByUser, baby } = useBaby();
+  const { pregnancyData, getBabiesByUser, babies } = useBaby();
 
   useEffect(() => {
     // Make sure you have the latest pregnancy data when the component mounts
@@ -18,6 +18,8 @@ const PregnancyProgress = () => {
     return <Text>Loading...</Text>;
   }
 
+  const activeBaby = babies.find((baby) => baby.isActive);
+
   const { percentageComplete, weekOfPregnancy, totalDaysPregnant } =
     pregnancyData;
 
@@ -28,8 +30,10 @@ const PregnancyProgress = () => {
   return (
     <View style={styles.container}>
       <View style={styles.info}>
-        <Text style={styles.infoText}>Baby name</Text>
-        <Text style={styles.infoText}>2024-02-21</Text>
+        <Text style={styles.infoText}>{activeBaby.nickname}</Text>
+        <Text style={styles.infoText}>
+          {new Date(activeBaby.dueDate).toLocaleDateString()}
+        </Text>
       </View>
       <AnimatedCircularProgress
         size={180}
