@@ -17,7 +17,6 @@ import theme from "../theme";
 
 type Props = NativeStackScreenProps<SettingsStackParamList, "Settings">;
 
-
 export default function SettingsScreen({ navigation }: Props) {
   const [isFirstExpanded, setFirstExpanded] = useState(false);
   const [isSecondExpanded, setSecondExpanded] = useState(false);
@@ -49,7 +48,7 @@ export default function SettingsScreen({ navigation }: Props) {
   const handleBabyPress = async (id: string) => {
     try {
       await setActiveBaby(id);
-      console.log('Updated Babies:', babies);
+      console.log("Updated Babies:", babies);
       console.log(`Button for baby ${id} pressed`);
 
       const clickedBaby = babies.find((baby) => baby._id === id);
@@ -102,43 +101,62 @@ export default function SettingsScreen({ navigation }: Props) {
             </Text>
           </View>
         </TouchableOpacity>
+
         {isFirstExpanded && babies.length > 0 && (
           <>
             <Text variant="titleLarge" style={styles.smallTitle}>
               VÄLJ BEBIS
             </Text>
-            <View>
+            <View style={styles.accordionContent}>
               {babies.map((baby) => (
                 <View key={baby._id} style={styles.babyContainer}>
-                  <Button
-                    key={baby._id}
-                    mode={baby.isActive ? "elevated" : "outlined"}
+                  <View
                     style={{
-                      backgroundColor: baby.isActive
-                        ? theme.colors.background
-                        : theme.colors.primary,
-                      borderColor: baby.isActive
-                        ? "white"
-                        : theme.colors.background,
+                      flexDirection: "row",
+                      borderColor: theme.colors.background,
+                      borderWidth: 1,
+                      borderRadius: 30,
+                      overflow: "hidden",
+                      width: "60%",
+                      alignItems: "center",
+                      justifyContent: "space-between",
                     }}
-                    labelStyle={{
-                      color: baby.isActive
-                        ? theme.colors.primary
-                        : theme.colors.background,
-                    }}
-                    onPress={() => handleBabyPress(baby._id)}
                   >
-                    {baby.nickname}
-                  </Button>
-                  <TouchableOpacity onPress={() => handleBabyPress(baby._id)}>
-                    <View style={styles.shareButtonContainer}>
+                    <Button
+                      key={baby._id}
+                      mode={baby.isActive ? "elevated" : "outlined"}
+                      style={{
+                        backgroundColor: baby.isActive
+                          ? theme.colors.background
+                          : theme.colors.primary,
+                      }}
+                      labelStyle={{
+                        color: baby.isActive
+                          ? theme.colors.primary
+                          : theme.colors.background,
+                        fontFamily: "Oswald",
+                        fontSize: 18,
+                        textTransform: "uppercase",
+                      }}
+                      onPress={() => handleBabyPress(baby._id)}
+                    >
+                      {baby.nickname}
+                    </Button>
+                    <TouchableOpacity
+                      onPress={() => handleBabyPress(baby._id)}
+                      style={{
+                        padding: 10,
+                        marginLeft: 10,
+                        backgroundColor: theme.colors.primary,
+                      }}
+                    >
                       <Ionicons
                         name="share-outline"
                         color={theme.colors.background}
                         size={24}
                       />
-                    </View>
-                  </TouchableOpacity>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               ))}
             </View>
@@ -239,7 +257,10 @@ const styles = StyleSheet.create({
     width: "100%",
     color: theme.colors.background,
   },
-
+  accordionContent: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
   shareButton: {
     color: theme.colors.background,
   },
@@ -253,7 +274,7 @@ const styles = StyleSheet.create({
   shareButtonContainer: {
     padding: 10,
     marginLeft: 10,
-    backgroundColor: theme.colors.accent, //ta bort färg när klar
+    backgroundColor: theme.colors.primary, //ta bort färg när klar
   },
   signOutButton: {
     marginTop: 5,
