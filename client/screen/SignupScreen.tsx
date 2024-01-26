@@ -31,8 +31,6 @@ export default function SignupScreen({ navigation }: Props) {
       const lowercaseEmail = values.email.toLowerCase();
       await signup(values.username, lowercaseEmail, values.password);
       await login(lowercaseEmail, values.password);
-
-      alert("Registration successful.");
     } catch (error) {
       console.error("Registration error:", error);
       alert("Registration failed. Please try again.");

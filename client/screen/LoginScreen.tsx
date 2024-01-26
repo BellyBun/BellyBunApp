@@ -22,7 +22,6 @@ export default function LoginScreen({ navigation }: Props) {
     try {
       const lowerCaseEmail = values.email.toLowerCase();
       await login(lowerCaseEmail, values.password);
-      alert("Login successful.");
     } catch (error) {
       console.error("Login error:", error);
       alert("Login failed. Please try again.");
