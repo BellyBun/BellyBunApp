@@ -1,13 +1,9 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
-import { HomeStackParamList } from "../RootNavigator";
 import InfoCard from "../components/InfoCard";
 import PregnancyProgress from "../components/ProgressBar";
 import theme from "../theme";
 
-type Props = NativeStackScreenProps<HomeStackParamList, "Home">;
-
-export default function HomeScreen({ navigation }: Props) {
+export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -29,11 +25,5 @@ const styles = StyleSheet.create({
     gap: 50,
     paddingBottom: 20,
     backgroundColor: theme.colors.background,
-  },
-  title: {
-    fontFamily: "Oswald",
-  },
-  text: {
-    fontFamily: "Overpass",
   },
 });
