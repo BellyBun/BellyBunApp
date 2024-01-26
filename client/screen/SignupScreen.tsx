@@ -12,9 +12,7 @@ type Props = NativeStackScreenProps<NotLoggedInStackParamList, "Signup">;
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required("Vänligen ange förnamn"),
-  email: Yup.string()
-    .email("Invalid email")
-    .required("Vänligen ange mejladress"),
+  email: Yup.string().required("Vänligen ange mejladress"),
   password: Yup.string().required("Vänligen ange lösenord (min 6 tecken)"),
 });
 

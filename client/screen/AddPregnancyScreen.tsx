@@ -12,10 +12,10 @@ import theme from "../theme";
 type Props = NativeStackScreenProps<RootTabParamList>;
 
 const validationSchema = Yup.object().shape({
-  babyName: Yup.string().required("Nickname is required"),
+  babyName: Yup.string().required("Vänligen ange ett smeknamn"),
   dueDate: Yup.date()
-    .typeError("Invalid date format")
-    .required("Due date is required"),
+    .typeError("Fel format")
+    .required("Vänligen ange ett datum"),
 });
 
 const AddPregnancyScreen = ({ navigation }: Props) => {
@@ -40,7 +40,7 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
       navigation.navigate("HomeStack", { screen: "Home" });
     } catch (error) {
       console.error("Add pregnancy error:", error);
-      alert("Failed to add pregnancy. Please try again.");
+      alert("Det gick inte att lägga till gravdititet. Vänligen försök igen.");
     }
     resetForm();
   };
