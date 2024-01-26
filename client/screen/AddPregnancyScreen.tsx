@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -31,7 +31,10 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
     setDatePickerVisibility(false);
   };
 
-  const onSubmit = async (values: { babyName: string; dueDate: Date }) => {
+  const onSubmit = async (
+    values: { babyName: string; dueDate: Date },
+    { resetForm }: FormikHelpers<any>
+  ) => {
     try {
       await createPregnancy(values.babyName, values.dueDate);
       navigation.navigate("HomeStack", { screen: "Home" });
@@ -39,8 +42,8 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
       console.error("Add pregnancy error:", error);
       alert("Failed to add pregnancy. Please try again.");
     }
+    resetForm();
   };
-
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.primary }]}>
       <Text variant="displaySmall" style={styles.title}>
@@ -98,7 +101,9 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
 
             <Button
               mode="elevated"
-              onPress={() => handleSubmit()}
+              onPress={() => {
+                handleSubmit();
+              }}
               style={styles.button}
             >
               Skapa
