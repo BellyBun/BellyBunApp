@@ -12,14 +12,14 @@ Martina Kreivi
 
 ## Setting up the project
 
-```sh
-npm install
-```
-
 Run server:
 
 ```sh
 cd server
+```
+
+```sh
+npm install
 ```
 
 ```sh
@@ -30,6 +30,10 @@ Run client:
 
 ```sh
 cd client
+```
+
+```sh
+npm install
 ```
 
 ```sh

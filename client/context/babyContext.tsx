@@ -1,4 +1,10 @@
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useUser } from "./userContext";
 
 export interface Baby {
@@ -10,7 +16,6 @@ export interface Baby {
 }
 
 interface BabyContextProps {
-  baby?: Baby;
   babies: Baby[];
   createPregnancy: (nickname: string, dueDate: Date) => Promise<void>;
   getBabiesByUser: () => Promise<void>;
@@ -26,7 +31,6 @@ interface BabyContextProps {
 }
 
 const BabyContext = createContext<BabyContextProps>({
-  baby: undefined,
   babies: [],
   createPregnancy: async () => {},
   getBabiesByUser: async () => {},
@@ -43,7 +47,6 @@ interface BabyProviderProps {
 export const useBaby = () => useContext(BabyContext);
 
 export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
-  const [baby, setBaby] = useState<Baby>();
   const { user } = useUser();
   const [babies, setBabies] = useState<Baby[]>([]);
   const [pregnancyData, setPregnancyData] = useState<any>(null);
@@ -129,7 +132,7 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
       );
       if (response.ok) {
         const data = await response.json();
-        return data;
+        await getBabiesByUser();
       } else {
         const errorData = await response.json();
         throw new Error(JSON.stringify(errorData));
@@ -166,7 +169,7 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
     }
   };
 
-  const calculatePregnancyData = (babies) => {
+  const calculatePregnancyData = () => {
     const activeBaby = babies.find((baby) => baby.isActive);
     const dueDate = activeBaby ? activeBaby.dueDate : null;
 
@@ -174,7 +177,7 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
       return null;
     }
 
-    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    const oneDay = 24 * 60 * 60 * 1000;
     const today = new Date();
     const startDate = new Date(dueDate);
     startDate.setDate(startDate.getDate() - 280);
@@ -193,7 +196,6 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
     };
   };
 
-
   const getBabiesByUserCallback = useCallback(getBabiesByUser, []);
 
   useEffect(() => {
@@ -201,18 +203,16 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
       try {
         if (user?._id) {
           await getBabiesByUserCallback();
-          // Calculate pregnancy data after updating babies state
-          const data = calculatePregnancyData(babies);
+          const data = calculatePregnancyData();
           setPregnancyData(data);
         }
       } catch (error) {
         console.error("Error fetching or calculating pregnancy data:", error);
       }
     };
-  
+
     fetchDataAndCalculatePregnancy();
-  }, [user, getBabiesByUserCallback, babies]); // Include babies as a dependency
-  
+  }, [user, getBabiesByUserCallback, babies]);
 
   useEffect(() => {
     getBabiesByUserCallback();
@@ -221,14 +221,13 @@ export const BabyProvider: React.FC<BabyProviderProps> = ({ children }) => {
   return (
     <BabyContext.Provider
       value={{
-        baby,
         babies,
         createPregnancy,
         getBabiesByUser,
         setActiveBaby,
         followBaby,
         shareFollowBaby,
-        pregnancyData
+        pregnancyData,
       }}
     >
       {children}

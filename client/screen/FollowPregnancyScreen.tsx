@@ -2,25 +2,34 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
-import { HomeStackParamList } from "../RootNavigator";
+import { RootTabParamList } from "../RootNavigator";
 import { useBaby } from "../context/babyContext";
-import { useUser } from "../context/userContext";
 import theme from "../theme";
+import * as Yup from "yup";
+import { Formik, FormikHelpers } from "formik";
 
-type Props = NativeStackScreenProps<HomeStackParamList, "Home">;
+type Props = NativeStackScreenProps<RootTabParamList>;
+
+const validationSchema = Yup.object().shape({
+  followBabyCode: Yup.string().required("Vänligen ange en kod"),
+});
 
 export default function FollowPregnancyScreen({ navigation }: Props) {
-  const { user } = useUser();
   const { followBaby } = useBaby();
-  const [followBabyCode, setFollowBabyCode] = React.useState("");
 
-  const handleFollowBaby = async () => {
+  const onSubmit = async (
+    values: { followBabyCode: string },
+    { resetForm }: FormikHelpers<any>
+  ) => {
     try {
-      await followBaby(followBabyCode);
-      navigation.navigate("Home", undefined);
+      await followBaby(values.followBabyCode);
+
+      navigation.navigate("HomeStack", { screen: "Home" });
     } catch (error) {
       console.error("Error following baby:", error);
+      alert("Failed to follow baby. Please try again.");
     }
+    resetForm();
   };
 
   return (
@@ -29,17 +38,33 @@ export default function FollowPregnancyScreen({ navigation }: Props) {
         Följ graviditet
       </Text>
       <Text style={styles.text}>Ange kod</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Klistra in kod"
-        onChangeText={(text) => setFollowBabyCode(text)}
-        onSubmitEditing={handleFollowBaby}
-        mode="outlined"
-      />
+      <Formik
+        initialValues={{ followBabyCode: "" }}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values }) => (
+          <>
+            <TextInput
+              style={styles.input}
+              placeholder="Klistra in kod"
+              value={values.followBabyCode}
+              onBlur={handleBlur("followBabyCode")}
+              onChangeText={handleChange("followBabyCode")}
+              mode="outlined"
+            />
 
-      <Button style={styles.button} onPress={handleFollowBaby}>
-        Följ graviditet
-      </Button>
+            <Button
+              style={styles.button}
+              onPress={() => {
+                handleSubmit();
+              }}
+            >
+              Följ graviditet
+            </Button>
+          </>
+        )}
+      </Formik>
     </View>
   );
 }

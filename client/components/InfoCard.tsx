@@ -27,7 +27,7 @@ const InfoCard = () => {
 
   // Check if pregnancyData is null or undefined
   if (!pregnancyData) {
-    return <Text>Loading...</Text>; // Display a loading state
+    return null;
   }
 
   const { weekOfPregnancy } = pregnancyData;

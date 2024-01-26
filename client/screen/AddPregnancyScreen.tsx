@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -12,10 +12,10 @@ import theme from "../theme";
 type Props = NativeStackScreenProps<RootTabParamList>;
 
 const validationSchema = Yup.object().shape({
-  babyName: Yup.string().required("Nickname is required"),
+  babyName: Yup.string().required("Vänligen ange ett smeknamn"),
   dueDate: Yup.date()
-    .typeError("Invalid date format")
-    .required("Due date is required"),
+    .typeError("Fel format")
+    .required("Vänligen ange ett datum"),
 });
 
 const AddPregnancyScreen = ({ navigation }: Props) => {
@@ -31,16 +31,19 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
     setDatePickerVisibility(false);
   };
 
-  const onSubmit = async (values: { babyName: string; dueDate: Date }) => {
+  const onSubmit = async (
+    values: { babyName: string; dueDate: Date },
+    { resetForm }: FormikHelpers<any>
+  ) => {
     try {
       await createPregnancy(values.babyName, values.dueDate);
       navigation.navigate("HomeStack", { screen: "Home" });
     } catch (error) {
       console.error("Add pregnancy error:", error);
-      alert("Failed to add pregnancy. Please try again.");
+      alert("Det gick inte att lägga till gravdititet. Vänligen försök igen.");
     }
+    resetForm();
   };
-
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.primary }]}>
       <Text variant="displaySmall" style={styles.title}>
@@ -98,7 +101,9 @@ const AddPregnancyScreen = ({ navigation }: Props) => {
 
             <Button
               mode="elevated"
-              onPress={() => handleSubmit()}
+              onPress={() => {
+                handleSubmit();
+              }}
               style={styles.button}
             >
               Skapa

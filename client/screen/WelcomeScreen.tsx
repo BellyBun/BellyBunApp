@@ -47,11 +47,9 @@ export default function WelcomeScreen({ navigation }: Props) {
         onPress={async () => {
           await handleUpdateWelcomeStatus();
 
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "SettingsStack" }],
+          navigation.navigate("ShareStack", {
+            screen: "FollowPregnancy",
           });
-          navigation.navigate("SettingsStack", { screen: "FollowPregnancy" });
         }}
       >
         Följ graviditet
