@@ -13,7 +13,11 @@ const PregnancyProgress = () => {
   }, []);
 
   if (!pregnancyData) {
-    return <Text>Loading...</Text>;
+    return (
+      <View style={styles.loadingBox}>
+        <Text style={styles.title}>Loading...</Text>
+      </View>
+    );
   }
 
   const activeBaby = babies.find((baby) => baby.isActive);
@@ -51,15 +55,15 @@ const PregnancyProgress = () => {
       </AnimatedCircularProgress>
 
       <View style={styles.flexContainer}>
-        <View style={styles.textBox}>
+        <View>
           <Text style={styles.title}>Vecka</Text>
           <Text style={styles.text}>{weekOfPregnancy}</Text>
         </View>
-        <View style={styles.textBox}>
+        <View>
           <Text style={styles.title}>Dag</Text>
           <Text style={styles.text}>{totalDaysPregnant} av 280</Text>
         </View>
-        <View style={styles.textBox}>
+        <View>
           <Text style={styles.title}>BF</Text>
           <Text style={styles.text}>{280 - totalDaysPregnant} dagar </Text>
         </View>
@@ -106,9 +110,12 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 30,
   },
-  textBox: {
-    //flexGrow: 1,
-    //width: "33.3333333%",
+  loadingBox: {
+    height: "110%",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: theme.colors.primary,
   },
   title: {
     fontFamily: "Oswald",
