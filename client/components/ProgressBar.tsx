@@ -15,12 +15,19 @@ const PregnancyProgress = () => {
   if (!pregnancyData) {
     return (
       <View style={styles.loadingBox}>
-        <Text style={styles.title}>Loading...</Text>
+        <Text style={styles.title}>Inväntar bebis...</Text>
       </View>
     );
   }
-
   const activeBaby = babies.find((baby) => baby.isActive);
+
+  if (!activeBaby) {
+    return (
+      <View style={styles.loadingBox}>
+        <Text style={styles.title}>Inväntar bebis...</Text>
+      </View>
+    );
+  }
 
   const { percentageComplete, weekOfPregnancy, totalDaysPregnant } =
     pregnancyData;
